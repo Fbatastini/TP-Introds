@@ -1,5 +1,5 @@
-{% extend base.html %}
-{% block body %}
+{% extends base.html %}
+{% block content %}
 
         <!-- About Start -->
         <div class="container-xxl py-5">
@@ -46,7 +46,7 @@
                                 <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" src="img/about-1.jpg" style="margin-top: 25%;">
                             </div>
                             <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="img/about-2.jpg">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{{url_for('static/about-2.jpg">
                             </div>
                             <div class="col-6 text-end">
                                 <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" src="img/about-3.jpg">
@@ -146,5 +146,5 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-{%endblock%}
+{% endblock %}
 
