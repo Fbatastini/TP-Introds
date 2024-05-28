@@ -11,31 +11,31 @@ def index():
     return render_template('index.html')
 
 @app.route('/about')
-def index():
+def about():
     return render_template('about.html')
 
 @app.route('/booking')
-def index():
+def booking():
     return render_template('booking.html')
 
 @app.route('/contact')
-def index():
+def contact():
     return render_template('contact.html')
 
 @app.route('/room')
-def index():
+def room():
     return render_template('room.html')
 
 @app.route('/service')
-def index():
+def service():
     return render_template('service.html')
 
 @app.route('/team')
-def index():
+def team():
     return render_template('team.html')
 
 @app.route('/testimonial')
-def index():
+def testimonial():
     return render_template('testimonial.html')
 
 # Ruta para manejar la carga de archivos
