@@ -1,6 +1,18 @@
 # TP-Introds
-Trabajo Practico Introducción al desarrollo de software
+## Trabajo Practico Introducción al desarrollo de software
 
-# es necesario crear un entorno virtual e instalar flask para el projecto 
+### Es necesario crear un entorno virtual e instalar flask para el projecto 
 
-# correo proyecto con: flask run
+Recomendado:
+```
+python3 -m venv .venv
+```
+Opcional luego de haberlo hecho:
+```
+pipenv install flask
+```
+
+### Correr proyecto con: 
+```
+flask run --debug
+```
