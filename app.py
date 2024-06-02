@@ -18,13 +18,23 @@ def about():
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'POST':
-        entrada=datetime.fromisoformat(request.form.get('entrada'))
+        check_in=request.form.get('check_in')
         nombre=request.form.get('nombre')
-        salida=datetime.fromisoformat(request.form.get('salida'))
+        check_out=request.form.get('check_out')
         huespedes=request.form.get('huespedes')
         habitacion=request.form.get('habitacion')
         email=request.form.get('email')
         comentario=request.form.get('comentario')
+        reserva = {
+            'check_in': check_in,
+            'check_out': check_out,
+            'nombre': nombre,
+            'cant_personas' : huespedes,
+            'tipo_habitacion': habitacion,
+            'mail': email,
+            'comentario':comentario
+            }
+        request.post('http://127.0.0.1:5001/agregar_reserva', json=reserva)
         return redirect(url_for('confirmacion'))
     return render_template('booking.html')
 
