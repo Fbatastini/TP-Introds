@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: tp-intro
+    command: flask run --debug --host=0.0.0.0 --port=5005
+    ports:
+      - 5005:5005
+    volumes:
+      - .:/code
