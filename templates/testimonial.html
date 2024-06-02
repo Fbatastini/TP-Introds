@@ -3,7 +3,7 @@
 <!-- Page Header Start -->
 <div
   class="container-fluid page-header mb-5 p-0"
-  style="background-image: url(img/carousel-1.jpg)"
+  style="background-image: url({{url_for('static', filename='img/carousel-1.jpg')}})"
 >
   <div class="container-fluid page-header-inner py-5">
     <div class="container text-center pb-5">
@@ -12,7 +12,7 @@
       </h1>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb justify-content-center text-uppercase">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{url_for('index')}}">Home</a></li>
           <li class="breadcrumb-item"><a href="#">Pages</a></li>
           <li class="breadcrumb-item text-white active" aria-current="page">
             Testimonial
@@ -99,7 +99,7 @@
         <div class="d-flex align-items-center">
           <img
             class="img-fluid flex-shrink-0 rounded"
-            src="img/testimonial-1.jpg"
+            src="{{url_for('static', filename='img/testimonial-1.jpg')}}"
             style="width: 45px; height: 45px"
           />
           <div class="ps-3">
@@ -122,7 +122,7 @@
         <div class="d-flex align-items-center">
           <img
             class="img-fluid flex-shrink-0 rounded"
-            src="img/testimonial-2.jpg"
+            src="{{url_for('static', filename='img/testimonial-3.jpg')}}"
             style="width: 45px; height: 45px"
           />
           <div class="ps-3">
@@ -145,7 +145,7 @@
         <div class="d-flex align-items-center">
           <img
             class="img-fluid flex-shrink-0 rounded"
-            src="img/testimonial-3.jpg"
+            src="{{url_for('static', filename='img/testimonial-3.jpg')}}"
             style="width: 45px; height: 45px"
           />
           <div class="ps-3">

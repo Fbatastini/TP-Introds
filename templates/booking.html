@@ -3,7 +3,7 @@
 <!-- Page Header Start -->
 <div
   class="container-fluid page-header mb-5 p-0"
-  style="background-image: url(img/carousel-1.jpg)"
+  style="background-image: url({{url_for('static', filename='/img/carousel-1.jpg')}})"
 >
   <div class="container-fluid page-header-inner py-5">
     <div class="container text-center pb-5">
@@ -96,7 +96,7 @@
             <img
               class="img-fluid rounded w-75 wow zoomIn"
               data-wow-delay="0.1s"
-              src="img/about-1.jpg"
+              src="{{url_for('static', filename='/img/about-1.jpg')}}"
               style="margin-top: 25%"
             />
           </div>
@@ -104,21 +104,21 @@
             <img
               class="img-fluid rounded w-100 wow zoomIn"
               data-wow-delay="0.3s"
-              src="img/about-2.jpg"
+              src="{{url_for('static', filename='/img/about-2.jpg')}}"
             />
           </div>
           <div class="col-6 text-end">
             <img
               class="img-fluid rounded w-50 wow zoomIn"
               data-wow-delay="0.5s"
-              src="img/about-3.jpg"
+              src="{{url_for('static', filename='/img/about-3.jpg')}}"
             />
           </div>
           <div class="col-6 text-start">
             <img
               class="img-fluid rounded w-75 wow zoomIn"
               data-wow-delay="0.7s"
-              src="img/about-4.jpg"
+              src="{{url_for('static', filename='/img/about-4.jpg')}}"
             />
           </div>
         </div>
@@ -266,5 +266,5 @@
     </div>
   </div>
 </div>
-<!-- Newsletter Start -->
+<!-- Newsletter end -->
 {% endblock content %}
