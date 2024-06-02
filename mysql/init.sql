@@ -28,3 +28,6 @@ INSERT INTO reservas (nombre, mail, tipo_habitacion, cantidad_personas, fecha_in
 INSERT INTO habitaciones (tipo_habitacion, cantidad_total) VALUES ("normal", 10);
 INSERT INTO habitaciones (tipo_habitacion, cantidad_total) VALUES ("premium", 8);
 INSERT INTO habitaciones (tipo_habitacion, cantidad_total) VALUES ("deluxe", 5);
+
+GRANT ALL PRIVILEGES ON tp_database.* TO 'usuario'@'%' IDENTIFIED BY 'scrumbeasts';
+FLUSH PRIVILEGES;
