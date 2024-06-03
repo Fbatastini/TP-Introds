@@ -1,3 +1,4 @@
+# queries.py
 def get_query_verif(reserva):
     return f""" 
         SELECT '{reserva["check_in"]}' >= CURDATE();
@@ -7,7 +8,10 @@ def get_query_verif(reserva):
 def get_query_cant_dias_reservados(reserva):
     return f"""
         SELECT 
-        DATEDIFF('{reserva["check_out"]}', '{reserva["check_in"]}');
+        DATEDIFF(
+            '{reserva["check_out"]}', 
+            '{reserva["check_in"]}'
+        );
     """
 
 
@@ -38,7 +42,7 @@ def get_query_verif_disponibilidad(reserva, dia):
     """
 
 
-def get_query(reserva):
+def get_query_nueva_reserva(reserva):
     return f"""
         INSERT INTO reservas 
         (nombre, mail, tipo_habitacion, cant_personas, check_in, check_out)
@@ -75,4 +79,12 @@ def get_query_dia_reservado(reserva, Id, dia):
             {Id}, '{dia}', 
             '{reserva["tipo_habitacion"]}'
         );
+    """
+
+# Nuevas queries 
+def get_cant_habitaciones_query(reserva):
+    return f"""
+        SELECT cantidad 
+        FROM habitaciones 
+        WHERE tipo_habitacion = '{reserva["tipo_habitacion"]}'
     """
