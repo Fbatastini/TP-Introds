@@ -1,11 +1,6 @@
-.newsletter {
-  position: relative;
-  z-index: 1;
-}
-
 .footer {
   position: relative;
-  margin-top: -110px;
+  margin-top: 110px;
   padding-top: 180px;
 }
 
