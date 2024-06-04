@@ -10,7 +10,7 @@ cd docker
 ```
 Crear el contenedor con docker compose:
 ```
-docker-compose up --build -d
+docker compose up --build -d
 ```
 Conectarlo a mysql database:
 ```
