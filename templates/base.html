@@ -50,6 +50,9 @@
       href="{{url_for('static', filename='css/style.css')}}"
       rel="stylesheet"
     />
+
+    <!-- MAPA -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
   </head>
 
   <body>
@@ -80,5 +83,9 @@
 
     <!-- Template Javascript -->
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+    <!-- Map JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{url_for('static', filename='js/map.js')}}"></script>
   </body>
 </html>
