@@ -23,6 +23,62 @@
 <!-- Page Header End -->
 
 <!-- Booking Start -->
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="bg-white shadow" style="padding: 35px">
+      <div class="row g-2">
+        <div class="col-md-10">
+          <div class="row g-2">
+            <div class="col-md-3">
+              <div class="date" id="date1" data-target-input="nearest">
+                <input
+                  type="text"
+                  class="form-control datetimepicker-input"
+                  placeholder="Check in"
+                  data-target="#date1"
+                  data-toggle="datetimepicker"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="date" id="date2" data-target-input="nearest">
+                <input
+                  type="text"
+                  class="form-control datetimepicker-input"
+                  placeholder="Check out"
+                  data-target="#date2"
+                  data-toggle="datetimepicker"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option selected>Adult</option>
+                <option value="1">Adult 1</option>
+                <option value="2">Adult 2</option>
+                <option value="3">Adult 3</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option selected>Child</option>
+                <option value="1">Child 1</option>
+                <option value="2">Child 2</option>
+                <option value="3">Child 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Booking End -->
+
+<!-- Booking Start -->
 <div class="container-xxl py-5">
   <div class="container">
     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -150,9 +206,9 @@
               <div class="col-12">
                 <div class="form-floating">
                   <select class="form-select" id="select3">
-                    <option value="1">Junior Suite</option>
-                    <option value="2">Executive Suite</option>
-                    <option value="3">Super Deluxe</option>
+                    <option value="1">Room 1</option>
+                    <option value="2">Room 2</option>
+                    <option value="3">Room 3</option>
                   </select>
                   <label for="select3">Select A Room</label>
                 </div>
