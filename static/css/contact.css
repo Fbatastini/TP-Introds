@@ -2,3 +2,19 @@
     min-height: 350px;
     width: 100%;
 }
+
+#map, .form-floating {
+    margin: 10px 0; 
+  }
+  
+  .col-md-6 {
+    padding: 10px; 
+  }
+  
+
+.contact-header {
+    background-color: #0F172B;
+    padding: 5px;
+
+  }
+  
