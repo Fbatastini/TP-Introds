@@ -18,12 +18,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -45,12 +45,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -79,62 +79,6 @@
     </div>
   </div>
   <!-- Carousel End -->
-
-  <!-- Booking Start -->
-  <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container">
-      <div class="bg-white shadow" style="padding: 35px">
-        <div class="row g-2">
-          <div class="col-md-10">
-            <div class="row g-2">
-              <div class="col-md-3">
-                <div class="date" id="date1" data-target-input="nearest">
-                  <input
-                    type="text"
-                    class="form-control datetimepicker-input"
-                    placeholder="Check in"
-                    data-target="#date1"
-                    data-toggle="datetimepicker"
-                  />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="date" id="date2" data-target-input="nearest">
-                  <input
-                    type="text"
-                    class="form-control datetimepicker-input"
-                    placeholder="Check out"
-                    data-target="#date2"
-                    data-toggle="datetimepicker"
-                  />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <select class="form-select">
-                  <option selected>Adult</option>
-                  <option value="1">Adult 1</option>
-                  <option value="2">Adult 2</option>
-                  <option value="3">Adult 3</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <select class="form-select">
-                  <option selected>Child</option>
-                  <option value="1">Child 1</option>
-                  <option value="2">Child 2</option>
-                  <option value="3">Child 3</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-primary w-100">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Booking End -->
 
   <!-- About Start -->
   <div class="container-xxl py-5">
@@ -259,16 +203,15 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>1 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Indulge in our Junior Suite, where elegance meets comfort. Enjoy spacious accommodations adorned with modern amenities, perfect for a relaxing retreat.
               </p>
               <div class="d-flex justify-content-between">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
@@ -287,7 +230,7 @@
               <img class="img-fluid" src="{{ url_for('static', filename='img/room-2.jpg')}}" alt="" />
               <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                >$100/Night</small
+                >$250/Night</small
               >
             </div>
             <div class="p-4 mt-2">
@@ -303,16 +246,15 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>2 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Experience luxury redefined in our Executive Suite. Unwind in style with meticulously designed interiors, personalized service, and exclusive access to premium facilities.
               </p>
               <div class="d-flex justify-content-between">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
@@ -331,7 +273,7 @@
               <img class="img-fluid" src="{{ url_for('static', filename='img/room-3.jpg')}}" alt="" />
               <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                >$100/Night</small
+                >$400/Night</small
               >
             </div>
             <div class="p-4 mt-2">
@@ -347,16 +289,15 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>2 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>3 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Elevate your stay with our Super Deluxe Room, a sanctuary of opulence and sophistication. Immerse yourself in lavish comfort and unparalleled service for an unforgettable escape.
               </p>
               <div class="d-flex justify-content-between">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
@@ -589,7 +530,7 @@
     <div class="container">
       <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
         <h6 class="section-title text-center text-primary text-uppercase">
-          Our Team
+          <a href="{{url_for('team')}}">Our Team</a>
         </h6>
         <h1 class="mb-5">
           Explore Our <span class="text-primary text-uppercase">Staffs</span>
