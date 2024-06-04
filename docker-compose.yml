@@ -1,4 +1,18 @@
 services:
+  mysqldb:
+    image: mysql
+    restart: always
+    container_name: mysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mysqldb
+      MYSQL_USER: scrumbeast
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
   app:
     build: .
     container_name: tp-intro
@@ -7,3 +21,8 @@ services:
       - 5005:5005
     volumes:
       - .:/code
+    depends_on:
+      - mysqldb
+
+volumes:
+  mysql-data:

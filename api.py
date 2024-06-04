@@ -5,7 +5,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
-engine = create_engine("mysql+mysqlconnector://steven:password@localhost/mysqldb")
+engine = create_engine("mysql+mysqlconnector://scrumbeast:password@localhost/mysqldb")
 
 @app.route('/agregar_reserva', methods = ['POST'])
 def agregar_reserva():

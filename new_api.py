@@ -6,7 +6,7 @@ from api.db_queries import create_habitaciones_table, create_reservas_table, cre
 from api.queries import get_query_habitaciones, get_query_siguiente_dia, get_query_verif_disponibilidad, get_query_nueva_reserva, get_query_nro_reserva, get_query_cant_dias_reservados, get_query_verif, get_cant_habitaciones_query
 
 app = Flask(__name__)
-engine = create_engine("mysql+mysqlconnector://steven:password@localhost/mysqldb")
+engine = create_engine("mysql+mysqlconnector://scrumbeast:password@localhost/mysqldb")
 
 def crear_tablas():
     # Execute SQL statements to create tables
@@ -22,10 +22,10 @@ def verificar_fecha_pasada(conn, reserva):
     try:
         result = conn.execute(text(query_verif)).fetchall()
         if result[0][0] == 0:
-            return jsonify({'message': 'No se puede reservar una fecha pasada.'}), 400
+            return jsonify({'message': 'Its not possible to make a reservation to a past date.'}), 400
     except SQLAlchemyError as err:
         conn.close()
-        return jsonify({'message': 'Se ha producido un error ' + str(err.__cause__)})
+        return jsonify({'message': 'An error has occured ' + str(err.__cause__)})
 
 
 def verificar_disponibilidad(conn, reserva):
@@ -43,7 +43,7 @@ def verificar_disponibilidad(conn, reserva):
         habitaciones_reservadas = conn.execute(text(verif_disponibilidad_query)).fetchone()[0]
 
         if habitaciones_reservadas >= cantidad_habitaciones:
-            return jsonify({'message': f'No hay habitaciones tipo {reserva["tipo_habitacion"]} disponibles para {dia}.'}), 400
+            return jsonify({'message': f'The are not rooms of type {reserva["tipo_habitacion"]} available for {dia}.'}), 400
 
 
 def agregar_reserva():
@@ -54,15 +54,15 @@ def agregar_reserva():
         verificar_fecha_pasada(conn, reserva)
         verificar_disponibilidad(conn, reserva)
         conn.close()
-        return jsonify({'message': 'Se ha agregado correctamente '}), 201
+        return jsonify({'message': 'It has been added correctly '}), 201
     except Exception as e:
         conn.close()
-        return jsonify({'message': 'Se ha producido un error ' + str(e)})
+        return jsonify({'message': 'An Error has occured' + str(e)})
 
 
 @app.route("/")
 def index():
-    return jsonify({"mensaje": "Funcionando correctamente"})
+    return jsonify({"message": "Server running"})
 
 
 @app.route('/agregar_reserva', methods=['POST'])
@@ -83,6 +83,7 @@ def test_reserva():
     
     except SQLAlchemyError as e:
         return jsonify({'message': 'Error adding test reservation: ' + str(e)}), 500
+
 
 if __name__ == "__main__":
     crear_tablas()
