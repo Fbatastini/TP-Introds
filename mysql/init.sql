@@ -16,8 +16,17 @@ CREATE TABLE habitaciones (
     descripcion VARCHAR(500)
 );
 
+/* Agrego datos a tabla reservas */ 
+INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail) VALUES (1, 4, "2024-06-15", 6, "Felipe", "felipe@gmail.com");
+INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail) VALUES (3, 2, "2024-06-17", 4, "Julian", "julian@gmail.com");
+INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail) VALUES (2, 3, "2024-06-18", 5, "Florencia", "florencia@gmail.com");
 
-
+/* Agrego datos a tabla habitaciones */
+INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (1, 5000, 5, "Tipo de habitacion: Normal. Muy buenas vistas a la ciudad.");
+INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (2, 3000, 3, "Tipo de habitacion: Normal. Camas muy comodas.");
+INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (3, 8000, 2, "Tipo de habitacion: Premium. Muy buenas vistas a la ciudad.");
+INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (4, 7000, 6, "Tipo de habitacion: Normal. Muy espaciosa.");
+INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (5, 200000, 2, "Tipo de habitacion: Deluxe. Suit presidencial.");
 
 GRANT ALL PRIVILEGES ON tp_database.* TO 'usuario'@'%' IDENTIFIED BY 'scrumbeasts';
 FLUSH PRIVILEGES;
