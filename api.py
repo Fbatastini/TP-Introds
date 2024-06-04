@@ -14,7 +14,7 @@ def agregar_reserva():
     reserva = request.get_json()
 
     # NO SE PUEDE RESERVAR UN DIA QUE YA PASO (CHECK_IN >= curdate)
-    query_verif = f""" SELECT '{reserva["check_in"]}' >= CURDATE(); """
+    query_verif = f""" SELECT '{reserva["fecha_ingreso"]}' >= CURDATE(); """
     try:
         result = conn.execute(text(query_verif))
         conn.commit()
@@ -27,7 +27,7 @@ def agregar_reserva():
     # NO SE PUEDE RESERVAR SI NO HAY MAS HABITACIONES DE ESE TIPO DISPONIBLES PARA ALGÚN DíA DE LA RESERVA (SELECT DATEDIFF(final, inicio))  (SELECT DATE_ADD('dia', INTERVAL n DAY);)
     dias_reservados = []
 
-    query_cant_dias_reservados = f"""SELECT DATEDIFF('{reserva["check_out"]}', '{reserva["check_in"]}'); """
+    query_cant_dias_reservados = f"""SELECT DATEDIFF('{reserva["fecha_salida"]}', '{reserva["fecha_ingreso"]}'); """
     query_habitaciones = f"""SELECT cantidad FROM habitaciones WHERE tipo_habitacion='{reserva["tipo_habitacion"]}'; """
     
     try:    
@@ -38,7 +38,7 @@ def agregar_reserva():
 
         cantidad_habitaciones = conn.execute(text(query_habitaciones)).first()[0]
         for i in range(cant_dias_reservados):    
-            query_siguiente_dia = f"""SELECT DATE_ADD('{reserva["check_in"]}', INTERVAL {i} DAY); """
+            query_siguiente_dia = f"""SELECT DATE_ADD('{reserva["fecha_ingreso"]}', INTERVAL {i} DAY); """
             dia = conn.execute(text(query_siguiente_dia)).first()[0]
             query_verif_disponibilidad = f"""SELECT * FROM dias_reservados WHERE tipo_habitacion='{reserva["tipo_habitacion"]}' AND dia='{dia}';"""
             dias_reservados.append(dia)
@@ -50,14 +50,14 @@ def agregar_reserva():
     
 
     # UNA VEZ LA RESERVA ES VÁLIDA SE AGREGA A LAS TABLAS reservas y dias_reservados
-    query = f"""INSERT INTO reservas (nombre, mail, tipo_habitacion, cant_personas, check_in, check_out)
-                VALUES ('{reserva["nombre"]}', '{reserva["mail"]}', '{reserva["tipo_habitacion"]}', {reserva["cant_personas"]}, '{reserva["check_in"]}', '{reserva["check_out"]}');"""
+    query = f"""INSERT INTO reservas (nombre, mail, tipo_habitacion, cantidad_personas, fecha_ingreso, fecha_salida)
+                VALUES ('{reserva["nombre"]}', '{reserva["mail"]}', '{reserva["tipo_habitacion"]}', {reserva["cantidad_personas"]}, '{reserva["fecha_ingreso"]}', '{reserva["fecha_salida"]}');"""
     try:
         result = conn.execute(text(query))
         conn.commit()
 
-        query_nro_reserva = f"""SELECT nro_reserva FROM reservas WHERE nombre='{reserva["nombre"]}' AND mail='{reserva["mail"]}' AND tipo_habitacion='{reserva["tipo_habitacion"]}' AND
-        cant_personas={reserva["cant_personas"]} AND check_in='{reserva["check_in"]}' AND check_out='{reserva["check_out"]}';"""
+        query_nro_reserva = f"""SELECT numero_reserva FROM reservas WHERE nombre='{reserva["nombre"]}' AND mail='{reserva["mail"]}' AND tipo_habitacion='{reserva["tipo_habitacion"]}' AND
+        cantidad_personas={reserva["cantidad_personas"]} AND fecha_ingreso='{reserva["fecha_ingreso"]}' AND fecha_salida='{reserva["fecha_salida"]}';"""
         Id = conn.execute(text(query_nro_reserva)).first()[0]
         for dia in dias_reservados:
             query_dia_reservado = f"""INSERT INTO dias_reservados VALUES ({Id}, '{dia}', '{reserva["tipo_habitacion"]}');"""
@@ -69,7 +69,7 @@ def agregar_reserva():
         return jsonify({'message': 'Se ha producido un error ' + str(err.__cause__)})
     
     
-    return jsonify({'message': 'se ha agregado correctamente ' + query}), 201
+    return jsonify({'message': 'se ha agregado correctamente'}), 201
 
 
 
