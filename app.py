@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
-# import requests
+import requests
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 
 app = Flask(__name__)
@@ -80,9 +80,9 @@ def login():
     if request.method == 'POST':
         user = request.form.get('username')
         passwd = request.form.get('password')
-        # respuesta = requests.get(f'http://127.0.0.1:5001/usuario/{user}/{passwd}').json()
-        # if respuesta[1] == 200:
-        if user == 'juan' and passwd =='123':
+        respuesta = requests.get(f'http://127.0.0.1:5000/user/{user}/{passwd}')
+        respuesta = respuesta.json()
+        if respuesta['message'] == 'exists':
             usuario = User(user)
             login_user(usuario)
             return redirect(url_for('admin'))
