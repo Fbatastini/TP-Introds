@@ -6,7 +6,6 @@ CREATE TABLE reservas (
     cantidad_noches INT NOT NULL,
     nombre VARCHAR(60) NOT NULL,
     mail VARCHAR(120) NOT NULL
-    
 );
 
 CREATE TABLE habitaciones (
@@ -15,6 +14,13 @@ CREATE TABLE habitaciones (
     capacidad INT NOT NULL,
     descripcion VARCHAR(500)
 );
+
+CREATE TABLE usuarios (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(30) NOT NULL,
+    clave VARCHAR(20) NOT NULL
+);
+
 
 /* Agrego datos a tabla reservas */ 
 INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail) VALUES (1, 4, "2024-06-15", 6, "Felipe", "felipe@gmail.com");
@@ -27,6 +33,11 @@ INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (2, 300
 INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (3, 8000, 2, "Tipo de habitacion: Premium. Muy buenas vistas a la ciudad.");
 INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (4, 7000, 6, "Tipo de habitacion: Normal. Muy espaciosa.");
 INSERT INTO habitaciones (numero, precio, capacidad, descripcion) VALUES (5, 200000, 2, "Tipo de habitacion: Deluxe. Suit presidencial.");
+
+/* Agrego datos a tabla usuarios */ 
+INSERT INTO usuarios (usuario, clave) VALUES ("admin1", "1234");
+INSERT INTO usuarios (usuario, clave) VALUES ("admin2", "5678");
+
 
 GRANT ALL PRIVILEGES ON tp_database.* TO 'usuario'@'%' IDENTIFIED BY 'scrumbeasts';
 FLUSH PRIVILEGES;
