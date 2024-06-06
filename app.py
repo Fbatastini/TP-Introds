@@ -115,7 +115,26 @@ def change_booking():
 #Servicio que agrega habitacion(admin):
 @app.route('/agregar_habitacion', methods = ['POST'])
 def creat_room():   
-    pass
+    conn = engine.connect()
+    new_room = request.get_json()
+
+    query = f"""INSERT INTO habitaciones (numero, precio, capacidad, descripcion, promocion)
+    VALUES ({new_room['numero']}, {new_room['precio']}, {new_room['capacidad']}, '{new_room['descripcion']}', '{new_room['promocion']}');"""
+    validation_query = f"SELECT numero FROM habitaciones WHERE numero = {new_room['numero']}"
+    try:
+        val_result = conn.execute(text(validation_query))
+
+        if val_result.rowcount == 0:
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify({"message": f"La habitacion número {new_room['numero']} ya existe."}), 400
+    except SQLAlchemyError as err:
+        return jsonify({'message': f'Se ha producido un error'})
+    
+    return jsonify({'message': 'Se ha agregado correctamente'}), 201
 
 
 #Servicio que elimina habitacion(admin):
