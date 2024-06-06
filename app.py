@@ -90,23 +90,40 @@ def delete_room():
 
 #Servicio que cambia cantidad de noches, o dia de check in:
 @app.route('/cambiar_reserva', methods = ['PATCH'])
-def change_booking():   
+def change_booking():
     pass
 
 
 #Servicio que cambia el precio de una habitacion(modo admin):
 @app.route('/cambiar_precio', methods = ['PATCH'])
-def change_price():   
-    pass
+def change_price():
+    conn = engine.connect()
+    mod_room_price = request.get_json()
+    
+    query = f"""UPDATE habitaciones SET precio = '{mod_room_price['nuevo_precio']}' WHERE numero = {mod_room_price['numero']};"""
+    query_validation = f"SELECT * FROM habitaciones WHERE numero = {mod_room_price['numero']};"
+    try:
+        val_result = conn.execute(text(query_validation))
+        if val_result.rowcount != 0:
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify({'message': f"No existe la habitacion número {mod_room_price['numero']}"}), 404
+    except SQLAlchemyError as err:
+        return jsonify({'message': str(err.__cause__)})
+    
+    return jsonify({'message': 'Se ha modificado correctamente'}), 200
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
 @app.route('/cambiar_promocion', methods = ['PATCH'])
-def change_promo():   
+def change_promo():
     pass
 
 
 
 
 if __name__ == "__main__":
-    app.run("127.0.0.1", port="5000", debug=True)
+    app.run("127.0.0.1", port="5001", debug=True)
