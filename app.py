@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 app = Flask(__name__)
 engine = create_engine("mysql+mysqlconnector://root:scrumbeasts@localhost:3309/tp_database")
@@ -17,9 +17,20 @@ def disponibility():
     
     consulta = request.get_json() #diccionario que contiene fecha huespedes, ingreso y noches
     huespedes = consulta['huespedes'] 
-    fecha_ingreso = datetime.strptime(consulta['fecha_ingreso'], '%Y-%m-%d')
+    
+    #Chequeo que la fecha sea correcta
+    try:
+        fecha_ingreso = datetime.strptime(consulta['fecha_ingreso'], '%Y-%m-%d')
+    except Exception:
+        return jsonify({'message': 'La fecha ingresada no existe.'})
+    
     noches = consulta['cantidad_noches']
     fecha_salida = fecha_ingreso + timedelta(days=int(noches) + 1) 
+    fecha_actual = datetime.strptime(str(date.today()), '%Y-%m-%d')
+    
+    #Chequeo que la fecha sea mayor a la fecha actual
+    if fecha_actual > fecha_ingreso:
+        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
 
     #query que pide todos los numeros de habitaciones que con capacidad mayor o igual a la de los huespedes pedidos.
     query_1 = f"""SELECT numero, precio FROM habitaciones WHERE capacidad >= {huespedes};"""
