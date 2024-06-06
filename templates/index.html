@@ -45,12 +45,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -185,7 +185,7 @@
               </div>
             </div>
           </div>
-          <a class="btn btn-primary py-3 px-5 mt-2" href="">Explore More</a>
+          <a class="btn btn-primary py-3 px-5 mt-2" href="{{url_for('about')}}">Explore More</a>
         </div>
         <div class="col-lg-6">
           <div class="row g-3">
@@ -270,10 +270,10 @@
                 Indulge in our Junior Suite, where elegance meets comfort. Enjoy spacious accommodations adorned with modern amenities, perfect for a relaxing retreat.
               </p>
               <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
+                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{{url_for('booking')}}"
                   >View Detail</a
                 >
-                <a class="btn btn-sm btn-dark rounded py-2 px-4" href=""
+                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
                   >Book Now</a
                 >
               </div>
@@ -386,7 +386,7 @@
             lorem sit clita duo justo magna dolore erat amet
           </p>
           <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-          <a href="" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
+          <a href="{{url_for('booking')}}" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
         </div>
       </div>
     </div>
