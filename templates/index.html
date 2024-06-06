@@ -18,12 +18,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -385,7 +385,7 @@
             diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet
             lorem sit clita duo justo magna dolore erat amet
           </p>
-          <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
+          <a href="{{url_for('room')}}" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
           <a href="{{url_for('booking')}}" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
         </div>
       </div>
