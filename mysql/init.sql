@@ -35,10 +35,11 @@ INSERT INTO habitaciones (numero, precio, capacidad, descripcion, promocion) VAL
 INSERT INTO habitaciones (numero, precio, capacidad, descripcion, promocion) VALUES (4, 7000, 6, "Tipo de habitacion: Normal. Muy espaciosa.", "No tiene promocion");
 INSERT INTO habitaciones (numero, precio, capacidad, descripcion, promocion) VALUES (5, 200000, 2, "Tipo de habitacion: Deluxe. Suit presidencial.", "No tiene promocion");
 
+
 /* Agrego datos a tabla usuarios */ 
 INSERT INTO usuarios (usuario, clave) VALUES ("admin1", "1234");
 INSERT INTO usuarios (usuario, clave) VALUES ("admin2", "5678");
 
 
-GRANT ALL PRIVILEGES ON tp_database.* TO 'usuario'@'%' IDENTIFIED BY 'scrumbeasts';
+SET PASSWORD FOR 'usuario'@'%' = 'scrumbeasts';
 FLUSH PRIVILEGES;
