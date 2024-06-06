@@ -87,6 +87,12 @@ def booking():
     pass
 
 
+#Servicio que agrega habitacion:
+@app.route('/agregar_habitacion', methods = ['POST'])
+def creat_room():   
+    pass
+
+
 #Servicio que cancela reserva:
 @app.route('/cancelar_reserva', methods = ['DELETE'])
 def cancel_booking():   
