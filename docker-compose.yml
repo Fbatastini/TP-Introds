@@ -1,23 +1,28 @@
 services:
-  mysqldb:
-    image: mysql
+  db:
+    image: mysql:latest
+    container_name: tp-intro-db
     restart: always
-    container_name: mysqldb
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mysqldb
-      MYSQL_USER: scrumbeast
-      MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - '3309:3306'
+    environment:
+      MYSQL_DATABASE: tp_database
+      MYSQL_ROOT_PASSWORD: scrumbeasts
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: scrumbeasts
+    volumes:
+      - ./database/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
     build: .
-    container_name: tp-intro
-    command: flask run --debug --host=0.0.0.0 --port=5005
+    container_name: tp-intro-app
+    command: 
+      - flask run --debug --host=0.0.0.0 --port=5000
+      - python3 new_api.py --debug --host=0.0.0.0 --port=5001
     ports:
-      - 5005:5005
+      - 5000:5000
+      - 5001:5001
     volumes:
       - .:/code
     depends_on:
-      - mysqldb
+      - db

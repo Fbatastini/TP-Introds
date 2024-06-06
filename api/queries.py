@@ -1,90 +1,35 @@
-# queries.py
-def get_query_verif(reserva):
-    return f""" 
-        SELECT '{reserva["check_in"]}' >= CURDATE();
-    """
-
-
-def get_query_cant_dias_reservados(reserva):
-    return f"""
-        SELECT 
-        DATEDIFF(
-            '{reserva["check_out"]}', 
-            '{reserva["check_in"]}'
-        );
-    """
-
-
-def get_query_habitaciones(reserva):
-    return f"""
-        SELECT cantidad 
-        FROM habitaciones 
-        WHERE tipo_habitacion='{reserva["tipo_habitacion"]}';
-    """
-
-
-def get_query_siguiente_dia(reserva, i):
-    return f"""
-        SELECT 
-        DATE_ADD(
-            '{reserva["check_in"]}', 
-            INTERVAL {i} DAY
-        ); 
-    """
-
-
-def get_query_verif_disponibilidad(reserva, dia):
-    return  f"""
-        SELECT * 
-        FROM dias_reservados WHERE tipo_habitacion='{reserva["tipo_habitacion"]}' 
-        AND dia='{dia}'
-        ;
-    """
-
-
 def get_query_nueva_reserva(reserva):
     return f"""
-        INSERT INTO reservas 
-        (nombre, mail, tipo_habitacion, cant_personas, check_in, check_out)
+        INSERT INTO reservas
+        (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
         VALUES (
-            '{reserva["nombre"]}', 
-            '{reserva["mail"]}', 
-            '{reserva["tipo_habitacion"]}', 
-            '{reserva["cant_personas"]}', 
-            '{reserva["check_in"]}', 
-            '{reserva["check_out"]}'
+            {reserva["numero_habitacion"]},
+            {reserva["huespedes"]},
+            '{reserva["fecha_ingreso"]}',
+            {reserva["cantidad_noches"]},
+            '{reserva["nombre"]}',
+            '{reserva["mail"]}'
         );
     """
 
+def get_query_verif_disponibilidad(reserva, dia):
+    return f"""
+        SELECT COUNT(*) AS reservas_existentes
+        FROM reservas
+        WHERE numero_habitacion = {reserva["numero_habitacion"]}
+        AND fecha_ingreso <= '{dia}' AND DATE_ADD(fecha_ingreso, INTERVAL cantidad_noches DAY) > '{dia}';
+    """
 
 def get_query_nro_reserva(reserva):
     return f"""
-        SELECT nro_reserva 
-        FROM reservas 
-        WHERE 
-            nombre='{reserva["nombre"]}' 
-            AND mail='{reserva["mail"]}' 
-            AND tipo_habitacion='{reserva["tipo_habitacion"]}' 
-            AND cant_personas={reserva["cant_personas"]} 
-            AND check_in='{reserva["check_in"]}' 
-            AND check_out='{reserva["check_out"]}'
+        SELECT id
+        FROM reservas
+        WHERE
+            numero_habitacion = {reserva["numero_habitacion"]}
+            AND huespedes = {reserva["huespedes"]}
+            AND fecha_ingreso = '{reserva["fecha_ingreso"]}'
+            AND cantidad_noches = {reserva["cantidad_noches"]}
+            AND nombre = '{reserva["nombre"]}'
+            AND mail = '{reserva["mail"]}'
         ;
-    """
-
-
-def get_query_dia_reservado(reserva, Id, dia):
-    return f"""
-        INSERT INTO dias_reservados 
-        VALUES (
-            {Id}, '{dia}', 
-            '{reserva["tipo_habitacion"]}'
-        );
-    """
-
-# Nuevas queries 
-def get_cant_habitaciones_query(reserva):
-    return f"""
-        SELECT cantidad 
-        FROM habitaciones 
-        WHERE tipo_habitacion = '{reserva["tipo_habitacion"]}'
     """
