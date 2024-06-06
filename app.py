@@ -100,21 +100,9 @@ def booking():
     pass
 
 
-#Servicio que agrega habitacion:
-@app.route('/agregar_habitacion', methods = ['POST'])
-def creat_room():   
-    pass
-
-
 #Servicio que cancela reserva:
 @app.route('/cancelar_reserva', methods = ['DELETE'])
 def cancel_booking():   
-    pass
-
-
-#Servicio que cancela reserva:
-@app.route('/eliminar_habitacion', methods = ['DELETE'])    
-def delete_room():   
     pass
 
 
@@ -122,6 +110,34 @@ def delete_room():
 @app.route('/cambiar_reserva', methods = ['PATCH'])
 def change_booking():
     pass
+
+
+#Servicio que agrega habitacion(admin):
+@app.route('/agregar_habitacion', methods = ['POST'])
+def creat_room():   
+    pass
+
+
+#Servicio que elimina habitacion(admin):
+@app.route('/eliminar_habitacion', methods = ['DELETE'])    
+def delete_room():
+    conn = engine.connect()
+    del_room = request.get_json()
+
+    query = f"""DELETE FROM habitaciones WHERE numero = {del_room['numero']};"""
+    validation_query = f"SELECT * FROM habitaciones WHERE numero = {del_room['numero']}"
+    try:
+        val_result = conn.execute(text(validation_query))
+        if val_result.rowcount != 0 :
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify({"message": f"La habitacion número {del_room['numero']} no existe."}), 404
+    except SQLAlchemyError as err:
+        return jsonify(str(err.__cause__))
+    return jsonify({'message': 'Se ha eliminado correctamente'}), 202
 
 
 #Servicio que cambia el precio de una habitacion(modo admin):
