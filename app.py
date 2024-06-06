@@ -70,9 +70,22 @@ def disponibility():
 
 
 #Servicio que verifica si existe el usuario y su contraseña:
-@app.route('/usuario', methods = ['GET'])
-def verify_user():   
-    pass
+@app.route('/user/<user>/<password>', methods=['GET'])
+def verificar_usuario(user, password):
+    conn = engine.connect()
+
+    query = f"""Select * FROM usuarios WHERE usuario = '{user}' and clave = '{password}'"""
+
+    try:
+        result = conn.execute(text(query))
+        conn.close()
+    except SQLAlchemyError as e:
+        return jsonify(str(e.__cause__))
+    
+    if result.rowcount != 0:
+        return jsonify({'message':'exists'}),200
+    else:
+        return jsonify({'message':'does not exist'})
 
 
 #Servicio que muestre datos de habitaciones(promociones incluidas):
