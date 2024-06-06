@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
-from api.db_queries import create_habitaciones_table, create_reservas_table, create_dias_reservados_table
+from api.db_queries import create_habitaciones_table, create_reservas_table, create_dias_reservados_table, fill_tables
 from api.queries import get_query_habitaciones, get_query_siguiente_dia, get_query_verif_disponibilidad, get_query_nueva_reserva, get_query_nro_reserva, get_query_cant_dias_reservados, get_query_verif, get_cant_habitaciones_query
 
 app = Flask(__name__)
@@ -87,4 +87,5 @@ def test_reserva():
 
 if __name__ == "__main__":
     crear_tablas()
+    fill_tables(engine)
     app.run("127.0.0.1", port=5006, debug=True)
