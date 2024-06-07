@@ -45,23 +45,19 @@ def disponibility():
     except SQLAlchemyError as err:
         return jsonify({'message': 'Se ha producido un error' + str(err.__cause__)})
 
-    
+
     disponibilidad = []
-    habitaciones_posibles = []
     reservas = []
-    
-    for row_1 in result_1:
-        habitaciones_posibles.append((row_1.numero, row_1.precio))
     
     for row_2 in result_2:
         reservas.append(row_2.numero_habitacion)
     
-    for numero, precio in habitaciones_posibles:
+    for row_1 in result_1:
         entity = {}
-        if numero in reservas:
+        if row_1.numero in reservas:
             continue
-        entity['numero_habitacion'] = numero
-        entity['precio'] = precio
+        entity['numero_habitacion'] = row_1.numero
+        entity['precio'] = row_1.precio
         
         disponibilidad.append(entity)
 
