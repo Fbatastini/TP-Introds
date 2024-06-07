@@ -166,9 +166,38 @@ def cancel_booking():
 
 
 #Servicio que cambia cantidad de noches, o dia de check in:
-@app.route('/cambiar_reserva', methods = ['PATCH'])
+@app.route('/cambiar_reserva', methods=['PATCH'])
 def change_booking():
-    pass
+    conn = engine.connect()
+    mod_booking_data = request.get_json()
+
+    room_number = mod_booking_data.get('numero_habitacion')
+    new_checkin_date = mod_booking_data.get('nueva_fecha_checkin')
+    new_nights = mod_booking_data.get('nuevas_noches')
+
+    # Validar si la habitación existe en la base de datos
+    query_validation = f"SELECT * FROM habitaciones WHERE numero = {room_number};"
+    try:
+        val_result = conn.execute(text(query_validation))
+        if val_result.rowcount == 0:
+            conn.close()
+            return jsonify({'message': f"No existe la habitación número {room_number}"}), 404
+    except SQLAlchemyError as err:
+        return jsonify({'message': str(err.__cause__)}), 500
+
+    # Actualizar la reserva
+    query = f"""UPDATE reservas
+                SET fecha_checkin = '{new_checkin_date}', noches = {new_nights}
+                WHERE numero_habitacion = {room_number};"""
+    try:
+        result = conn.execute(text(query))
+        conn.commit()
+        conn.close()
+    except SQLAlchemyError as err:
+        return jsonify({'message': str(err.__cause__)}), 500
+
+    return jsonify({'message': 'Se ha modificado la reserva correctamente'}), 200
+
 
 
 #Servicio que agrega habitacion(admin):
