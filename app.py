@@ -85,9 +85,30 @@ def verificar_usuario(user, password):
 
 
 #Servicio que muestre datos de habitaciones(promociones incluidas):
-@app.route('/habitaciones', methods = ['GET'])
-def room():   
-    pass
+@app.route('/habitaciones', methods=['GET'])
+def room():
+    conn = engine.connect()
+    query = """
+        SELECT numero, precio, capacidad, descripcion, promocion
+        FROM habitaciones;
+    """
+    try:
+        result = conn.execute(text(query))
+        conn.close()
+        habitaciones = []
+        for row in result:
+            habitacion = {
+                "numero": row.numero,
+                "precio": row.precio,
+                "capacidad": row.capacidad,
+                "descripcion": row.descripcion,
+                "promocion": row.promocion
+            }
+            habitaciones.append(habitacion)
+        return jsonify(habitaciones), 200
+    except SQLAlchemyError as e:
+        return jsonify({'message': f'Error al obtener datos de habitaciones: {str(e)}'}), 500
+
 
 
 #Servicio que hace reserva:
@@ -271,9 +292,33 @@ def change_price():
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
-@app.route('/cambiar_promocion', methods = ['PATCH'])
+@app.route('/cambiar_promocion', methods=['PATCH'])
 def change_promo():
-    pass
+    try:
+        # Obtener datos de la solicitud PATCH
+        data = request.get_json()
+        numero_habitacion = data.get('numero_habitacion')
+        nueva_promocion = data.get('nueva_promocion')
+
+        # Validar que los datos requeridos estén presentes
+        if not numero_habitacion or not nueva_promocion:
+            return jsonify({'message': 'Se requieren el número de habitación y la nueva promoción.'}), 400
+
+        # Actualizar la promoción en la base de datos
+        conn = engine.connect()
+        query = f"""
+            UPDATE habitaciones
+            SET promocion = :nueva_promocion
+            WHERE numero = :numero_habitacion
+        """
+        conn.execute(text(query), nueva_promocion=nueva_promocion, numero_habitacion=numero_habitacion)
+        conn.close()
+
+        return jsonify({'message': f'Promoción actualizada para la habitación {numero_habitacion}.'}), 200
+
+    except Exception as e:
+        return jsonify({'message': f'Error al actualizar la promoción: {str(e)}'}), 500
+
 
 
 
