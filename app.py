@@ -97,13 +97,76 @@ def room():
 #Servicio que hace reserva:
 @app.route('/reserva', methods = ['POST'])
 def booking():   
-    pass
+    conn = engine.connect()
+    new_booking = request.get.json()
 
+    cantidad_noches = new_booking['cantidad_noches']
+    fecha_ingreso = new_booking['fecha_ingreso']
+    fecha_salida = f"DATE_ADD('{fecha_ingreso}', INTERVAL {cantidad_noches} DAY)"
+    
+    query = f"""INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
+    VALUES ({new_booking['numero_habitacion']}, {new_booking['huespedes']}, {fecha_ingreso}, {cantidad_noches}, '{new_booking['nombre']}', '{new_booking['mail']}');"""
+    
+    validation_query = f"""
+    SELECT numero_habitacion 
+    FROM reservas 
+    WHERE numero_habitacion = {new_booking['numero_habitacion']} 
+    AND DATE_ADD(fecha_ingreso, INTERVAL cantidad_noches DAY) > '{fecha_ingreso}' 
+    AND fecha_ingreso < {fecha_salida}
+    """
+    
+    try:
+        val_result = conn.execute(text(validation_query))
+
+        if val_result.rowcount == 0:
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+            return jsonify({"message": "Reserva realizada con éxito"}), 200
+        else:
+            conn.close()
+            return jsonify({"message": f"La habitación número {new_booking['numero_habitacion']} ya se encuentra reservada en las fechas seleccionadas"}), 400
+    except Exception as e:
+        conn.close()
+        return jsonify({'message': f"Error al realizar la reserva: {str(e)}"}), 500
 
 #Servicio que cancela reserva:
 @app.route('/cancelar_reserva', methods = ['DELETE'])
 def cancel_booking():   
-    pass
+    conn = engine.connect()
+    cancel_data = request.get.json()
+
+    query = f"""
+    DELETE FROM reservas
+    WHERE numero_habitacion = {cancel_data['numero_habitacion']}
+    AND fecha_ingreso = '{cancel_data['fecha_ingreso']}'
+    AND nombre = '{cancel_data['nombre']}'
+    AND mail = '{cancel_data['mail']}'
+    """
+
+    validation_query = f"""
+    SELECT * 
+    FROM reservas 
+    WHERE numero_habitacion = {cancel_data['numero_habitacion']} 
+    AND fecha_ingreso = '{cancel_data['fecha_ingreso']}'
+    AND nombre = '{cancel_data['nombre']}'
+    AND mail = '{cancel_data['mail']}'
+    """
+
+    try:
+        val_result = conn.execute(text(validation_query))
+
+        if val_result.rowcount > 0:
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+            return jsonify({"message": "Reserva cancelada con éxito"}), 200
+        else:
+            conn.close()
+            return jsonify({"message": "No se encontró una reserva con los datos proporcionados"}), 404
+    except Exception as e:
+        conn.close()
+        return jsonify({"message": f"Error al cancelar la reserva: {str(e)}"}), 500
 
 
 #Servicio que cambia cantidad de noches, o dia de check in:
