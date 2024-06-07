@@ -22,6 +22,14 @@ CREATE TABLE usuarios (
     clave VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE contactos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    mail VARCHAR(120) NOT NULL,
+    asunto VARCHAR(30) NOT NULL,
+    mensaje VARCHAR(750) NOT NULL, 
+);
+
 
 /* Agrego datos a tabla reservas */ 
 INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail) VALUES (1, 4, "2024-06-15", 6, "Felipe", "felipe@gmail.com");
