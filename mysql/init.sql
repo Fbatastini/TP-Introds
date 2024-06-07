@@ -27,7 +27,7 @@ CREATE TABLE contactos (
     nombre VARCHAR(100) NOT NULL,
     mail VARCHAR(120) NOT NULL,
     asunto VARCHAR(30) NOT NULL,
-    mensaje VARCHAR(750) NOT NULL, 
+    mensaje VARCHAR(750) NOT NULL 
 );
 
 
