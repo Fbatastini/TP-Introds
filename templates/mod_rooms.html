@@ -1,0 +1,43 @@
+{%extends 'baseadmin.html'%} {%block content%}
+
+<table>
+    <colgroup>
+    <col>
+    <col style ="background-color:(#0F172B)">
+    </colgroup>
+    <tr>
+        <th>Number</th>
+        <th class="columna-par">Capacity</th>
+        <th>Description</th>
+        <th class="columna-par">Price</th>
+        <th>Promotion</th>
+
+    </tr>
+
+    {%for hab in habitaciones%}
+    <tr>
+        <td>{{hab['numero']}}</td>
+        <td class="columna-par">{{hab['capacidad']}}</td>
+        <td>{{hab['descripcion']}}</td>
+        <td class="columna-par">{{hab['precio']}}</td>
+        <td>{{hab['promocion']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if ingreso == 'descripcion'%}
+
+
+{%endif%}
+
+{% if ingreso == 'precio'%}
+
+
+{%endif%}
+
+{% if ingreso == 'promocion'%}
+
+
+{%endif%}
+
+{%endblock%}

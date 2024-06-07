@@ -7,9 +7,10 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
+login_manager.init_app(app)         #inicializa la instancia de LoginManager con la aplicación Flask
+login_manager.login_view = 'login'  #establece el endpoint para la vista de inicio de sesión. 
+                                    #Cuando un usuario intenta acceder a una ruta protegida sin estar autenticado, será redirigido
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -97,10 +98,39 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+#------------------------------- Paginas de admin -------------------------------
+
 @app.route('/admin')
 @login_required
 def admin():
-    return render_template('admin.html')
+    #comentarios = request.get('http://127.0.0.1:5000/contactos')
+    return render_template('admin.html', comentarios = {})
+
+@app.route('/redireccion', methods=['POST', 'GET'])
+def redireccion():
+    ingreso = request.form.get('metodo')
+    if ingreso == 'check_in' or ingreso == 'noches':
+        return redirect(url_for('mod_bookings', ingreso=ingreso))
+    elif ingreso in ('precio', 'descripcion', 'promocion'):\
+        return redirect(url_for('mod_rooms', ingreso=ingreso))
+    
+@app.route('/modify-rooms', methods=['GET', 'POST'])
+@login_required
+def mod_rooms():
+    #habitaciones = request.get('http://127.0.0.1:5000/habitaciones')
+    ingreso = request.args.get('ingreso', None)
+    if ingreso:
+        return render_template('mod_rooms.html', habitaciones = {}, ingreso = ingreso)
+    return render_template('mod_rooms.html', habitaciones = {})
+
+@app.route('/modify-bookings')
+@login_required
+def mod_bookings():
+    #reservas = request.get('http://127.0.0.1:5000/reservas')
+    ingreso = request.args.get('ingreso', None)
+    if ingreso:
+        return render_template('mod_book.html', reservas = {}, ingreso = ingreso)
+    return render_template('mod_book.html', reservas={})
 
 # Ruta para manejar la carga de archivos
 if __name__ == '__main__':

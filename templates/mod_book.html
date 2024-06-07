@@ -1,0 +1,52 @@
+{%extends 'baseadmin.html'%} {%block content%}
+
+<table>
+    <colgroup>
+    <col>
+    <col style ="background-color:(#0F172B)">
+    </colgroup>
+    <tr>
+        <th>ID</th>
+        <th class="columna-par">Room</th>
+        <th>Guests</th>
+        <th class="columna-par">Check in</th>
+        <th>Nights</th>
+        <th class="columna-par">Name</th>
+        <th>Email</th>
+
+    </tr>
+
+    {%for reserva in reservas%}
+    <tr>
+        <td>{{reserva['id']}}</td>
+        <td class="columna-par">{{reserva['numero_habitacion']}}</td>
+        <td>{{reservas['huespedes']}}</td>
+        <td class="columna-par">{{reserva['fecha_ingreso']}}</td>
+        <td>{{reserva['cantidad_noches']}}</td>
+        <td class="columna-par">{{reserva['nombre']}}</td>
+        <td>{{reserva['mail']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form action="{{url_for('redireccion')}}" method="post">
+    <select id="select-metodo" name="metodo" required>
+        <option value="check_in">Check in</option>
+        <option value="noches">Nights</option>
+    </select>
+
+    
+    <button type="submit">Enter</button>
+</form>
+
+{% if ingreso == 'check_in'%}
+
+
+{%endif%}
+
+{% if ingreso == 'noches'%}
+
+
+{%endif%}
+
+{%endblock%}

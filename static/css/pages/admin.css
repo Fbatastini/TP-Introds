@@ -1,0 +1,23 @@
+
+.columna-par, .columna-par-comentario{
+    background-color:#0F172B;
+}
+
+
+table{
+    width: 80%;
+    max-width: 1200px; 
+    background-color: #141e38;
+    color: white;
+    border-collapse: collapse;
+    margin:auto;
+    
+}
+
+th, td{
+
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    white-space: break-spaces;
+}
