@@ -5,7 +5,7 @@
     <col>
     <col style ="background-color:(#0F172B)">
     </colgroup>
-    <tr>
+    <tr id="cabeceras">
         <th>ID</th>
         <th class="columna-par">Room</th>
         <th>Guests</th>
@@ -18,9 +18,9 @@
 
     {%for reserva in reservas%}
     <tr>
-        <td>{{reserva['id']}}</td>
+        <td>{{reserva["id"]}}</td>
         <td class="columna-par">{{reserva['numero_habitacion']}}</td>
-        <td>{{reservas['huespedes']}}</td>
+        <td>{{reserva['huespedes']}}</td>
         <td class="columna-par">{{reserva['fecha_ingreso']}}</td>
         <td>{{reserva['cantidad_noches']}}</td>
         <td class="columna-par">{{reserva['nombre']}}</td>
@@ -29,23 +29,48 @@
     {% endfor %}
 </table>
 
+</br>
+</br>
+</br>
+</br>
+
 <form action="{{url_for('redireccion')}}" method="post">
     <select id="select-metodo" name="metodo" required>
-        <option value="check_in">Check in</option>
-        <option value="noches">Nights</option>
+        <option value="cancelar">Cancel booking</option>
+        <option value="modificar">Modify booking</option>
+
     </select>
 
     
     <button type="submit">Enter</button>
 </form>
+</br></br>
 
-{% if ingreso == 'check_in'%}
 
+{% if ingreso == 'cancelar'%}
 
-{%endif%}
+<form action="{{url_for('enviar_cancelacion')}}" method="post">
+    <h4>Cancel booking</h4>
+    <label for="id">Booking id</label>
+    <input name="id" type="text" placeholder="ID" required>
+    <button type="submit" class="send-button">Delete</button>
+</form>
 
-{% if ingreso == 'noches'%}
+{% elif ingreso == 'modificar'%}
 
+<form action="{{url_for('enviar_modif_res')}}" method="post">
+    <h4>Modify booking</h4>
+    <label for="id">Booking id</label>
+    <input name="id" type="text" placeholder="ID" required>
+    <label for="numero_habitacion">Room number</label>
+    <input name="numero_habitacion" type="text" placeholder="Room number" required>
+    <label for="nueva_fecha_checkin">New check-in</label>
+    <input name="nueva_fecha_checkin" type="date" required>
+    <label for="nuevas_noches">Amount of nights</label>
+    <input name="nuevas_noches" type="number" placeholder="Nights" required>
+    
+    <button type="submit" class="send-button">Modify</button>
+</form>
 
 {%endif%}
 
