@@ -43,7 +43,7 @@ def disponibility():
         
         conn.close() 
     except SQLAlchemyError as err:
-        return jsonify({'message': 'Se ha producido un error' + str(err.__cause__)})
+        return jsonify({'message': 'Se ha producido un error' + str(err.__cause__)}), 500
 
 
     disponibilidad = []
@@ -62,7 +62,8 @@ def disponibility():
         disponibilidad.append(entity)
 
     return jsonify(disponibilidad), 200
-    
+
+
 
 
 #Servicio que verifica si existe el usuario y su contraseña:
@@ -82,6 +83,8 @@ def verificar_usuario(user, password):
         return jsonify({'message':'exists'}),200
     else:
         return jsonify({'message':'does not exist'})
+
+
 
 
 #Servicio que muestre datos de habitaciones(promociones incluidas):
@@ -108,6 +111,7 @@ def room():
         return jsonify(habitaciones), 200
     except SQLAlchemyError as e:
         return jsonify({'message': f'Error al obtener datos de habitaciones: {str(e)}'}), 500
+
 
 
 
@@ -146,6 +150,9 @@ def booking():
     except Exception as e:
         conn.close()
         return jsonify({'message': f"Error al realizar la reserva: {str(e)}"}), 500
+
+
+
 
 #Servicio que cancela reserva:
 @app.route('/cancelar_reserva', methods = ['DELETE'])
@@ -186,6 +193,8 @@ def cancel_booking():
         return jsonify({"message": f"Error al cancelar la reserva: {str(e)}"}), 500
 
 
+
+
 #Servicio que cambia cantidad de noches, o dia de check in:
 @app.route('/cambiar_reserva', methods=['PATCH'])
 def change_booking():
@@ -221,9 +230,10 @@ def change_booking():
 
 
 
+
 #Servicio que agrega habitacion(admin):
 @app.route('/agregar_habitacion', methods = ['POST'])
-def creat_room():   
+def create_room():   
     conn = engine.connect()
     new_room = request.get_json()
 
@@ -244,6 +254,8 @@ def creat_room():
         return jsonify({'message': f'Se ha producido un error'})
     
     return jsonify({'message': 'Se ha agregado correctamente'}), 201
+
+
 
 
 #Servicio que elimina habitacion(admin):
@@ -268,6 +280,8 @@ def delete_room():
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202
 
 
+
+
 #Servicio que cambia el precio de una habitacion(modo admin):
 @app.route('/cambiar_precio', methods = ['PATCH'])
 def change_price():
@@ -289,6 +303,8 @@ def change_price():
         return jsonify({'message': str(err.__cause__)})
     
     return jsonify({'message': 'Se ha modificado correctamente'}), 200
+
+
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
@@ -319,6 +335,9 @@ def change_promo():
     except Exception as e:
         return jsonify({'message': f'Error al actualizar la promoción: {str(e)}'}), 500
 
+
+
+
 #Servicio que muestre datos de reservas:
 @app.route('/reservas', methods=['GET'])
 def bookings():
@@ -345,6 +364,9 @@ def bookings():
     except SQLAlchemyError as e:
         return jsonify({'message': f'Error al obtener datos de reservas: {str(e)}'}), 500
     
+
+
+
 #Servicio que muestre datos de consultas:
 @app.route('/contactos', methods=['GET'])
 def contacts():
@@ -356,10 +378,9 @@ def contacts():
         result = conn.execute(text(query))
         conn.close()
         contactos = []
-        for row in contactos:
+        for row in result:
             contacto = {
                 "id": row.id,
-                "numero_habitacion": row.numero_habitacion,
                 "asunto": row.asunto,
                 "mensaje": row.mensaje,
                 "nombre": row.nombre,
@@ -371,7 +392,36 @@ def contacts():
         return jsonify({'message': f'Error al obtener datos de contactos: {str(e)}'}), 500
     
 
-  #Servicio que elimina contacto(admin):
+
+
+#Servicio que agrega el mensaje con su nombre mail y asunto a la tabla de contactos.
+@app.route('/agregar_contacto', methods = ['POST'])
+def create_contact():
+    conn = engine.connect()
+    contacto = request.get_json()
+    query = f"""INSERT INTO contactos (nombre, mail, asunto, mensaje) VALUES ('{contacto['nombre']}','{contacto['mail']}', '{contacto['asunto']}', '{contacto['mensaje']}');"""
+    query_validation = f"""SELECT * FROM contactos WHERE nombre = '{contacto['nombre']}' AND mail = '{contacto['mail']}' AND asunto = '{contacto['asunto']}' AND mensaje = '{contacto['mensaje']}' ;"""
+    try:
+        val_result = conn.execute(text(query_validation))
+        if val_result.rowcount == 0:
+            result = conn.execute(text(query))
+
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify({'message':'Ya agregaste el mensaje de ese contacto.'}), 404
+        
+    except SQLAlchemyError as e:
+        return jsonify({'message':f'Ocurrio un error al agregar contactos: {str(e)}'}), 500
+
+    return jsonify({'message':f'Se ha agregado correctamente el contacto'}), 200
+
+
+
+
+
+#Servicio que elimina contacto(admin):
 @app.route('/eliminar_contacto', methods = ['DELETE'])    
 def delete_contact():
     conn = engine.connect()
@@ -381,7 +431,7 @@ def delete_contact():
         return jsonify({'message': 'Se requiere id para eliminar el contacto'}), 400
 
     query = f"""DELETE FROM contactos WHERE id = {id};"""
-    validation_query = f"""SELECT * FROM contactos WHERE numero = {id}"""
+    validation_query = f"""SELECT * FROM contactos WHERE id = {id};"""
     try:
         val_result = conn.execute(text(validation_query))
         if val_result.rowcount != 0 :
@@ -394,6 +444,8 @@ def delete_contact():
     except SQLAlchemyError as err:
         return jsonify(str(err.__cause__))
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202  
+
+
 
 
 if __name__ == "__main__":
