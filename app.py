@@ -319,8 +319,81 @@ def change_promo():
     except Exception as e:
         return jsonify({'message': f'Error al actualizar la promoción: {str(e)}'}), 500
 
+#Servicio que muestre datos de reservas:
+@app.route('/reservas', methods=['GET'])
+def bookings():
+    conn = engine.connect()
+    query = """
+        SELECT * FROM reservas;
+    """
+    try:
+        result = conn.execute(text(query))
+        conn.close()
+        reservas = []
+        for row in result:
+            reserva = {
+                "id": row.id,
+                "numero_habitacion": row.numero_habitacion,
+                "huespedes": row.huespedes,
+                "fecha_ingreso": row.fecha_ingreso,
+                "cantidad_noches": row.cantidad_noches,
+                "nombre": row.nombre,
+                "mail": row.mail
+            }
+            reservas.append(reserva)
+        return jsonify(reservas), 200
+    except SQLAlchemyError as e:
+        return jsonify({'message': f'Error al obtener datos de reservas: {str(e)}'}), 500
+    
+#Servicio que muestre datos de consultas:
+@app.route('/contactos', methods=['GET'])
+def contacts():
+    conn = engine.connect()
+    query = """
+        SELECT * FROM contactos;
+    """
+    try:
+        result = conn.execute(text(query))
+        conn.close()
+        contactos = []
+        for row in contactos:
+            contacto = {
+                "id": row.id,
+                "numero_habitacion": row.numero_habitacion,
+                "asunto": row.asunto,
+                "mensaje": row.mensaje,
+                "nombre": row.nombre,
+                "mail": row.mail
+            }
+            contactos.append(contacto)
+        return jsonify(contactos), 200
+    except SQLAlchemyError as e:
+        return jsonify({'message': f'Error al obtener datos de contactos: {str(e)}'}), 500
+    
 
+  #Servicio que elimina contacto(admin):
+@app.route('/eliminar_contacto', methods = ['DELETE'])    
+def delete_contact():
+    conn = engine.connect()
+    del_cont = request.get_json()
+    id = del_cont.get('id',None)
+    if not id:
+        return jsonify({'message': 'Se requiere id para eliminar el contacto'}), 400
 
+    query = f"""DELETE FROM contactos WHERE id = {id};"""
+    validation_query = f"""SELECT * FROM contactos WHERE numero = {id}"""
+    try:
+        val_result = conn.execute(text(validation_query))
+        if val_result.rowcount != 0 :
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify({"message": f"La consulta número {id} no existe."}), 404
+    except SQLAlchemyError as err:
+        return jsonify(str(err.__cause__))
+    return jsonify({'message': 'Se ha eliminado correctamente'}), 202  
 
 
 if __name__ == "__main__":
