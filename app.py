@@ -1,17 +1,15 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
+"""api module"""
+from flask import Flask
 from sqlalchemy import create_engine
-from sqlalchemy import text
-from sqlalchemy.exc import SQLAlchemyError
-from datetime import datetime, timedelta, date
+
+from endpoints import room, booking, contact, verifications
 
 app = Flask(__name__)
 engine = create_engine("mysql+mysqlconnector://root:scrumbeasts@localhost:3309/tp_database")
 
-
-
 #Servicio que consulta disponibilidad:
 @app.route('/disponibilidad', methods = ['GET'])
+<<<<<<< HEAD
 def disponibility():   
     conn = engine.connect()
     
@@ -64,11 +62,16 @@ def disponibility():
     return jsonify(disponibilidad), 200
 
 
+=======
+def disponibility():
+    return verifications.disponibility(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que verifica si existe el usuario y su contraseña:
 @app.route('/user/<user>/<password>', methods=['GET'])
 def verificar_usuario(user, password):
+<<<<<<< HEAD
     conn = engine.connect()
 
     query = f"""Select * FROM usuarios WHERE usuario = '{user}' and clave = '{password}'"""
@@ -85,38 +88,20 @@ def verificar_usuario(user, password):
         return jsonify({'message':'does not exist'}), 404
 
 
+=======
+    return verifications.verificar_usuario(user, password, engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que muestre datos de habitaciones(promociones incluidas):
 @app.route('/habitaciones', methods=['GET'])
-def room():
-    conn = engine.connect()
-    query = """
-        SELECT numero, precio, capacidad, descripcion, promocion
-        FROM habitaciones;
-    """
-    try:
-        result = conn.execute(text(query))
-        conn.close()
-        habitaciones = []
-        for row in result:
-            habitacion = {
-                "numero": row.numero,
-                "precio": row.precio,
-                "capacidad": row.capacidad,
-                "descripcion": row.descripcion,
-                "promocion": row.promocion
-            }
-            habitaciones.append(habitacion)
-        return jsonify(habitaciones), 200
-    except SQLAlchemyError as e:
-        return jsonify({'message': f'Error al obtener datos de habitaciones: {str(e)}'}), 500
-
-
+def room_end():
+    return room.room(engine)
 
 
 #Servicio que hace reserva:
 @app.route('/reserva', methods=['POST'])
+<<<<<<< HEAD
 def booking():   
     conn = engine.connect()
     new_booking = request.get_json()
@@ -164,10 +149,15 @@ def booking():
         return jsonify({'message': f"Error al realizar la reserva: {str(e)}"}), 500
 
 
+=======
+def booking_end():
+    return booking.booking(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que cancela reserva:
 @app.route('/cancelar_reserva', methods=['DELETE'])
+<<<<<<< HEAD
 def cancel_booking():   
     conn = engine.connect()
     cancel_data = request.get_json()
@@ -203,11 +193,16 @@ def cancel_booking():
         return jsonify({"message": f"Error al cancelar la reserva: {str(e)}"}), 500
 
 
+=======
+def cancel_booking():
+    return booking.cancel_booking(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que cambia cantidad de noches, o dia de check in:
 @app.route('/cambiar_reserva', methods=['PATCH'])
 def change_booking():
+<<<<<<< HEAD
     conn = engine.connect()
     mod_booking_data = request.get_json()
 
@@ -240,11 +235,15 @@ def change_booking():
     return jsonify({'message': 'Se ha modificado la reserva correctamente'}), 200
 
 
+=======
+    return booking.change_booking(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 
 #Servicio que agrega habitacion(admin):
 @app.route('/agregar_habitacion', methods = ['POST'])
+<<<<<<< HEAD
 def create_room():   
     conn = engine.connect()
     new_room = request.get_json()
@@ -268,11 +267,16 @@ def create_room():
     return jsonify({'message': 'Se ha agregado correctamente'}), 201
 
 
+=======
+def create_room():
+    return room.create_room(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que elimina habitacion(admin):
-@app.route('/eliminar_habitacion', methods = ['DELETE'])    
+@app.route('/eliminar_habitacion', methods = ['DELETE'])
 def delete_room():
+<<<<<<< HEAD
     conn = engine.connect()
     del_room = request.get_json()
 
@@ -292,11 +296,15 @@ def delete_room():
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202
 
 
+=======
+    return room.delete_room(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que cambia el precio de una habitacion(modo admin):
 @app.route('/cambiar_precio', methods = ['PATCH'])
 def change_price():
+<<<<<<< HEAD
     conn = engine.connect()
     mod_room_price = request.get_json()
     
@@ -317,98 +325,33 @@ def change_price():
     return jsonify({'message': 'Se ha modificado correctamente'}), 200
 
 
+=======
+    return room.change_price(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
 @app.route('/cambiar_promocion', methods=['PATCH'])
 def change_promo():
-    try:
-        # Obtener datos de la solicitud PATCH
-        data = request.get_json()
-        numero_habitacion = data.get('numero_habitacion')
-        nueva_promocion = data.get('nueva_promocion')
-
-        # Validar que los datos requeridos estén presentes
-        if not numero_habitacion or not nueva_promocion:
-            return jsonify({'message': 'Se requieren el número de habitación y la nueva promoción.'}), 400
-
-        # Actualizar la promoción en la base de datos
-        conn = engine.connect()
-        query = f"""
-            UPDATE habitaciones
-            SET promocion = :nueva_promocion
-            WHERE numero = :numero_habitacion
-        """
-        conn.execute(text(query), nueva_promocion=nueva_promocion, numero_habitacion=numero_habitacion)
-        conn.close()
-
-        return jsonify({'message': f'Promoción actualizada para la habitación {numero_habitacion}.'}), 200
-
-    except Exception as e:
-        return jsonify({'message': f'Error al actualizar la promoción: {str(e)}'}), 500
-
-
+    return room.change_promo(engine)
 
 
 #Servicio que muestre datos de reservas:
 @app.route('/reservas', methods=['GET'])
 def bookings():
-    conn = engine.connect()
-    query = """
-        SELECT * FROM reservas;
-    """
-    try:
-        result = conn.execute(text(query))
-        conn.close()
-        reservas = []
-        for row in result:
-            reserva = {
-                "id": row.id,
-                "numero_habitacion": row.numero_habitacion,
-                "huespedes": row.huespedes,
-                "fecha_ingreso": row.fecha_ingreso,
-                "cantidad_noches": row.cantidad_noches,
-                "nombre": row.nombre,
-                "mail": row.mail
-            }
-            reservas.append(reserva)
-        return jsonify(reservas), 200
-    except SQLAlchemyError as e:
-        return jsonify({'message': f'Error al obtener datos de reservas: {str(e)}'}), 500
-    
-
+    return booking.bookings(engine)
 
 
 #Servicio que muestre datos de consultas:
 @app.route('/contactos', methods=['GET'])
-def contacts():
-    conn = engine.connect()
-    query = """
-        SELECT * FROM contactos;
-    """
-    try:
-        result = conn.execute(text(query))
-        conn.close()
-        contactos = []
-        for row in result:
-            contacto = {
-                "id": row.id,
-                "asunto": row.asunto,
-                "mensaje": row.mensaje,
-                "nombre": row.nombre,
-                "mail": row.mail
-            }
-            contactos.append(contacto)
-        return jsonify(contactos), 200
-    except SQLAlchemyError as e:
-        return jsonify({'message': f'Error al obtener datos de contactos: {str(e)}'}), 500
-    
-
+def contacts_end():
+    return contact.contacts(engine)
 
 
 #Servicio que agrega el mensaje con su nombre mail y asunto a la tabla de contactos.
 @app.route('/agregar_contacto', methods = ['POST'])
 def create_contact():
+<<<<<<< HEAD
     conn = engine.connect()
     contacto = request.get_json()
     query = f"""INSERT INTO contactos (nombre, mail, asunto, mensaje) VALUES ('{contacto['nombre']}','{contacto['mail']}', '{contacto['asunto']}', '{contacto['mensaje']}');"""
@@ -431,11 +374,15 @@ def create_contact():
 
 
 
+=======
+    return contact.create_contact(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 #Servicio que elimina contacto(admin):
-@app.route('/eliminar_contacto', methods = ['DELETE'])    
+@app.route('/eliminar_contacto', methods = ['DELETE'])
 def delete_contact():
+<<<<<<< HEAD
     conn = engine.connect()
     del_cont = request.get_json()
     id = del_cont.get('id',None)
@@ -458,6 +405,9 @@ def delete_contact():
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202  
 
 
+=======
+    return contact.delete_contact(engine)
+>>>>>>> 6a940d9 (ajusted de handlers y de endpoints)
 
 
 if __name__ == "__main__":
