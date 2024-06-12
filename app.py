@@ -123,7 +123,6 @@ def booking():
 
     cantidad_noches = new_booking['cantidad_noches']
     fecha_ingreso = new_booking['fecha_ingreso']
-    fecha_salida = f"DATE_ADD('{fecha_ingreso}', INTERVAL {cantidad_noches} DAY)"
     
     query = """
     INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
