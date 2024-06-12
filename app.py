@@ -22,7 +22,7 @@ def disponibility():
     try:
         fecha_ingreso = datetime.strptime(consulta['fecha_ingreso'], '%Y-%m-%d')
     except Exception:
-        return jsonify({'message': 'La fecha ingresada no existe.'})
+        return jsonify({'message': 'La fecha ingresada no existe.'}), 400
     
     noches = consulta['cantidad_noches']
     fecha_salida = fecha_ingreso + timedelta(days=int(noches) + 1) 
@@ -77,12 +77,12 @@ def verificar_usuario(user, password):
         result = conn.execute(text(query))
         conn.close()
     except SQLAlchemyError as e:
-        return jsonify(str(e.__cause__))
+        return jsonify(str(e.__cause__)), 500
     
     if result.rowcount != 0:
-        return jsonify({'message':'exists'}),200
+        return jsonify({'message':'exists'}), 200
     else:
-        return jsonify({'message':'does not exist'})
+        return jsonify({'message':'does not exist'}), 404
 
 
 
@@ -155,7 +155,7 @@ def booking():
             })
             conn.commit()
             conn.close()
-            return jsonify({"message": "Reserva realizada con éxito"}), 200
+            return jsonify({"message": "Reserva realizada con éxito"}), 201
         else:
             conn.close()
             return jsonify({"message": f"La habitación número {new_booking['numero_habitacion']} ya se encuentra reservada en las fechas seleccionadas"}), 400
@@ -194,7 +194,7 @@ def cancel_booking():
             })
             conn.commit()
             conn.close()
-            return jsonify({"message": "Reserva cancelada con éxito"}), 200
+            return jsonify({"message": "Reserva cancelada con éxito"}), 202
         else:
             conn.close()
             return jsonify({"message": "No se encontró una reserva con el ID proporcionado"}), 404
@@ -263,7 +263,7 @@ def create_room():
             conn.close()
             return jsonify({"message": f"La habitacion número {new_room['numero']} ya existe."}), 400
     except SQLAlchemyError as err:
-        return jsonify({'message': f'Se ha producido un error'})
+        return jsonify({'message': f'Se ha producido un error'}), 500
     
     return jsonify({'message': 'Se ha agregado correctamente'}), 201
 
@@ -288,7 +288,7 @@ def delete_room():
             conn.close()
             return jsonify({"message": f"La habitacion número {del_room['numero']} no existe."}), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__))
+        return jsonify(str(err.__cause__)), 500
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202
 
 
@@ -312,7 +312,7 @@ def change_price():
             conn.close()
             return jsonify({'message': f"No existe la habitacion número {mod_room_price['numero']}"}), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': str(err.__cause__)})
+        return jsonify({'message': str(err.__cause__)}), 500
     
     return jsonify({'message': 'Se ha modificado correctamente'}), 200
 
@@ -427,7 +427,7 @@ def create_contact():
     except SQLAlchemyError as e:
         return jsonify({'message':f'Ocurrio un error al agregar contactos: {str(e)}'}), 500
 
-    return jsonify({'message':f'Se ha agregado correctamente el contacto'}), 200
+    return jsonify({'message':f'Se ha agregado correctamente el contacto'}), 201
 
 
 
@@ -454,7 +454,7 @@ def delete_contact():
             conn.close()
             return jsonify({"message": f"La consulta número {id} no existe."}), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__))
+        return jsonify(str(err.__cause__)), 500
     return jsonify({'message': 'Se ha eliminado correctamente'}), 202  
 
 
