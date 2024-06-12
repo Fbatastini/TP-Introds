@@ -101,10 +101,10 @@ def logout():
 #------------------------------- Paginas de admin -------------------------------
 
 @app.route('/admin')
-#@login_required
+@login_required
 def admin():
-    #comentarios = requests.get('http://127.0.0.1:5001/contactos')
-    return render_template('admin.html', comentarios = {})
+    comentarios = requests.get('http://127.0.0.1:5001/contactos')
+    return render_template('admin.html', comentarios = comentarios)
 
 @app.route('/redireccion', methods=['POST', 'GET'])
 def redireccion():
@@ -119,122 +119,28 @@ def redireccion():
         return redirect(url_for('mod_rooms', ingreso=ingreso))
     
 @app.route('/modify-rooms', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def mod_rooms():
-    #habitaciones = requests.get('http://127.0.0.1:5001/habitaciones')
+    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones')
     ingreso = request.args.get('ingreso', None)
+    mensaje = request.args.get('message', None)
     if ingreso:
-        return render_template('mod_rooms.html', habitaciones =  [
-    {
-        "numero": 101,
-        "capacidad": 2,
-        "descripcion": "Habitación estándar con vista al mar",
-        "precio": 150,
-        "promocion": "Descuento del 10%"
-    },
-    {
-        "numero": 102,
-        "capacidad": 1,
-        "descripcion": "Habitación individual con balcón",
-        "precio": 120,
-        "promocion": "Ninguna"
-    },
-    {
-        "numero": 103,
-        "capacidad": 3,
-        "descripcion": "Suite familiar con jacuzzi",
-        "precio": 250,
-        "promocion": "Oferta especial: 4 noches al precio de 3"
-    }
-], ingreso = ingreso)
-    return render_template('mod_rooms.html', habitaciones = [
-    {
-        "numero": 101,
-        "capacidad": 2,
-        "descripcion": "Habitación estándar con vista al mar",
-        "precio": 150,
-        "promocion": "Descuento del 10%"
-    },
-    {
-        "numero": 102,
-        "capacidad": 1,
-        "descripcion": "Habitación individual con balcón",
-        "precio": 120,
-        "promocion": "Ninguna"
-    },
-    {
-        "numero": 103,
-        "capacidad": 3,
-        "descripcion": "Suite familiar con jacuzzi",
-        "precio": 250,
-        "promocion": "Oferta especial: 4 noches al precio de 3"
-    }
-])
+        return render_template('mod_rooms.html', habitaciones =  habitaciones, ingreso=ingreso)
+    if mensaje:
+        return render_template('mod_rooms.html', habitaciones = habitaciones, mensaje = mensaje)
+    return render_template('mod_rooms.html', habitaciones = habitaciones)
 
 @app.route('/modify-bookings')
-#@login_required
+@login_required
 def mod_bookings():
-    #reservas = request.get('http://127.0.0.1:5001/reservas')
+    reservas = request.get('http://127.0.0.1:5001/reservas')
     ingreso = request.args.get('ingreso', None)
+    mensaje = request.args.get('message', None)
     if ingreso:
-        return render_template('mod_book.html', reservas = [
-    {
-        "id": 1,
-        "numero_habitacion": "101",
-        "huespedes": 2,
-        "fecha_ingreso": "2024-06-15",
-        "cantidad_noches": 3,
-        "nombre": "John Doe",
-        "mail": "johndoe@example.com"
-    },
-    {
-        "id": 2,
-        "numero_habitacion": "102",
-        "huespedes": 1,
-        "fecha_ingreso": "2024-06-16",
-        "cantidad_noches": 2,
-        "nombre": "Jane Smith",
-        "mail": "janesmith@example.com"
-    },
-    {
-        "id": 3,
-        "numero_habitacion": "103",
-        "huespedes": 3,
-        "fecha_ingreso": "2024-06-17",
-        "cantidad_noches": 1,
-        "nombre": "Alice Johnson",
-        "mail": "alicejohnson@example.com"
-    }
-], ingreso = ingreso)
-    return render_template('mod_book.html', reservas = [
-    {
-        "id": 1,
-        "numero_habitacion": "101",
-        "huespedes": 2,
-        "fecha_ingreso": "2024-06-15",
-        "cantidad_noches": 3,
-        "nombre": "John Doe",
-        "mail": "johndoe@example.com"
-    },
-    {
-        "id": 2,
-        "numero_habitacion": "102",
-        "huespedes": 1,
-        "fecha_ingreso": "2024-06-16",
-        "cantidad_noches": 2,
-        "nombre": "Jane Smith",
-        "mail": "janesmith@example.com"
-    },
-    {
-        "id": 3,
-        "numero_habitacion": "103",
-        "huespedes": 3,
-        "fecha_ingreso": "2024-06-17",
-        "cantidad_noches": 1,
-        "nombre": "Alice Johnson",
-        "mail": "alicejohnson@example.com"
-    }
-])
+        return render_template('mod_book.html', reservas = reservas, ingreso = ingreso)
+    if mensaje:
+        return render_template('mod_book.html', reservas = reservas, mensaje = mensaje)
+    return render_template('mod_book.html', reservas = reservas)
 
 # --------------------------------- Envios a la API ---------------------------------------------------------
 #---------------------------------- Reservas ----------------------------------------------------------------
@@ -244,8 +150,9 @@ def mod_bookings():
 def enviar_cancelacion():
     id = {'id':request.form.get('id')}
     respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=id)
+    message = respuesta.get('message')
 
-    return redirect(url_for('mod_bookings', respuesta['message']))
+    return redirect(url_for('mod_bookings', message = message))
 
 @app.route('/modify_book', methods=['POST'])
 @login_required
@@ -257,8 +164,9 @@ def enviar_modif_res():
     
     data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_checkin':checkin, 'nuevas_noches':noches}
     respuesta = requests.patch('http://127.0.0.1:5001/cambiar_reserva', json=data)
+    message = respuesta.get('message')
     
-    return redirect(url_for('mod_bookings', respuesta['message']))
+    return redirect(url_for('mod_bookings', message=message))
 
 #---------------------------------------------- Habitaciones ---------------------------------------------------
 
@@ -267,8 +175,9 @@ def enviar_modif_res():
 def enviar_eliminacion():
     num = {'numero':request.form.get('num')}
     respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=num)
+    message = respuesta.get('message')
 
-    return redirect(url_for('mod_rooms', respuesta['message']))
+    return redirect(url_for('mod_rooms', message=message))
 
 
 @app.route('/create_room', methods=['POST'])
@@ -282,8 +191,9 @@ def enviar_crear_hab():
 
     habitacion = {'numero': num, 'precio': precio, 'capacidad': capacidad, 'descripcion': descripcion, 'promocion': promocion}
     respuesta = requests.post('http://127.0.0.1:5001/cancelar_reserva', json=habitacion)
+    message = respuesta.get('message')
 
-    return redirect(url_for('mod_rooms', respuesta['message']))
+    return redirect(url_for('mod_rooms', message=message))
 
 
 @app.route('/modify_price', methods=['POST'])
@@ -294,8 +204,9 @@ def enviar_precio():
     modificaciones = {'numero': num, 'nuevo_precio': precio}
 
     respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=modificaciones)
+    message = respuesta.get('message')
 
-    return redirect(url_for('mod_rooms', respuesta['message']))
+    return redirect(url_for('mod_rooms', message=message))
 
 
 @app.route('/modify_promotion', methods=['POST'])
@@ -306,8 +217,9 @@ def enviar_promocion():
     modificaciones = {'numero': num, 'nueva_promocion': promocion}
 
     respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=modificaciones)
+    message = respuesta.get('message')
 
-    return redirect(url_for('mod_rooms', respuesta['message']))
+    return redirect(url_for('mod_rooms', message=message))
 
 # Ruta para manejar la carga de archivos
 if __name__ == '__main__':

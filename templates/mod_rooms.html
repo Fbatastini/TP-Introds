@@ -43,6 +43,12 @@
 </form>
 </br></br>
 
+{% if mensaje %}
+
+<h4>{{mensaje}}</h4>
+
+{% endif %}
+
 {% if ingreso == 'borrar_hab'%}
 
 <form action="{{url_for('enviar_eliminacion')}}" method="post">
