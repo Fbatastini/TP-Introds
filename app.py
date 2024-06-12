@@ -222,7 +222,7 @@ def change_booking():
         val_result = conn.execute(text(query_validation))
         if val_result.rowcount == 0:
             conn.close()
-            return jsonify({'message': f"No existe la habitación número {numero_habitacion}"}), 404
+            return jsonify({'message': f"No existe la reserva id {id_reserva}"}), 404
     except SQLAlchemyError as err:
         return jsonify({'message': str(err.__cause__)}), 500
 
