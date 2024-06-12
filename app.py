@@ -116,31 +116,44 @@ def room():
 
 
 #Servicio que hace reserva:
-@app.route('/reserva', methods = ['POST'])
+@app.route('/reserva', methods=['POST'])
 def booking():   
     conn = engine.connect()
-    new_booking = request.get.json()
+    new_booking = request.get_json()
 
     cantidad_noches = new_booking['cantidad_noches']
     fecha_ingreso = new_booking['fecha_ingreso']
     fecha_salida = f"DATE_ADD('{fecha_ingreso}', INTERVAL {cantidad_noches} DAY)"
     
-    query = f"""INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
-    VALUES ({new_booking['numero_habitacion']}, {new_booking['huespedes']}, {fecha_ingreso}, {cantidad_noches}, '{new_booking['nombre']}', '{new_booking['mail']}');"""
+    query = """
+    INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
+    VALUES (:numero_habitacion, :huespedes, :fecha_ingreso, :cantidad_noches, :nombre, :mail)
+    """
     
-    validation_query = f"""
+    validation_query = """
     SELECT numero_habitacion 
     FROM reservas 
-    WHERE numero_habitacion = {new_booking['numero_habitacion']} 
-    AND DATE_ADD(fecha_ingreso, INTERVAL cantidad_noches DAY) > '{fecha_ingreso}' 
-    AND fecha_ingreso < {fecha_salida}
+    WHERE numero_habitacion = :numero_habitacion 
+    AND DATE_ADD(fecha_ingreso, INTERVAL :cantidad_noches DAY) > :fecha_ingreso 
+    AND fecha_ingreso < DATE_ADD(:fecha_ingreso, INTERVAL :cantidad_noches DAY)
     """
     
     try:
-        val_result = conn.execute(text(validation_query))
+        val_result = conn.execute(text(validation_query), {
+            'numero_habitacion': new_booking['numero_habitacion'],
+            'fecha_ingreso': fecha_ingreso,
+            'cantidad_noches': cantidad_noches
+        })
 
         if val_result.rowcount == 0:
-            result = conn.execute(text(query))
+            conn.execute(text(query), {
+                'numero_habitacion': new_booking['numero_habitacion'],
+                'huespedes': new_booking['huespedes'],
+                'fecha_ingreso': fecha_ingreso,
+                'cantidad_noches': cantidad_noches,
+                'nombre': new_booking['nombre'],
+                'mail': new_booking['mail']
+            })
             conn.commit()
             conn.close()
             return jsonify({"message": "Reserva realizada con éxito"}), 200
@@ -155,33 +168,43 @@ def booking():
 
 
 #Servicio que cancela reserva:
-@app.route('/cancelar_reserva', methods = ['DELETE'])
+@app.route('/cancelar_reserva', methods=['DELETE'])
 def cancel_booking():   
     conn = engine.connect()
-    cancel_data = request.get.json()
+    cancel_data = request.get_json()
 
-    query = f"""
+    query = """
     DELETE FROM reservas
-    WHERE numero_habitacion = {cancel_data['numero_habitacion']}
-    AND fecha_ingreso = '{cancel_data['fecha_ingreso']}'
-    AND nombre = '{cancel_data['nombre']}'
-    AND mail = '{cancel_data['mail']}'
+    WHERE numero_habitacion = :numero_habitacion
+    AND fecha_ingreso = :fecha_ingreso
+    AND nombre = :nombre
+    AND mail = :mail
     """
 
-    validation_query = f"""
+    validation_query = """
     SELECT * 
     FROM reservas 
-    WHERE numero_habitacion = {cancel_data['numero_habitacion']} 
-    AND fecha_ingreso = '{cancel_data['fecha_ingreso']}'
-    AND nombre = '{cancel_data['nombre']}'
-    AND mail = '{cancel_data['mail']}'
+    WHERE numero_habitacion = :numero_habitacion 
+    AND fecha_ingreso = :fecha_ingreso
+    AND nombre = :nombre
+    AND mail = :mail
     """
 
     try:
-        val_result = conn.execute(text(validation_query))
+        val_result = conn.execute(text(validation_query), {
+            'numero_habitacion': cancel_data['numero_habitacion'],
+            'fecha_ingreso': cancel_data['fecha_ingreso'],
+            'nombre': cancel_data['nombre'],
+            'mail': cancel_data['mail']
+        })
 
         if val_result.rowcount > 0:
-            result = conn.execute(text(query))
+            conn.execute(text(query), {
+                'numero_habitacion': cancel_data['numero_habitacion'],
+                'fecha_ingreso': cancel_data['fecha_ingreso'],
+                'nombre': cancel_data['nombre'],
+                'mail': cancel_data['mail']
+            })
             conn.commit()
             conn.close()
             return jsonify({"message": "Reserva cancelada con éxito"}), 200
