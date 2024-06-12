@@ -15,7 +15,7 @@ def disponibility(engine):
     try:
         fecha_ingreso = datetime.strptime(consulta['fecha_ingreso'], '%Y-%m-%d')
     except Exception:
-        return jsonify({'message': 'La fecha ingresada no existe.'})
+        return jsonify({'message': 'La fecha ingresada no existe.'}), 400
 
     noches = consulta['cantidad_noches']
     fecha_salida = fecha_ingreso + timedelta(days=int(noches) + 1)
@@ -82,9 +82,9 @@ def verificar_usuario(user, password, engine):
         result = conn.execute(text(query))
         conn.close()
     except SQLAlchemyError as e:
-        return jsonify(str(e.__cause__))
+        return jsonify(str(e.__cause__)), 500
 
     if result.rowcount != 0:
         return jsonify({'message':'exists'}), 200
     else:
-        return jsonify({'message':'does not exist'})
+        return jsonify({'message':'does not exist'}), 404

@@ -99,7 +99,7 @@ def delete_contact(engine):
                 {"message": f"La consulta número {id} no existe."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__))
+        return jsonify(str(err.__cause__)), 500
     return jsonify(
         {'message': 'Se ha eliminado correctamente'}
         ), 202

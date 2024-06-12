@@ -46,7 +46,7 @@ def booking(engine):
             conn.close()
             return jsonify(
                 {"message": "Reserva realizada con éxito"}
-                ), 200
+                ), 201
         else:
             conn.close()
             return jsonify(
@@ -129,7 +129,7 @@ def cancel_booking(engine):
             conn.close()
             return jsonify(
                 {"message": "Reserva cancelada con éxito"}
-                ), 200
+                ), 202
         else:
             conn.close()
             return jsonify(

@@ -64,7 +64,7 @@ def create_room(engine):
                 {"message": f"La habitacion número {new_room['numero']} ya existe."}
                 ), 400
     except SQLAlchemyError as err:
-        return jsonify({'message': f'Se ha producido un error: {err}'})
+        return jsonify({'message': f'Se ha producido un error: {err}'}), 500
 
     return jsonify(
         {'message': 'Se ha agregado correctamente'}
@@ -96,7 +96,7 @@ def delete_room(engine):
                 {"message": f"La habitacion número {del_room['numero']} no existe."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__))
+        return jsonify(str(err.__cause__)), 500
     return jsonify(
         {'message': 'Se ha eliminado correctamente'}
         ), 202
@@ -132,7 +132,7 @@ def change_price(engine):
 
     return jsonify(
         {'message': 'Se ha modificado correctamente'}
-        ), 200
+        ), 201
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
