@@ -1,10 +1,15 @@
 from flask import jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from flask import Blueprint
+from config import engine
 
+# Create a blueprint
+contact_bp = Blueprint('contact', __name__)
 
 #Servicio que muestre datos de consultas:
-def contacts(engine):
+@contact_bp.route('/contactos', methods=['GET'])
+def contacts():
     conn = engine.connect()
     query = """
         SELECT * FROM contactos;
@@ -30,7 +35,8 @@ def contacts(engine):
     
 
 #Servicio que agrega el mensaje con su nombre mail y asunto a la tabla de contactos.
-def create_contact(engine):
+@contact_bp.route('/agregar_contacto', methods = ['POST'])
+def create_contact():
     conn = engine.connect()
     contacto = request.get_json()
     query = f"""
@@ -70,7 +76,9 @@ def create_contact(engine):
         ), 200
 
 
-def delete_contact(engine):
+#Servicio que elimina el mensaje de la tabla de contactos.
+@contact_bp.route('/eliminar_contacto', methods = ['DELETE'])
+def delete_contact():
     conn = engine.connect()
     del_cont = request.get_json()
     id = del_cont.get('id',None)
@@ -96,7 +104,7 @@ def delete_contact(engine):
         else:
             conn.close()
             return jsonify(
-                {"message": f"La consulta número {id} no existe."}
+                {"message": f"La consulta numero {id} no existe."}
                 ), 404
     except SQLAlchemyError as err:
         return jsonify(str(err.__cause__)), 500

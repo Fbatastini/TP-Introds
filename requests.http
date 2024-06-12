@@ -7,8 +7,9 @@ GET http://localhost:5001/disponibilidad?huespedes=2&fecha_ingreso=2023-06-15&ca
 ### Verify User
 GET http://localhost:5001/user/username/password
 
-# ----- BOOKINGS
 
+
+# ----- BOOKINGS
 ### Get Bookings
 GET http://localhost:5001/reservas
 
@@ -47,6 +48,7 @@ Content-Type: application/json
 }
 
 
+
 # ----- ROOMS
 ### Get Rooms
 GET http://localhost:5001/habitaciones
@@ -56,11 +58,11 @@ POST http://localhost:5001/agregar_habitacion
 Content-Type: application/json
 
 {
-    "numero": 201,
-    "precio": 99.99,
+    "numero": 206,
+    "precio": 200,
     "capacidad": 2,
-    "descripcion": "Habitación doble con vista al jardín",
-    "promocion": "Oferta de verano"
+    "descripcion": "Habitacion doble con vista al jardin",
+    "promocion": "Oferta de invierno"
 }
 
 ### Delete room
@@ -68,7 +70,7 @@ DELETE http://localhost:5001/eliminar_habitacion
 Content-Type: application/json
 
 {
-    "numero": 201
+    "numero": 205
 }
 
 
@@ -81,10 +83,10 @@ POST http://localhost:5001/agregar_contacto
 Content-Type: application/json
 
 {
-    "nombre": "El Manu",
-    "mail": "manu@example.com",
+    "nombre": "El Steven",
+    "mail": "steven@example.com",
     "asunto": "Consulta sobre reservas",
-    "mensaje": "Tengo una duda sobre las políticas de cancelación, son raras..."
+    "mensaje": "Tengo una duda sobre las politicas de cancelacion"
 }
 
 ### Delete Contact

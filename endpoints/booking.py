@@ -3,8 +3,15 @@
 from flask import jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from config import engine
 
-def booking(engine):
+from flask import Blueprint
+
+# Crea la blueprint del booking
+booking_bp = Blueprint('booking', __name__)
+
+@booking_bp.route('/reserva', methods=['POST'])
+def booking():
     """Realiza una reserva en la base de datos."""
     conn = engine.connect()
     new_booking = request.get_json()
@@ -45,12 +52,12 @@ def booking(engine):
             conn.commit()
             conn.close()
             return jsonify(
-                {"message": "Reserva realizada con éxito"}
+                {"message": "Reserva realizada con exito"}
                 ), 201
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitación número {new_booking['numero_habitacion']} ya se encuentra reservada en las fechas seleccionadas"}
+                {"message": f"La habitacion numero {new_booking['numero_habitacion']} ya se encuentra reservada en las fechas seleccionadas"}
                 ), 400
     except Exception as e:
         conn.close()
@@ -60,7 +67,8 @@ def booking(engine):
 
 
 #Servicio que muestre datos de reservas:
-def bookings(engine):
+@booking_bp.route('/reservas', methods=['GET'])
+def bookings():
     conn = engine.connect()
     query = """
         SELECT * FROM reservas;
@@ -88,7 +96,8 @@ def bookings(engine):
 
 
 #Servicio que cancela reserva:
-def cancel_booking(engine):
+@booking_bp.route('/cancelar_reserva', methods=['DELETE'])
+def cancel_booking():
     """"""
     conn = engine.connect()
     cancel_data = request.get_json()
@@ -133,7 +142,7 @@ def cancel_booking(engine):
         else:
             conn.close()
             return jsonify(
-                {"message": "No se encontró una reserva con los datos proporcionados"}
+                {"message": "No se encontro una reserva con los datos proporcionados"}
                 ), 404
     except Exception as e:
         conn.close()
@@ -143,7 +152,8 @@ def cancel_booking(engine):
 
 
 #Servicio que cambia cantidad de noches, o dia de check in:
-def change_booking(engine):
+@booking_bp.route('/cambiar_reserva', methods=['PATCH'])
+def change_booking():
     conn = engine.connect()
     mod_booking_data = request.get_json()
 
@@ -161,7 +171,7 @@ def change_booking(engine):
         if val_result.rowcount == 0:
             conn.close()
             return jsonify(
-                {'message': f"No existe la habitación número {room_number}"}
+                {'message': f"No existe la habitacion numero {room_number}"}
                 ), 404
     except SQLAlchemyError as err:
         return jsonify(

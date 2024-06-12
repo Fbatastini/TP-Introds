@@ -1,10 +1,14 @@
-from flask import jsonify, request
+from flask import jsonify, request, Blueprint
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime, timedelta, date
+from config import engine
 
+verifications_bp = Blueprint('verifications', __name__)
 
-def disponibility(engine):
+#Servicio que consulta disponibilidad:
+@verifications_bp.route('/disponibilidad', methods = ['GET'])
+def disponibility():
     """Consulta la disponibilidad de habitaciones en una fecha y cantidad de noches dadas."""
     conn = engine.connect()
 
@@ -68,7 +72,9 @@ def disponibility(engine):
     return jsonify(disponibilidad), 200
 
 
-def verificar_usuario(user, password, engine):
+#Servicio que verifica si existe el usuario y su contraseña:
+@verifications_bp.route('/user/<user>/<password>', methods=['GET'])
+def verificar_usuario(user, password):
     """Verifica si el usuario y contraseña existen en la base de datos."""
     conn = engine.connect()
 

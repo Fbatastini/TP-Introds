@@ -2,9 +2,15 @@
 from flask import jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from config import engine
+from flask import Blueprint
 
-# Servicio que muestra las habitaciones disponibles:
-def room(engine):
+# Create a blueprint
+room_bp = Blueprint('room', __name__)
+
+# # Servicio que muestra las habitaciones disponibles:
+@room_bp.route('/habitaciones', methods=['GET'])
+def room():
     """Muestra los datos de las habitaciones disponibles."""
     conn = engine.connect()
     query = """
@@ -29,10 +35,11 @@ def room(engine):
         return jsonify(
             {'message': f'Error al obtener datos de habitaciones: {str(e)}'}
             ), 500
-    
+
 
 #Servicio que agrega habitacion(admin):
-def create_room(engine):
+@room_bp.route('/agregar_habitacion', methods = ['POST'])
+def create_room():
     conn = engine.connect()
     new_room = request.get_json()
 
@@ -61,7 +68,7 @@ def create_room(engine):
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion número {new_room['numero']} ya existe."}
+                {"message": f"La habitacion numero {new_room['numero']} ya existe."}
                 ), 400
     except SQLAlchemyError as err:
         return jsonify({'message': f'Se ha producido un error: {err}'}), 500
@@ -72,7 +79,8 @@ def create_room(engine):
 
 
 #Servicio que elimina habitacion(admin):
-def delete_room(engine):
+@room_bp.route('/eliminar_habitacion', methods = ['DELETE'])
+def delete_room():
     conn = engine.connect()
     del_room = request.get_json()
 
@@ -93,7 +101,7 @@ def delete_room(engine):
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion número {del_room['numero']} no existe."}
+                {"message": f"La habitacion numero {del_room['numero']} no existe."}
                 ), 404
     except SQLAlchemyError as err:
         return jsonify(str(err.__cause__)), 500
@@ -103,7 +111,8 @@ def delete_room(engine):
 
 
 #Servicio que cambia el precio de una habitacion(modo admin):
-def change_price(engine):
+@room_bp.route('/cambiar_precio', methods = ['PATCH'])
+def change_price():
     conn = engine.connect()
     mod_room_price = request.get_json()
 
@@ -125,7 +134,7 @@ def change_price(engine):
         else:
             conn.close()
             return jsonify(
-                {'message': f"No existe la habitacion número {mod_room_price['numero']}"}
+                {'message': f"No existe la habitacion numero {mod_room_price['numero']}"}
                 ), 404
     except SQLAlchemyError as err:
         return jsonify({'message': str(err.__cause__)})
@@ -136,7 +145,8 @@ def change_price(engine):
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
-def change_promo(engine):
+@room_bp.route('/cambiar_promocion', methods=['PATCH'])
+def change_promo():
     try:
         # Obtener datos de la solicitud PATCH
         data = request.get_json()
@@ -146,7 +156,7 @@ def change_promo(engine):
         # Validar que los datos requeridos estén presentes
         if not numero_habitacion or not nueva_promocion:
             return jsonify(
-                {'message': 'Se requieren el número de habitación y la nueva promoción.'}
+                {'message': 'Se requieren el numero de habitacion y la nueva promocion.'}
                 ), 400
 
         # Actualizar la promoción en la base de datos
@@ -160,10 +170,10 @@ def change_promo(engine):
         conn.close()
 
         return jsonify(
-            {'message': f'Promoción actualizada para la habitación {numero_habitacion}.'}
+            {'message': f'Promocion actualizada para la habitacion {numero_habitacion}.'}
             ), 200
 
     except Exception as e:
         return jsonify(
-            {'message': f'Error al actualizar la promoción: {str(e)}'}
+            {'message': f'Error al actualizar la promocion: {str(e)}'}
             ), 500
