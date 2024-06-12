@@ -18,7 +18,6 @@ def booking():
 
     cantidad_noches = new_booking['cantidad_noches']
     fecha_ingreso = new_booking['fecha_ingreso']
-    # fecha_salida = f"DATE_ADD('{fecha_ingreso}', INTERVAL {cantidad_noches} DAY)"
 
     query = """
         INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
@@ -98,41 +97,29 @@ def bookings():
 #Servicio que cancela reserva:
 @booking_bp.route('/cancelar_reserva', methods=['DELETE'])
 def cancel_booking():
-    """"""
+    """Cancela reserva de la db a partir de id"""
     conn = engine.connect()
     cancel_data = request.get_json()
 
     query = """
         DELETE FROM reservas
-        WHERE numero_habitacion = :numero_habitacion
-        AND fecha_ingreso = :fecha_ingreso
-        AND nombre = :nombre
-        AND mail = :mail
+        WHERE id = :id
     """
 
     validation_query = """
         SELECT *
         FROM reservas
-        WHERE numero_habitacion = :numero_habitacion
-        AND fecha_ingreso = :fecha_ingreso
-        AND nombre = :nombre
-        AND mail = :mail
+        WHERE id = :id
     """
 
     try:
         val_result = conn.execute(text(validation_query), {
-            'numero_habitacion': cancel_data['numero_habitacion'],
-            'fecha_ingreso': cancel_data['fecha_ingreso'],
-            'nombre': cancel_data['nombre'],
-            'mail': cancel_data['mail']
+            'id': cancel_data['id']
         })
 
         if val_result.rowcount > 0:
             conn.execute(text(query), {
-                'numero_habitacion': cancel_data['numero_habitacion'],
-                'fecha_ingreso': cancel_data['fecha_ingreso'],
-                'nombre': cancel_data['nombre'],
-                'mail': cancel_data['mail']
+                'id': cancel_data['id']
             })
             conn.commit()
             conn.close()
@@ -142,7 +129,7 @@ def cancel_booking():
         else:
             conn.close()
             return jsonify(
-                {"message": "No se encontro una reserva con los datos proporcionados"}
+                {"message": "No se encontro una reserva con el ID proporcionado"}
                 ), 404
     except Exception as e:
         conn.close()
