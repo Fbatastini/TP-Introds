@@ -174,42 +174,30 @@ def cancel_booking():
 
     query = """
     DELETE FROM reservas
-    WHERE numero_habitacion = :numero_habitacion
-    AND fecha_ingreso = :fecha_ingreso
-    AND nombre = :nombre
-    AND mail = :mail
+    WHERE id = :id
     """
 
     validation_query = """
     SELECT * 
     FROM reservas 
-    WHERE numero_habitacion = :numero_habitacion 
-    AND fecha_ingreso = :fecha_ingreso
-    AND nombre = :nombre
-    AND mail = :mail
+    WHERE id = :id
     """
 
     try:
         val_result = conn.execute(text(validation_query), {
-            'numero_habitacion': cancel_data['numero_habitacion'],
-            'fecha_ingreso': cancel_data['fecha_ingreso'],
-            'nombre': cancel_data['nombre'],
-            'mail': cancel_data['mail']
+            'id': cancel_data['id']
         })
 
         if val_result.rowcount > 0:
             conn.execute(text(query), {
-                'numero_habitacion': cancel_data['numero_habitacion'],
-                'fecha_ingreso': cancel_data['fecha_ingreso'],
-                'nombre': cancel_data['nombre'],
-                'mail': cancel_data['mail']
+                'id': cancel_data['id']
             })
             conn.commit()
             conn.close()
             return jsonify({"message": "Reserva cancelada con éxito"}), 200
         else:
             conn.close()
-            return jsonify({"message": "No se encontró una reserva con los datos proporcionados"}), 404
+            return jsonify({"message": "No se encontró una reserva con el ID proporcionado"}), 404
     except Exception as e:
         conn.close()
         return jsonify({"message": f"Error al cancelar la reserva: {str(e)}"}), 500
