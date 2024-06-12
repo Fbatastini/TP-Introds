@@ -221,6 +221,17 @@ def enviar_promocion():
 
     return redirect(url_for('mod_rooms', message=message))
 
+#---------------------------------------------- ErrorHandlers ---------------------------------------------------
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html'), 500
+
+
 # Ruta para manejar la carga de archivos
 if __name__ == '__main__':
     app.run(debug=True)
