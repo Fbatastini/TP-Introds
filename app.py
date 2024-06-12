@@ -211,12 +211,13 @@ def change_booking():
     conn = engine.connect()
     mod_booking_data = request.get_json()
 
+    id_reserva = mod_booking_data.get('id')
     numero_habitacion = mod_booking_data.get('numero_habitacion')
     nueva_fecha_ingreso = mod_booking_data.get('nueva_fecha_ingreso')
     nuevas_noches = mod_booking_data.get('nuevas_noches')
 
     # Validar si la habitación existe en la base de datos
-    query_validation = f"SELECT * FROM habitaciones WHERE numero = {numero_habitacion};"
+    query_validation = f"SELECT * FROM reservas WHERE id = {id_reserva};"
     try:
         val_result = conn.execute(text(query_validation))
         if val_result.rowcount == 0:
@@ -228,7 +229,7 @@ def change_booking():
     # Actualizar la reserva
     query = f"""UPDATE reservas
                 SET fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
-                WHERE id = {id};"""
+                WHERE id = {id_reserva};"""
     try:
         result = conn.execute(text(query))
         conn.commit()
