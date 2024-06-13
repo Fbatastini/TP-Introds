@@ -7,9 +7,9 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
 # Local dev
-API_URL = 'http://127.0.0.1:5001'
+# API_URL = 'http://127.0.0.1:5001'
 # Docker
-# API_URL = ' http://api:5001'
+API_URL = ' http://api:5001'
 
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
