@@ -1,11 +1,6 @@
-.newsletter {
-  position: relative;
-  z-index: 1;
-}
-
 .footer {
   position: relative;
-  margin-top: -110px;
+  margin-top: 110px;
   padding-top: 180px;
 }
 
@@ -71,4 +66,8 @@
   margin-right: 0;
   padding-right: 0;
   border-right: none;
+}
+
+.footer-list{
+  margin-top: 94px;
 }

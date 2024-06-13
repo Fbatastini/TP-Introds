@@ -52,9 +52,17 @@ def booking():
         return redirect(url_for('confirmacion'))
     return render_template('booking.html')
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html')
+    if request.method == 'GET':
+        return render_template('contact.html')
+    
+    name = request.form['name']
+    email = request.form['email']
+    subject = request.form['subject']
+    message = request.form['message']
+
+    return redirect(url_for('index'))
 
 @app.route('/room')
 def room():

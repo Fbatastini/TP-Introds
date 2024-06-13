@@ -18,12 +18,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -45,12 +45,12 @@
                 Discover A Brand Luxurious Hotel
               </h1>
               <a
-                href=""
+                href="{{url_for('room')}}"
                 class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                 >Our Rooms</a
               >
               <a
-                href=""
+                href="{{url_for('booking')}}"
                 class="btn btn-light py-md-3 px-md-5 animated slideInRight"
                 >Book A Room</a
               >
@@ -148,16 +148,20 @@
             Welcome to <span class="text-primary text-uppercase">Hotelier</span>
           </h1>
           <p class="mb-4">
-            Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu
-            diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet
-            lorem sit clita duo justo magna dolore erat amet
+            Experience timeless elegance and unparalleled comfort at Hotelier. 
+            Our beautifully designed rooms provide a serene retreat, featuring 
+            luxurious amenities and modern conveniences. Whether you're traveling 
+            for business or pleasure, our dedicated staff ensures every moment of 
+            your stay is exceptional. Indulge in gourmet dining, relax in our 
+            tranquil spa, and explore the vibrant city just outside our doors. At 
+            Hotelier, we transform every stay into a cherished memory.
           </p>
           <div class="row g-3 pb-4">
             <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
               <div class="border rounded p-1">
                 <div class="border rounded text-center p-4">
                   <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
-                  <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                  <h2 class="mb-1" data-toggle="counter-up">856</h2>
                   <p class="mb-0">Rooms</p>
                 </div>
               </div>
@@ -166,7 +170,7 @@
               <div class="border rounded p-1">
                 <div class="border rounded text-center p-4">
                   <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
-                  <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                  <h2 class="mb-1" data-toggle="counter-up">698</h2>
                   <p class="mb-0">Staffs</p>
                 </div>
               </div>
@@ -175,13 +179,13 @@
               <div class="border rounded p-1">
                 <div class="border rounded text-center p-4">
                   <i class="fa fa-users fa-2x text-primary mb-2"></i>
-                  <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                  <h2 class="mb-1" data-toggle="counter-up">58637</h2>
                   <p class="mb-0">Clients</p>
                 </div>
               </div>
             </div>
           </div>
-          <a class="btn btn-primary py-3 px-5 mt-2" href="">Explore More</a>
+          <a class="btn btn-primary py-3 px-5 mt-2" href="{{url_for('about')}}">Explore More</a>
         </div>
         <div class="col-lg-6">
           <div class="row g-3">
@@ -255,22 +259,21 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>1 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Indulge in our Junior Suite, where elegance meets comfort. Enjoy spacious accommodations adorned with modern amenities, perfect for a relaxing retreat.
               </p>
               <div class="d-flex justify-content-between">
-                <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
+                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{{url_for('booking')}}"
                   >View Detail</a
                 >
-                <a class="btn btn-sm btn-dark rounded py-2 px-4" href=""
+                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
                   >Book Now</a
                 >
               </div>
@@ -283,7 +286,7 @@
               <img class="img-fluid" src="{{ url_for('static', filename='img/room-2.jpg')}}" alt="" />
               <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                >$100/Night</small
+                >$250/Night</small
               >
             </div>
             <div class="p-4 mt-2">
@@ -299,16 +302,15 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>2 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Experience luxury redefined in our Executive Suite. Unwind in style with meticulously designed interiors, personalized service, and exclusive access to premium facilities.
               </p>
               <div class="d-flex justify-content-between">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
@@ -327,7 +329,7 @@
               <img class="img-fluid" src="{{ url_for('static', filename='img/room-3.jpg')}}" alt="" />
               <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                >$100/Night</small
+                >$400/Night</small
               >
             </div>
             <div class="p-4 mt-2">
@@ -343,16 +345,15 @@
               </div>
               <div class="d-flex mb-3">
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
+                  ><i class="fa fa-bed text-primary me-2"></i>2 Bed</small
                 >
                 <small class="border-end me-3 pe-3"
-                  ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
+                  ><i class="fa fa-bath text-primary me-2"></i>3 Bath</small
                 >
                 <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
               </div>
               <p class="text-body mb-3">
-                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-                sed diam stet diam sed stet lorem.
+                Elevate your stay with our Super Deluxe Room, a sanctuary of opulence and sophistication. Immerse yourself in lavish comfort and unparalleled service for an unforgettable escape.
               </p>
               <div class="d-flex justify-content-between">
                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href=""
@@ -370,12 +371,12 @@
   </div>
   <!-- Room End -->
 
-  <!-- Video Start -->
-  <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
+  <!-- Luxury living -->
+  <div class="container-fluid py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
     <div class="row g-0">
-      <div class="col-md-6 bg-dark d-flex align-items-center">
-        <div class="p-5">
-          <h6 class="section-title text-start text-white text-uppercase mb-3">
+      <div class="col-12 bg-dark d-flex align-items-center justify-content-center">
+        <div class="p-5 w-100 text-center">
+          <h6 class="section-title text-white text-uppercase mb-3">
             Luxury Living
           </h6>
           <h1 class="text-white mb-4">Discover A Brand Luxurious Hotel</h1>
@@ -384,61 +385,13 @@
             diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet
             lorem sit clita duo justo magna dolore erat amet
           </p>
-          <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-          <a href="" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="video">
-          <button
-            type="button"
-            class="btn-play"
-            data-bs-toggle="modal"
-            data-src="https://www.youtube.com/embed/DWRcNpR6Kdc"
-            data-bs-target="#videoModal"
-          >
-            <span></span>
-          </button>
+          <a href="{{url_for('room')}}" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
+          <a href="{{url_for('booking')}}" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
         </div>
       </div>
     </div>
   </div>
-
-  <div
-    class="modal fade"
-    id="videoModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content rounded-0">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <!-- 16:9 aspect ratio -->
-          <div class="ratio ratio-16x9">
-            <iframe
-              class="embed-responsive-item"
-              src=""
-              id="video"
-              allowfullscreen
-              allowscriptaccess="always"
-              allow="autoplay"
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Video Start -->
+    
 
   <!-- Service Start -->
   <div class="container-xxl py-5">
@@ -463,8 +416,7 @@
             </div>
             <h5 class="mb-3">Rooms & Appartment</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Experience comfort and luxury in our thoughtfully designed rooms and apartments, each equipped with modern amenities to ensure a delightful stay.
             </p>
           </a>
         </div>
@@ -479,8 +431,7 @@
             </div>
             <h5 class="mb-3">Food & Restaurant</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Indulge your palate with exquisite culinary creations at our restaurant, offering a diverse menu of local and international dishes crafted with the freshest ingredients.
             </p>
           </a>
         </div>
@@ -495,8 +446,7 @@
             </div>
             <h5 class="mb-3">Spa & Fitness</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Rejuvenate your body and mind at our spa and fitness center, where expert therapists and state-of-the-art facilities await to help you unwind and revitalize.
             </p>
           </a>
         </div>
@@ -511,8 +461,7 @@
             </div>
             <h5 class="mb-3">Sports & Gaming</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Embrace your competitive spirit with our array of sports and gaming activities, from tennis and volleyball to exciting indoor games, promising endless fun for guests of all ages.
             </p>
           </a>
         </div>
@@ -527,8 +476,7 @@
             </div>
             <h5 class="mb-3">Event & Party</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Create unforgettable memories with your loved ones at our event and party venues, ideal for weddings, corporate gatherings, or any special occasion, complete with impeccable service and stunning surroundings.
             </p>
           </a>
         </div>
@@ -543,8 +491,7 @@
             </div>
             <h5 class="mb-3">GYM & Yoga</h5>
             <p class="text-body mb-0">
-              Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
-              sed diam stet diam sed stet lorem.
+              Nourish your wellness journey with our fully-equipped gym and yoga studio, offering invigorating workouts and serene sessions led by experienced instructors to enhance your physical and mental well-being.
             </p>
           </a>
         </div>
@@ -564,9 +511,7 @@
           class="testimonial-item position-relative bg-white rounded overflow-hidden"
         >
           <p>
-            Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum
-            rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd
-            kasd et erat magna eos
+            “Lovely hotel with a wonderful restaurant. Very friendly staff. The hotel is well maintained. Just a charming place.”
           </p>
           <div class="d-flex align-items-center">
             <img
@@ -575,8 +520,8 @@
               style="width: 45px; height: 45px"
             />
             <div class="ps-3">
-              <h6 class="fw-bold mb-1">Client Name</h6>
-              <small>Profession</small>
+              <h6 class="fw-bold mb-1">Devora Smith</h6>
+              <small>Lawyer</small>
             </div>
           </div>
           <i
@@ -587,9 +532,7 @@
           class="testimonial-item position-relative bg-white rounded overflow-hidden"
         >
           <p>
-            Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum
-            rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd
-            kasd et erat magna eos
+            "The rooms were clean, very comfortable, and the staff was amazing. They went over and beyond to help make our stay enjoyable. I highly recommend this hotel for anyone visiting downtown."
           </p>
           <div class="d-flex align-items-center">
             <img
@@ -598,8 +541,8 @@
               style="width: 45px; height: 45px"
             />
             <div class="ps-3">
-              <h6 class="fw-bold mb-1">Client Name</h6>
-              <small>Profession</small>
+              <h6 class="fw-bold mb-1">Charles Williams</h6>
+              <small>Professional Athlete</small>
             </div>
           </div>
           <i
@@ -610,19 +553,17 @@
           class="testimonial-item position-relative bg-white rounded overflow-hidden"
         >
           <p>
-            Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum
-            rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd
-            kasd et erat magna eos
+            “I had a wonderful experience at the hotel. Every staff member I encountered, from the valet to the check-in to the cleaning staff, were delightful and eager to help! Thank you! Will recommend to my colleagues!”
           </p>
           <div class="d-flex align-items-center">
             <img
               class="img-fluid flex-shrink-0 rounded"
-              src="{{ url_for('static', filename='img/testimonial-3.jpg')}}"
+              src="{{ url_for('static', filename='img/testimonial-4.jpg')}}"
               style="width: 45px; height: 45px"
             />
             <div class="ps-3">
-              <h6 class="fw-bold mb-1">Client Name</h6>
-              <small>Profession</small>
+              <h6 class="fw-bold mb-1">Catherine Johnson</h6>
+              <small>IT Engineer</small>
             </div>
           </div>
           <i
@@ -650,23 +591,10 @@
           <div class="rounded shadow overflow-hidden">
             <div class="position-relative">
               <img class="img-fluid" src="{{ url_for('static', filename='img/team-1.jpg')}}" alt="" />
-              <div
-                class="position-absolute start-50 top-100 translate-middle d-flex align-items-center"
-              >
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
             </div>
             <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
+              <h5 class="fw-bold mb-0">Michael Brown</h5>
+              <small>Front Office Manager</small>
             </div>
           </div>
         </div>
@@ -674,23 +602,10 @@
           <div class="rounded shadow overflow-hidden">
             <div class="position-relative">
               <img class="img-fluid" src="{{ url_for('static', filename='img/team-2.jpg')}}" alt="" />
-              <div
-                class="position-absolute start-50 top-100 translate-middle d-flex align-items-center"
-              >
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
             </div>
             <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
+              <h5 class="fw-bold mb-0">Thomas Anderson</h5>
+              <small>Head of Housekeeping</small>
             </div>
           </div>
         </div>
@@ -698,23 +613,10 @@
           <div class="rounded shadow overflow-hidden">
             <div class="position-relative">
               <img class="img-fluid" src="{{ url_for('static', filename='img/team-3.jpg')}}" alt="" />
-              <div
-                class="position-absolute start-50 top-100 translate-middle d-flex align-items-center"
-              >
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
             </div>
             <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
+              <h5 class="fw-bold mb-0">David Johnson</h5>
+              <small>Chief Concierge</small>
             </div>
           </div>
         </div>
@@ -722,23 +624,10 @@
           <div class="rounded shadow overflow-hidden">
             <div class="position-relative">
               <img class="img-fluid" src="{{ url_for('static', filename='img/team-4.jpg')}}" alt="" />
-              <div
-                class="position-absolute start-50 top-100 translate-middle d-flex align-items-center"
-              >
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="btn btn-square btn-primary mx-1" href=""
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
             </div>
             <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
+              <h5 class="fw-bold mb-0">John Smith</h5>
+              <small>General Manager</small>
             </div>
           </div>
         </div>
@@ -746,36 +635,5 @@
     </div>
   </div>
   <!-- Team End -->
-
-  <!-- Newsletter Start -->
-  <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="row justify-content-center">
-      <div class="col-lg-10 border rounded p-1">
-        <div class="border rounded text-center p-1">
-          <div class="bg-white rounded text-center p-5">
-            <h4 class="mb-4">
-              Subscribe Our
-              <span class="text-primary text-uppercase">Newsletter</span>
-            </h4>
-            <div class="position-relative mx-auto" style="max-width: 400px">
-              <input
-                class="form-control w-100 py-3 ps-4 pe-5"
-                type="text"
-                placeholder="Enter your email"
-              />
-              <button
-                type="button"
-                class="btn btn-primary py-2 px-3 position-absolute top-0 end-0 mt-2 me-2"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Newsletter Start -->
-
   
 {% endblock content %}

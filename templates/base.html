@@ -7,12 +7,6 @@
     <meta content="" name="keywords" />
     <meta content="" name="description" />
 
-    <!-- Favicon -->
-    <link
-      href="{{ url_for('static', filename='img/favicon.ico')}}"
-      rel="icon"
-    />
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,6 +50,9 @@
       href="{{url_for('static', filename='css/style.css')}}"
       rel="stylesheet"
     />
+
+    <!-- MAPA -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
   </head>
 
   <body>
@@ -86,5 +83,9 @@
 
     <!-- Template Javascript -->
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+    <!-- Map JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{url_for('static', filename='js/map.js')}}"></script>
   </body>
 </html>
