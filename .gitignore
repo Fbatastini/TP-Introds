@@ -8,5 +8,3 @@ database
 __pycache__
 public
 .dist
-
-db
