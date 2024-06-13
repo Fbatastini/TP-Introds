@@ -7,10 +7,11 @@
     <col style ="background-color:(#0F172B)">
     </colgroup>
     <tr>
-        <th>Name</th>
-        <th class="columna-par">email</th>
-        <th>Date</th>
-        <th class="columna-par">Comment</th>
+        <th>Id</th>
+        <th class="columna-par">Name</th>
+        <th>Email</th>
+        <th class="columna-par">Subject</th>
+        <th>Comment</th>
 
     </tr>
 
@@ -18,10 +19,9 @@
     <tr>
         <td>{{comentario['id']}}</td>
         <td class="columna-par">{{comentario['nombre']}}</td>
-        <td>{{comentario['mail']}}</td>
-        <td class="columna-par">{{comentario['fecha']}}</td>
-        <td>{{comentario['asunto']}}</td>
-        <td class="columna-par-comentario">{{comentario['mensaje']}}</td>
+        <td>{{comentario['mail']}}</td>   
+        <td class="columna-par-comentario">{{comentario['asunto']}}</td>
+        <td>{{comentario['mensaje']}}</td>
     </tr>
     {% endfor %}
 </table>

@@ -1,10 +1,7 @@
 {% extends "base.html" %} {% block content %}
 
 <!-- Page Header Start -->
-<div 
-class="container-fluid page-header mb-5 p-0" 
-style="background-image: url('/static/img/carousel-1.jpg')"
->
+<div class="container-fluid page-header mb-5 p-0" style="background-image: url('/static/img/carousel-1.jpg')">
   <div class="container-fluid page-header-inner py-5">
     <div class="container text-center pb-5">
       <h1 class="display-3 text-white mb-3 animated slideInDown">Contact</h1>
@@ -22,62 +19,14 @@ style="background-image: url('/static/img/carousel-1.jpg')"
 </div>
 <!-- Page Header End -->
 
-<!-- Booking Start -->
-<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
-  <div class="container">
-    <div class="bg-white shadow" style="padding: 35px">
-      <div class="row g-2">
-        <div class="col-md-10">
-          <div class="row g-2" style="justify-content: center;">
-            <div class="col-md-3">
-              <div class="date" id="date1" data-target-input="nearest">
-                <input
-                  type="text"
-                  class="form-control datetimepicker-input"
-                  placeholder="Check in"
-                  data-target="#date1"
-                  data-toggle="datetimepicker"
-                />
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="date" id="date2" data-target-input="nearest">
-                <input
-                  type="text"
-                  class="form-control datetimepicker-input"
-                  placeholder="Nights"
-                  data-target="#date2"
-                  data-toggle="datetimepicker"
-                />
-              </div>
-            </div>
-            <div class="col-md-3">
-              <select class="form-select">
-                <option selected>Guests</option>
-                <option value="1">Guest 1</option>
-                <option value="2">Guest 2</option>
-                <option value="3">Guest 3</option>
-                <option value="4">Guest 4</option>
-                <option value="5">Guest 5</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary w-100">Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Booking End -->
+{% include 'components/disponibility.html' %}
 
 <!-- Contact Start -->
 <div class="container-xxl py-5">
   <div class="container">
-    <div class="text-center wow fadeInUp" data-wow-delay="0.1s" >
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
       <!-- Aplicar clase para el estilo azul -->
-      <div class="contact-header text-center text-uppercase" >
+      <div class="contact-header text-center text-uppercase">
         <h1 class="section-title text-blue">Contact Us</h1>
         <h1 class="text-blue mb-5">hotelierdtt@gmail.com</h1>
       </div>
@@ -87,92 +36,78 @@ style="background-image: url('/static/img/carousel-1.jpg')"
         <div class="row gy-4">
           <div class="col-md-4">
           </div>
-          </div>
-        </div>
-      </div>
-      <!-- Principal Conteiner -->
-  <div class="container my-5">
-  <!-- Flexbox Conteiner to centry elements -->
-    <div class="d-flex justify-content-center align-items-center">
-      <!--Map-->
-    <div class="container">
-      <div class="row"></div>
-      <div class="col-lg-6 col-md-12 wow fadeIn" data-wow-delay="0.1s">
-        <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.6795880065756!2d-73.98409732457462!3d40.76907147138513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258f66d739287%3A0x3e335c4bb2b6fff!2sTrump%20International%20Hotel%20%26%20Tower%20New%20York!5e0!3m2!1ses!2sar!4v1717539881219!5m2!1ses!2sar" 
-        width="500" height="400"
-        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-
-      <!--Form-->
-      <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.2s">
-        <div class="wow fadeInUp" data-wow-delay="0.2s">
-          <form action="{{url_for('contact')}}" method="post">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    id="name"
-                    placeholder="Your Name"
-                    required
-                  />
-                  <label for="name">Your Name</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="email"
-                    name="email"
-                    class="form-control"
-                    id="email"
-                    placeholder="Your Email"
-                    required
-                  />
-                  <label for="email">Your Email</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    name="subject"
-                    class="form-control"
-                    id="subject"
-                    placeholder="Subject"
-                    required
-                  />
-                  <label for="subject">Subject</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    name="message"
-                    placeholder="Leave a message here"
-                    id="message"
-                    style="height: 150px"
-                    required
-                  ></textarea>
-                  <label for="message">Message</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <button class="btn btn-primary w-100 py-3" type="submit">
-                  Send Message
-                </button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<!-- Contact End -->
+    {% with message = get_flashed_messages() %}
+      {% if message %}
+        <div class="alert alert-secondary" role="alert">
+          {{ message[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <!-- Principal Conteiner -->
+    <div class="container my-5">
+      <!-- Flexbox Conteiner to centry elements -->
+      <div class="d-flex justify-content-center align-items-center">
+        <!--Map-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-12 wow fadeIn" data-wow-delay="0.1s">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.6795880065756!2d-73.98409732457462!3d40.76907147138513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258f66d739287%3A0x3e335c4bb2b6fff!2sTrump%20International%20Hotel%20%26%20Tower%20New%20York!5e0!3m2!1ses!2sar!4v1717539881219!5m2!1ses!2sar"
+                width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
 
-{% endblock content %}
+
+
+            <!--Form-->
+            <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.2s">
+              <div class="wow fadeInUp" data-wow-delay="0.2s">
+                <form action="{{url_for('contact')}}" method="post">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Your Name"
+                          required />
+                        <label for="nombre">Your Name</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input type="email" name="mail" class="form-control" id="mail" placeholder="Your Email"
+                          required />
+                        <label for="mail">Your Email</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <input type="text" name="asunto" class="form-control" id="asunto" placeholder="Subject"
+                          required />
+                        <label for="asunto">Subject</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <textarea class="form-control" name="mensaje" placeholder="Leave a message here" id="mensaje"
+                          style="height: 150px" required></textarea>
+                        <label for="mensaje">Message</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100 py-3" type="submit">
+                        Send Message
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Contact End -->
+
+    {% endblock content %}
