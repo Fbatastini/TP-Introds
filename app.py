@@ -36,7 +36,7 @@ def about():
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
-    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
+    habitaciones = requests.get(f'{API_URL}/habitaciones')
     if request.method == 'POST':
         nombre = request.form.get('nombre')
         mail = request.form.get('email')
@@ -52,13 +52,13 @@ def booking():
             'numero_habitacion': numero_habitacion,
             'mail': mail
         }
-        response = requests.post(f'{API_URL}', json=reserva) 
-        
+        response = requests.post(f'{API_URL}/reserva', json=reserva)
+
         if response.status_code == 201:
-            flash(response.json())
+            flash(response.json()["message"])
         else:
-            flash(response.json())
-    return render_template('booking.html', habitaciones=habitaciones)
+            flash(response.json()["message"])
+    return render_template('booking.html', habitaciones=habitaciones.json())
 
 
 @app.route('/verify_disponibility', methods=['GET', 'POST'])
@@ -73,18 +73,17 @@ def verify_disponibility():
             'huespedes': huespedes
         }
         response = requests.get(f'{API_URL}/disponibilidad', json=disponibilidad)
+
         if response.status_code == 200:
             return render_template('booking.html', habitaciones_disponibles=response.json())
         else:
-            flash(response.json())
+            flash(response.json()["message"])
             return redirect(url_for('booking'))
     return redirect(url_for('booking'))
 
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    if request.method == 'GET':
-        return render_template('contact.html')
     if request.method == 'POST':
         nombre = request.form['nombre']
         mail = request.form['mail']
@@ -96,8 +95,12 @@ def contact():
             'asunto': asunto,
             'mensaje': mensaje
         }
-        requests.post(f'{API_URL}/agregar_contacto', json=contacto)
-    return redirect(url_for('index'))
+        response = requests.post(f'{API_URL}/agregar_contacto', json=contacto)
+        if response.status_code == 200:
+            flash(response.json()["message"])
+        else:
+            flash(response.json()["message"])
+    return render_template('contact.html')
 
 @app.route('/room')
 def room():
@@ -124,10 +127,6 @@ def terms():
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
-
-@app.route('/confirmacion')
-def confirmacion():
-    return render_template('confirmacion.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
