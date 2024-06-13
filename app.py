@@ -97,7 +97,7 @@ def contact():
 
 @app.route('/room')
 def room():
-    habitaciones = requests.get(API_URL).json()
+    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
     return render_template('room.html', habitaciones = habitaciones)
 
 @app.route('/service')
