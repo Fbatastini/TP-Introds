@@ -84,58 +84,20 @@ style="background-image: url('/static/img/carousel-1.jpg')"
       </h1>
     </div>
     <div class="row g-4">
-      <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="room-item shadow rounded overflow-hidden">
-          <div class="position-relative">
-            <img class="img-fluid" src="{{url_for('static', filename='img/room-1.jpg')}}" alt="" />
-            <small
-              class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-              >$100/Night</small
-            >
-          </div>
-          <div class="p-4 mt-2">
-            <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">Junior Suite</h5>
-              <div class="ps-2">
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-              </div>
-            </div>
-            <div class="d-flex mb-3">
-              <small class="border-end me-3 pe-3"
-                ><i class="fa fa-bed text-primary me-2"></i>1 Bed</small
-              >
-              <small class="border-end me-3 pe-3"
-                ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
-              >
-              <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-            </div>
-            <p class="text-body mb-3">
-              Indulge in our Junior Suite, where elegance meets comfort. Enjoy spacious accommodations adorned with modern amenities, perfect for a relaxing retreat.
-            </p>
-            <div class="d-flex justify-content-between">
-              <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
-                >Book Now</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+      {% for habitacion in habitaciones %}
+
       <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
         <div class="room-item shadow rounded overflow-hidden">
           <div class="position-relative">
-            <img class="img-fluid" src="{{url_for('static', filename='img/room-2.jpg')}}" alt="" />
+            <img class="img-fluid" src="{{url_for('static', filename='img/room-' ~ habitacion.numero ~'.jpg')}}" alt="" />
             <small
               class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-              >$250/Night</small
+              >${{habitacion['precio']}}/Night</small
             >
           </div>
           <div class="p-4 mt-2">
             <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">Executive Suite</h5>
+              <h5 class="mb-0">Room number {{habitacion['numero']}}</h5>
               <div class="ps-2">
                 <small class="fa fa-star text-primary"></small>
                 <small class="fa fa-star text-primary"></small>
@@ -146,7 +108,7 @@ style="background-image: url('/static/img/carousel-1.jpg')"
             </div>
             <div class="d-flex mb-3">
               <small class="border-end me-3 pe-3"
-                ><i class="fa fa-bed text-primary me-2"></i>2 Bed</small
+                ><i class="fa fa-bed text-primary me-2"></i>{{habitacion['capacidad']}} bed</small
               >
               <small class="border-end me-3 pe-3"
                 ><i class="fa fa-bath text-primary me-2"></i>1 Bath</small
@@ -154,56 +116,18 @@ style="background-image: url('/static/img/carousel-1.jpg')"
               <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
             </div>
             <p class="text-body mb-3">
-              Experience luxury redefined in our Executive Suite. Unwind in style with meticulously designed interiors, personalized service, and exclusive access to premium facilities.
+              {{habitacion['descripcion']}}
             </p>
             <div class="d-flex justify-content-between">
               <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
-                >Book Now</a
+              >Book Now</a
               >
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-        <div class="room-item shadow rounded overflow-hidden">
-          <div class="position-relative">
-            <img class="img-fluid" src="{{url_for('static', filename='img/room-3.jpg')}}" alt="" />
-            <small
-              class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-              >$400/Night</small
-            >
-          </div>
-          <div class="p-4 mt-2">
-            <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">Super Deluxe</h5>
-              <div class="ps-2">
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-                <small class="fa fa-star text-primary"></small>
-              </div>
-            </div>
-            <div class="d-flex mb-3">
-              <small class="border-end me-3 pe-3"
-                ><i class="fa fa-bed text-primary me-2"></i>3 Bed</small
-              >
-              <small class="border-end me-3 pe-3"
-                ><i class="fa fa-bath text-primary me-2"></i>2 Bath</small
-              >
-              <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-            </div>
-            <p class="text-body mb-3">
-              Elevate your stay with our Super Deluxe Room, a sanctuary of opulence and sophistication. Immerse yourself in lavish comfort and unparalleled service for an unforgettable escape.
-            </p>
-            <div class="d-flex justify-content-between">
-              <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
-                >Book Now</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+
+{% endfor %}
     </div>
   </div>
 </div>
