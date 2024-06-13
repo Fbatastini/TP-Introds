@@ -24,7 +24,7 @@ def booking():
         VALUES (:numero_habitacion, :huespedes, :fecha_ingreso, :cantidad_noches, :nombre, :mail)
     """
 
-    validation_query = """
+    validation_date_query = """
         SELECT numero_habitacion
         FROM reservas
         WHERE numero_habitacion = :numero_habitacion
@@ -32,14 +32,34 @@ def booking():
         AND fecha_ingreso < DATE_ADD(:fecha_ingreso, INTERVAL :cantidad_noches DAY)
     """
 
+    validation_capacity_query = """
+        SELECT *
+        FROM habitaciones
+        WHERE capacidad >= :huespedes AND numero = :numero_habitacion
+    """
+
     try:
-        val_result = conn.execute(text(validation_query), {
-            'numero_habitacion': new_booking['numero_habitacion'],
-            'fecha_ingreso': fecha_ingreso,
-            'cantidad_noches': cantidad_noches
+        val_cap_result = conn.execute(text(validation_capacity_query), {
+            'huespedes': new_booking['huespedes'],
+            'numero_habitacion': new_booking['numero_habitacion']
         })
 
-        if val_result.rowcount == 0:
+        print(val_cap_result.first())
+
+        if val_cap_result.rowcount == 0:
+            conn.close()
+            return jsonify(
+                {"message": f"La habitacion numero {new_booking['numero_habitacion']} no cuenta con la suficiente capacidad"}
+                ), 400
+        
+        val_date_result = conn.execute(text(validation_date_query), {
+            'numero_habitacion': new_booking['numero_habitacion'],
+            'fecha_ingreso': fecha_ingreso,
+            'cantidad_noches': cantidad_noches,
+        })
+
+
+        if val_date_result.rowcount == 0:
             conn.execute(text(query), {
                 'numero_habitacion': new_booking['numero_habitacion'],
                 'huespedes': new_booking['huespedes'],

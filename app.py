@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 import requests
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
@@ -31,26 +31,28 @@ def about():
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
+    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones')
     if request.method == 'POST':
-        check_in=request.form.get('check_in')
-        nombre=request.form.get('nombre')
-        check_out=request.form.get('check_out')
-        huespedes=request.form.get('huespedes')
-        habitacion=request.form.get('habitacion')
-        email=request.form.get('email')
-        comentario=request.form.get('comentario')
+        nombre = request.form.get('nombre')
+        mail = request.form.get('email')
+        huespedes = request.form.get('huespedes')
+        numero_habitacion = request.form.get('numero_habitacion')
+        fecha_ingreso = request.form.get('fecha_ingreso')
+        cantidad_noches = request.form.get('cantidad_noches')
         reserva = {
-            'check_in': check_in,
-            'check_out': check_out,
+            'fecha_ingreso': fecha_ingreso,
+            'cantidad_noches': cantidad_noches,
             'nombre': nombre,
-            'cant_personas' : huespedes,
-            'tipo_habitacion': habitacion,
-            'mail': email,
-            'comentario':comentario
+            'huespedes' : huespedes,
+            'numero_habitacion': numero_habitacion,
+            'mail': mail
             }
-        requests.post('http://127.0.0.1:5001/agregar_reserva', json=reserva)
-        return redirect(url_for('confirmacion'))
-    return render_template('booking.html')
+        response = requests.post('http://127.0.0.1:5001/reserva', json=reserva)
+        if response.status_code == 201:
+            flash(response.json()["message"])
+        else:
+            flash(response.json()["message"])
+    return render_template('booking.html', habitaciones=habitaciones.json())
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():

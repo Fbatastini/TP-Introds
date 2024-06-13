@@ -3,7 +3,7 @@
 <!-- Page Header Start -->
 <div 
 class="container-fluid page-header mb-5 p-0" 
-style="background-image: url('/static/img/carousel-1.jpg')"
+style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg')}}')"
 >
   <div class="container-fluid page-header-inner py-5">
     <div class="container text-center pb-5">
@@ -78,6 +78,7 @@ style="background-image: url('/static/img/carousel-1.jpg')"
 </div>
 <!-- Booking End -->
 
+
 <!-- Booking Start -->
 <div class="container-xxl py-5">
   <div class="container">
@@ -89,6 +90,13 @@ style="background-image: url('/static/img/carousel-1.jpg')"
         Book A <span class="text-primary text-uppercase">Luxury Room</span>
       </h1>
     </div>
+    {% with message = get_flashed_messages() %}
+      {% if message %}
+        <div class="alert alert-secondary" role="alert">
+          {{ message[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
     <div class="row g-5">
       <div class="col-lg-6">
         <div class="row g-3">
@@ -102,7 +110,7 @@ style="background-image: url('/static/img/carousel-1.jpg')"
           </div>
           <div class="col-6 text-start">
             <img
-              class="img-fluid rounded w-100 wow zoomIn"
+            class="img-fluid rounded w-100 wow zoomIn"
               data-wow-delay="0.3s"
               src="{{url_for('static', filename='/img/about-2.jpg')}}"
             />
@@ -162,67 +170,58 @@ style="background-image: url('/static/img/carousel-1.jpg')"
                 <input
                   type="date"
                   class="form-control datetimepicker-input"
-                  id="checkin"
+                  id="fecha_ingreso"
                   placeholder="Check In"
                   data-target="#date3"
                   data-toggle="datetimepicker"
-                  name="check_in"
+                  name="fecha_ingreso"
                   required
                 />
-                <label for="checkin">Check In</label>
+                <label for="fecha_ingreso">Check In</label>
               </div>
             </div>
             <div class="col-md-6">
               <div
-                class="form-floating date"
-                id="date4"
-                data-target-input="nearest"
+                class="form-floating"
               >
                 <input
-                  type="date"
-                  class="form-control datetimepicker-input"
-                  id="checkout"
-                  placeholder="Check Out"
-                  data-target="#date4"
-                  data-toggle="datetimepicker"
-                  name="check_out"
+                  type="number"
+                  class="form-control"
+                  id="cantidad_noches"
+                  placeholder="Cantidad de Noches"
+                  name="cantidad_noches"
+                  min="1"
+                  max="100"
                   required
                 />
-                <label for="checkout">Check Out</label>
+                <label for="cantidad_noches">Cantidad de Noches</label>
               </div>
             </div>
-            <div class="col-12">
-              <div class="form-floating">
-                <select class="form-select" id="select1" name="huespedes" required>
-                  <option value="1">1 Guest</option>
-                  <option value="2">2 Guests</option>
-                  <option value="3">3 Guests</option>
-                  <option value="4">4 Guests</option>
-                  <option value="5">5 Guests</option>
-                </select>
-                <label for="select1">Select Guests</label>
+            <div class="col-md-6">
+              <div
+                class="form-floating"
+              >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="huespedes"
+                  placeholder="Cantidad de Huespedes"
+                  name="huespedes"
+                  min="1"
+                  max="10"
+                  required
+                />
+                <label for="huespedes">Cantidad de Huespedes</label>
               </div>
             </div>
-              <div class="col-12">
+              <div class="col-md-6">
                 <div class="form-floating">
-                  <select class="form-select" id="select3" name="habitacion" required>
-                    <option value="normal">Normal</option>
-                    <option value="premium">Premium</option>
-                    <option value="deluxe">Deluxe</option>
+                  <select class="form-select" id="numero_habitacion" name="numero_habitacion" required>
+                    {% for habitacion in habitaciones %}
+                      <option value="{{habitacion['numero']}}">{{habitacion['numero']}}</option>
+                    {% endfor %}
                   </select>
-                  <label for="select3">Select A Room</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    placeholder="Special Request"
-                    id="message"
-                    style="height: 100px"
-                    name="comentario"
-                  ></textarea>
-                  <label for="message">Special Request</label>
+                  <label for="numero_habitacion">Select A Room</label>
                 </div>
               </div>
               <div class="col-12">
