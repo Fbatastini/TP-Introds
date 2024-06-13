@@ -1,0 +1,74 @@
+<!-- Disponibility Start -->
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+      <form action="{{ url_for('verify_disponibility') }}" method="post">
+        <div class="bg-white shadow" style="padding: 35px">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <div class="row g-2" style="justify-content: center;">
+                        <div class="col-md-3">
+                            <div class="date" id="date1" data-target-input="nearest">
+                                <input 
+                                type="date" 
+                                class="form-control datetimepicker-input" 
+                                placeholder="Check in" 
+                                data-target="" 
+                                data-toggle="datetimepicker" 
+                                name="fecha_ingreso" 
+                                required/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <input 
+                                type="number" 
+                                class="form-control" 
+                                id="cantidad_noches" 
+                                placeholder="Amount of nights" 
+                                name="cantidad_noches" 
+                                min="1" 
+                                max="100" 
+                                required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input 
+                            type="number" 
+                            class="form-control" 
+                            id="huespedes" 
+                            placeholder="Amount of guests" 
+                            name="huespedes" 
+                            min="1" 
+                            max="10" 
+                            required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+      </form>  
+    </div>
+  </div>
+  <!-- Disponibility End -->
+  
+  {% if habitaciones_disponibles %}
+    <div class="container">
+      <table class="table table-bordered caption-top">
+        <caption style="font-weight: bold; text-align: center;">Available Rooms</caption>
+        <tr>
+          <th>Room Number</th>
+          <th>Price</th>
+        </tr>
+        {% for habitacion in habitaciones_disponibles %}
+        <tr>
+          <td>{{habitacion['numero_habitacion']}}</td>
+          <td>${{habitacion['precio']}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% endif %}
+  
