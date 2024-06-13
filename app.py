@@ -48,7 +48,7 @@ def booking():
             'mail': email,
             'comentario':comentario
             }
-        request.post('http://127.0.0.1:5001/agregar_reserva', json=reserva)
+        requests.post('http://127.0.0.1:5001/agregar_reserva', json=reserva)
         return redirect(url_for('confirmacion'))
     return render_template('booking.html')
 
@@ -125,7 +125,7 @@ def logout():
 @app.route('/admin')
 @login_required
 def admin():
-    comentarios = requests.get('http://127.0.0.1:5001/contactos')
+    comentarios = requests.get('http://127.0.0.1:5001/contactos').json()
     return render_template('admin.html', comentarios = comentarios)
 
 @app.route('/redireccion', methods=['POST', 'GET'])
@@ -143,7 +143,7 @@ def redireccion():
 @app.route('/modify-rooms', methods=['GET', 'POST'])
 @login_required
 def mod_rooms():
-    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones')
+    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones').json()
     ingreso = request.args.get('ingreso', None)
     mensaje = request.args.get('message', None)
     if ingreso:
@@ -155,7 +155,7 @@ def mod_rooms():
 @app.route('/modify-bookings')
 @login_required
 def mod_bookings():
-    reservas = request.get('http://127.0.0.1:5001/reservas')
+    reservas = requests.get('http://127.0.0.1:5001/reservas').json()
     ingreso = request.args.get('ingreso', None)
     mensaje = request.args.get('message', None)
     if ingreso:
@@ -171,7 +171,7 @@ def mod_bookings():
 @login_required
 def enviar_cancelacion():
     id = {'id':request.form.get('id')}
-    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=id)
+    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=id).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_bookings', message = message))
@@ -184,8 +184,8 @@ def enviar_modif_res():
     checkin = request.form.get('nueva_fecha_checkin')
     noches = request.form.get('nuevas_noches')
     
-    data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_checkin':checkin, 'nuevas_noches':noches}
-    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_reserva', json=data)
+    data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_ingreso':checkin, 'nuevas_noches':noches}
+    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_reserva', json=data).json()
     message = respuesta.get('message')
     
     return redirect(url_for('mod_bookings', message=message))
@@ -196,7 +196,7 @@ def enviar_modif_res():
 @login_required
 def enviar_eliminacion():
     num = {'numero':request.form.get('num')}
-    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=num)
+    respuesta = requests.delete('http://127.0.0.1:5001/eliminar_habitacion', json=num).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -212,7 +212,7 @@ def enviar_crear_hab():
     promocion = request.form.get('promocion')
 
     habitacion = {'numero': num, 'precio': precio, 'capacidad': capacidad, 'descripcion': descripcion, 'promocion': promocion}
-    respuesta = requests.post('http://127.0.0.1:5001/cancelar_reserva', json=habitacion)
+    respuesta = requests.post('http://127.0.0.1:5001/agregar_habitacion', json=habitacion).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -225,7 +225,7 @@ def enviar_precio():
     precio = request.form.get('precio')
     modificaciones = {'numero': num, 'nuevo_precio': precio}
 
-    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=modificaciones)
+    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_precio', json=modificaciones).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -236,9 +236,9 @@ def enviar_precio():
 def enviar_promocion():
     num = request.form.get('num')
     promocion = request.form.get('promocion')
-    modificaciones = {'numero': num, 'nueva_promocion': promocion}
+    modificaciones = {'numero_habitacion': num, 'nueva_promocion': promocion}
 
-    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=modificaciones)
+    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_promocion', json=modificaciones).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
