@@ -1,0 +1,57 @@
+
+.columna-par, .columna-par-comentario{
+    background-color:#0F172B;
+}
+
+
+table{
+    width: 80%;
+    max-width: 1200px; 
+    background-color: #141e38;
+    color: white;
+    border-collapse: collapse;
+    margin:auto;
+    
+}
+
+th, td{
+
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    white-space: break-spaces;
+}
+
+button{
+    background-color:#0F172B;
+    color:white;
+    width:100px;
+
+}
+
+textarea{
+    vertical-align: top;
+}
+
+.promocion-text{
+    height: 100px;
+    width:300px; 
+
+}
+
+.descripcion-text{
+    height: 150px;
+    width:500px;
+}
+
+label{
+    font-weight: bold;
+}
+
+form{
+    margin-left: 15px;
+}
+
+.send-button, .select-metodo{
+    margin-left: 10px;
+}

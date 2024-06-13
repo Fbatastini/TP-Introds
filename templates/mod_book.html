@@ -1,0 +1,83 @@
+{%extends 'baseadmin.html'%} {%block content%}
+
+<table>
+    <colgroup>
+    <col>
+    <col style ="background-color:(#0F172B)">
+    </colgroup>
+    <tr id="cabeceras">
+        <th>ID</th>
+        <th class="columna-par">Room</th>
+        <th>Guests</th>
+        <th class="columna-par">Check in</th>
+        <th>Nights</th>
+        <th class="columna-par">Name</th>
+        <th>Email</th>
+
+    </tr>
+
+    {%for reserva in reservas%}
+    <tr>
+        <td>{{reserva["id"]}}</td>
+        <td class="columna-par">{{reserva['numero_habitacion']}}</td>
+        <td>{{reserva['huespedes']}}</td>
+        <td class="columna-par">{{reserva['fecha_ingreso']}}</td>
+        <td>{{reserva['cantidad_noches']}}</td>
+        <td class="columna-par">{{reserva['nombre']}}</td>
+        <td>{{reserva['mail']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</br>
+</br>
+</br>
+</br>
+
+<form action="{{url_for('redireccion')}}" method="post">
+    <select id="select-metodo" name="metodo" required>
+        <option value="cancelar">Cancel booking</option>
+        <option value="modificar">Modify booking</option>
+
+    </select>
+
+    
+    <button type="submit">Enter</button>
+</form>
+</br></br>
+
+{% if mensaje %}
+
+<h4>{{mensaje}}</h4>
+
+{% endif %}
+
+
+{% if ingreso == 'cancelar'%}
+
+<form action="{{url_for('enviar_cancelacion')}}" method="post">
+    <h4>Cancel booking</h4>
+    <label for="id">Booking id</label>
+    <input name="id" type="text" placeholder="ID" required>
+    <button type="submit" class="send-button">Delete</button>
+</form>
+
+{% elif ingreso == 'modificar'%}
+
+<form action="{{url_for('enviar_modif_res')}}" method="post">
+    <h4>Modify booking</h4>
+    <label for="id">Booking id</label>
+    <input name="id" type="text" placeholder="ID" required>
+    <label for="numero_habitacion">Room number</label>
+    <input name="numero_habitacion" type="text" placeholder="Room number" required>
+    <label for="nueva_fecha_checkin">New check-in</label>
+    <input name="nueva_fecha_checkin" type="date" required>
+    <label for="nuevas_noches">Amount of nights</label>
+    <input name="nuevas_noches" type="number" placeholder="Nights" required>
+    
+    <button type="submit" class="send-button">Modify</button>
+</form>
+
+{%endif%}
+
+{%endblock%}

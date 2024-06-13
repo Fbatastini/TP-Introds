@@ -1,0 +1,32 @@
+{%extends 'baseadmin.html' %} 
+{% block content %}
+
+<table>
+    <colgroup>
+    <col>
+    <col style ="background-color:(#0F172B)">
+    </colgroup>
+    <tr>
+        <th>Name</th>
+        <th class="columna-par">email</th>
+        <th>Date</th>
+        <th class="columna-par">Comment</th>
+
+    </tr>
+
+    {%for comentario in comentarios%}
+    <tr>
+        <td>{{comentario['id']}}</td>
+        <td class="columna-par">{{comentario['nombre']}}</td>
+        <td>{{comentario['mail']}}</td>
+        <td class="columna-par">{{comentario['fecha']}}</td>
+        <td>{{comentario['asunto']}}</td>
+        <td class="columna-par-comentario">{{comentario['mensaje']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+
+{% endblock %}

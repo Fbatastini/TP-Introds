@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Login</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    </head>
+    
+    <body>
+
+        <div class="login-page">
+            <div class="form">
+                <h4>Admin login</h4>
+                {% if mensaje %}
+                <h5 style="color: red;">{{mensaje}}</h5>
+                {%endif%}
+                <form class="login-form" action="{{url_for('login')}}" method="post">
+                <input type="text" placeholder="Username" name="username" required>
+                <input type="password" placeholder="Password" name="password" required>
+                <button type="submit">login</button>
+                </form>
+            </div>
+            </div>
+
+    </body>
+</html>
