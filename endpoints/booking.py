@@ -44,7 +44,6 @@ def booking():
             'numero_habitacion': new_booking['numero_habitacion']
         })
 
-        print(val_cap_result.first())
 
         if val_cap_result.rowcount == 0:
             conn.close()
