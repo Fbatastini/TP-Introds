@@ -1,0 +1,11 @@
+.dist
+__pycache__
+
+venv
+.venv
+env
+.env
+
+.idea
+.vscode
+*.pyc

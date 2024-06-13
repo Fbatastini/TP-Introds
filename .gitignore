@@ -7,3 +7,4 @@ env
 database
 __pycache__
 public
+.dist

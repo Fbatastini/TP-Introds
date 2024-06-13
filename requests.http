@@ -34,8 +34,8 @@ Content-Type: application/json
     "id": 5,
     "numero_habitacion": 5,
     "fecha_ingreso": "2024-06-14",
-    "nombre": "Stiven",
-    "mail": "stiven.molina.5010@example.com"
+    "nombre": "persona",
+    "mail": "persona@example.com"
 }
 
 ### Change Booking
@@ -85,8 +85,8 @@ POST http://localhost:5001/agregar_contacto
 Content-Type: application/json
 
 {
-    "nombre": "El Steven",
-    "mail": "steven@example.com",
+    "nombre": "Persona",
+    "mail": "persona@example.com",
     "asunto": "Consulta sobre reservas",
     "mensaje": "Tengo una duda sobre las politicas de cancelacion"
 }

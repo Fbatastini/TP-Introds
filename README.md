@@ -8,7 +8,7 @@ Tener docker abierto (desktop o de terminal)
 docker-compose up
 ```
 
-Estara disponible en el localhost:5005
+Estara disponible en el localhost:5000
 
 ### Es necesario crear un entorno virtual e instalar flask para el projecto si no se usa docker
 

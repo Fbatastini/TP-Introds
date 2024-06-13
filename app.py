@@ -6,7 +6,9 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
+# Local dev
 API_URL = 'http://127.0.0.1:5001'
+
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
 login_manager.init_app(app)         #inicializa la instancia de LoginManager con la aplicación Flask
@@ -270,6 +272,10 @@ def internal_error(e):
     return render_template('500.html'), 500
 
 
-# Ruta para manejar la carga de archivos
-if __name__ == '__main__':
-    app.run(debug=True)
+# # Ruta para manejar la carga de archivos
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+# for docker
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
