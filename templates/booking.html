@@ -36,7 +36,7 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
                               type="date" 
                               class="form-control datetimepicker-input" 
                               placeholder="Check in" 
-                              data-target="#date1" 
+                              data-target="" 
                               data-toggle="datetimepicker" 
                               name="fecha_ingreso" 
                               required/>
@@ -81,15 +81,15 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
 {% if habitaciones_disponibles %}
   <div class="container">
     <table class="table table-bordered caption-top">
-      <caption>Available Rooms</caption>
+      <caption style="font-weight: bold; text-align: center;">Available Rooms</caption>
       <tr>
-        <th>Room Numbrer</th>
+        <th>Room Number</th>
         <th>Price</th>
       </tr>
       {% for habitacion in habitaciones_disponibles %}
       <tr>
         <td>{{habitacion['numero_habitacion']}}</td>
-        <td>{{habitacion['precio']}}</td>
+        <td>${{habitacion['precio']}}</td>
       </tr>
       {% endfor %}
     </table>
@@ -191,7 +191,7 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
                   class="form-control datetimepicker-input"
                   id="fecha_ingreso"
                   placeholder="Check In"
-                  data-target="#date3"
+                  data-target=""
                   data-toggle="datetimepicker"
                   name="fecha_ingreso"
                   required
