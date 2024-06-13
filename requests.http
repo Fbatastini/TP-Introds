@@ -31,10 +31,11 @@ DELETE http://localhost:5001/cancelar_reserva
 Content-Type: application/json
 
 {
-    "numero_habitacion": 101,
-    "fecha_ingreso": "2023-06-15",
-    "nombre": "John Doe",
-    "mail": "john.doe@example.com"
+    "id": 5,
+    "numero_habitacion": 5,
+    "fecha_ingreso": "2024-06-14",
+    "nombre": "Stiven",
+    "mail": "stiven.molina.5010@example.com"
 }
 
 ### Change Booking
@@ -42,8 +43,9 @@ PATCH http://localhost:5001/cambiar_reserva
 Content-Type: application/json
 
 {
-    "numero_habitacion": 101,
-    "nueva_fecha_checkin": "2023-06-18",
+    "id": 4,
+    "numero_habitacion": 2,
+    "nueva_fecha_ingreso": "2023-06-18",
     "nuevas_noches": 5
 }
 

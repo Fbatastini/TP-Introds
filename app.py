@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, U
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
+API_URL = 'http://127.0.0.1:5001'
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
 login_manager.init_app(app)         #inicializa la instancia de LoginManager con la aplicación Flask
@@ -31,7 +32,7 @@ def about():
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
-    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones').json()
+    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
     if request.method == 'POST':
         try:
             nombre = request.form.get('nombre')
@@ -48,7 +49,7 @@ def booking():
                 'numero_habitacion': numero_habitacion,
                 'mail': mail
             }
-            response = requests.post('http://127.0.0.1:5001/reserva', json=reserva)
+            response = requests.post(f'{API_URL}/reserva', json=reserva)
         except Exception as e:
             fecha_ingreso = request.form.get('fecha_ingreso')
             cantidad_noches = request.form.get('cantidad_noches')
@@ -58,7 +59,7 @@ def booking():
                 'cantidad_noches': cantidad_noches,
                 'huespedes': huespedes
             }
-            response = requests.post('http://127.0.0.1:5001/disponibilidad', json=disponibilidad)
+            response = requests.post(f'{API_URL}/disponibilidad', json=disponibilidad)
         
         if response.status_code == 201:
             flash(response.json().get("message", "Reserva exitosa."))
@@ -82,7 +83,7 @@ def contact():
             'asunto': asunto,
             'mensaje': mensaje
         }
-        requests.post('http://127.0.0.1:5001/agregar_contacto', json=contacto)
+        requests.post(f'{API_URL}/agregar_contacto', json=contacto)
     return redirect(url_for('index'))
 
 @app.route('/room')
@@ -119,7 +120,7 @@ def login():
     if request.method == 'POST':
         user = request.form.get('username')
         passwd = request.form.get('password')
-        respuesta = requests.get(f'http://127.0.0.1:5001/user/{user}/{passwd}')
+        respuesta = requests.get(f'{API_URL}/user/{user}/{passwd}')
         respuesta = respuesta.json()
         if respuesta['message'] == 'exists':
             usuario = User(user)
@@ -141,7 +142,7 @@ def logout():
 @app.route('/admin')
 @login_required
 def admin():
-    comentarios = requests.get('http://127.0.0.1:5001/contactos').json()
+    comentarios = requests.get(f'{API_URL}/contactos').json()
     return render_template('admin.html', comentarios = comentarios)
 
 @app.route('/redireccion', methods=['POST', 'GET'])
@@ -159,7 +160,7 @@ def redireccion():
 @app.route('/modify-rooms', methods=['GET', 'POST'])
 @login_required
 def mod_rooms():
-    habitaciones = requests.get('http://127.0.0.1:5001/habitaciones').json()
+    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
     ingreso = request.args.get('ingreso', None)
     mensaje = request.args.get('message', None)
     if ingreso:
@@ -171,7 +172,7 @@ def mod_rooms():
 @app.route('/modify-bookings')
 @login_required
 def mod_bookings():
-    reservas = requests.get('http://127.0.0.1:5001/reservas').json()
+    reservas = requests.get(f'{API_URL}/reservas').json()
     ingreso = request.args.get('ingreso', None)
     mensaje = request.args.get('message', None)
     if ingreso:
@@ -187,7 +188,7 @@ def mod_bookings():
 @login_required
 def enviar_cancelacion():
     id = {'id':request.form.get('id')}
-    respuesta = requests.delete('http://127.0.0.1:5001/cancelar_reserva', json=id).json()
+    respuesta = requests.delete(f'{API_URL}/cancelar_reserva', json=id).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_bookings', message = message))
@@ -201,7 +202,7 @@ def enviar_modif_res():
     noches = request.form.get('nuevas_noches')
     
     data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_ingreso':checkin, 'nuevas_noches':noches}
-    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_reserva', json=data).json()
+    respuesta = requests.patch(f'{API_URL}/cambiar_reserva', json=data).json()
     message = respuesta.get('message')
     
     return redirect(url_for('mod_bookings', message=message))
@@ -212,7 +213,7 @@ def enviar_modif_res():
 @login_required
 def enviar_eliminacion():
     num = {'numero':request.form.get('num')}
-    respuesta = requests.delete('http://127.0.0.1:5001/eliminar_habitacion', json=num).json()
+    respuesta = requests.delete(f'{API_URL}/eliminar_habitacion', json=num).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -228,7 +229,7 @@ def enviar_crear_hab():
     promocion = request.form.get('promocion')
 
     habitacion = {'numero': num, 'precio': precio, 'capacidad': capacidad, 'descripcion': descripcion, 'promocion': promocion}
-    respuesta = requests.post('http://127.0.0.1:5001/agregar_habitacion', json=habitacion).json()
+    respuesta = requests.post(f'{API_URL}/agregar_habitacion', json=habitacion).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -241,7 +242,7 @@ def enviar_precio():
     precio = request.form.get('precio')
     modificaciones = {'numero': num, 'nuevo_precio': precio}
 
-    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_precio', json=modificaciones).json()
+    respuesta = requests.patch(f'{API_URL}/cambiar_precio', json=modificaciones).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
@@ -254,7 +255,7 @@ def enviar_promocion():
     promocion = request.form.get('promocion')
     modificaciones = {'numero_habitacion': num, 'nueva_promocion': promocion}
 
-    respuesta = requests.patch('http://127.0.0.1:5001/cambiar_promocion', json=modificaciones).json()
+    respuesta = requests.patch(f'{API_URL}/cambiar_promocion', json=modificaciones).json()
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
