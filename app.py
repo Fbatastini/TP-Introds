@@ -33,38 +33,47 @@ def about():
 def booking():
     habitaciones = requests.get('http://127.0.0.1:5001/habitaciones').json()
     if request.method == 'POST':
-        try:
-            nombre = request.form.get('nombre')
-            mail = request.form.get('email')
-            huespedes = request.form.get('huespedes')
-            numero_habitacion = request.form.get('numero_habitacion')
-            fecha_ingreso = request.form.get('fecha_ingreso')
-            cantidad_noches = request.form.get('cantidad_noches')
-            reserva = {
-                'fecha_ingreso': fecha_ingreso,
-                'cantidad_noches': cantidad_noches,
-                'nombre': nombre,
-                'huespedes': huespedes,
-                'numero_habitacion': numero_habitacion,
-                'mail': mail
-            }
-            response = requests.post('http://127.0.0.1:5001/reserva', json=reserva)
-        except Exception as e:
-            fecha_ingreso = request.form.get('fecha_ingreso')
-            cantidad_noches = request.form.get('cantidad_noches')
-            huespedes = request.form.get('huespedes')
-            disponibilidad = {
-                'fecha_ingreso': fecha_ingreso,
-                'cantidad_noches': cantidad_noches,
-                'huespedes': huespedes
-            }
-            response = requests.post('http://127.0.0.1:5001/disponibilidad', json=disponibilidad)
+        nombre = request.form.get('nombre')
+        mail = request.form.get('email')
+        huespedes = request.form.get('huespedes')
+        numero_habitacion = request.form.get('numero_habitacion')
+        fecha_ingreso = request.form.get('fecha_ingreso')
+        cantidad_noches = request.form.get('cantidad_noches')
+        reserva = {
+            'fecha_ingreso': fecha_ingreso,
+            'cantidad_noches': cantidad_noches,
+            'nombre': nombre,
+            'huespedes': huespedes,
+            'numero_habitacion': numero_habitacion,
+            'mail': mail
+        }
+        response = requests.post('http://127.0.0.1:5001/reserva', json=reserva) 
         
         if response.status_code == 201:
-            flash(response.json().get("message", "Reserva exitosa."))
+            flash(response.json())
         else:
-            flash(response.json().get("message", "Error en la reserva."))
+            flash(response.json())
     return render_template('booking.html', habitaciones=habitaciones)
+
+
+@app.route('/verify_disponibility', methods=['GET', 'POST'])
+def verify_disponibility():
+    if request.method == 'POST':
+        fecha_ingreso = request.form.get('fecha_ingreso')            
+        cantidad_noches = request.form.get('cantidad_noches')
+        huespedes = request.form.get('huespedes')
+        disponibilidad = {
+            'fecha_ingreso': fecha_ingreso,
+            'cantidad_noches': cantidad_noches,
+            'huespedes': huespedes
+        }
+        response = requests.get('http://127.0.0.1:5001/disponibilidad', json=disponibilidad)
+        if response.status_code == 200:
+            return render_template('booking.html', habitaciones_disponibles=response.json())
+        else:
+            flash(response.json())
+            return redirect(url_for('booking'))
+    return redirect(url_for('booking'))
 
 
 @app.route('/contact', methods=['GET', 'POST'])

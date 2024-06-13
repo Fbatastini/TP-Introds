@@ -25,7 +25,7 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
 <!-- Booking Start -->
 <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
   <div class="container">
-    <form action="{{ url_for('booking') }}" method="post">
+    <form action="{{ url_for('verify_disponibility') }}" method="post">
       <div class="bg-white shadow" style="padding: 35px">
           <div class="row g-2">
               <div class="col-md-10">
@@ -33,16 +33,17 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
                       <div class="col-md-3">
                           <div class="date" id="date1" data-target-input="nearest">
                               <input 
-                              type="text" 
+                              type="date" 
                               class="form-control datetimepicker-input" 
                               placeholder="Check in" 
                               data-target="#date1" 
                               data-toggle="datetimepicker" 
-                              name="fecha_ingreso" />
+                              name="fecha_ingreso" 
+                              required/>
                           </div>
                       </div>
                       <div class="col-md-3">
-                          <div class="date" id="date2" data-target-input="nearest">
+                          <div>
                               <input 
                               type="number" 
                               class="form-control" 
@@ -77,6 +78,32 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
 </div>
 <!-- Booking End -->
 
+{% if habitaciones_disponibles %}
+  <div class="container">
+    <table class="table table-bordered caption-top">
+      <caption>Available Rooms</caption>
+      <tr>
+        <th>Room Numbrer</th>
+        <th>Price</th>
+      </tr>
+      {% for habitacion in habitaciones_disponibles %}
+      <tr>
+        <td>{{habitacion['numero_habitacion']}}</td>
+        <td>{{habitacion['precio']}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endif %}
+
+
+{% with message = get_flashed_messages() %}
+  {% if message %}
+    <div class="alert alert-secondary" role="alert">
+      {{ message[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
 
 <!-- Booking Start -->
 <div class="container-xxl py-5">
@@ -89,13 +116,6 @@ style="background-image: url('{{url_for('static', filename='/img/carousel-1.jpg'
         Book A <span class="text-primary text-uppercase">Luxury Room</span>
       </h1>
     </div>
-    {% with message = get_flashed_messages() %}
-      {% if message %}
-        <div class="alert alert-secondary" role="alert">
-          {{ message[0] }}
-        </div>
-      {% endif %}
-    {% endwith %}
     <div class="row g-5">
       <div class="col-lg-6">
         <div class="row g-3">
