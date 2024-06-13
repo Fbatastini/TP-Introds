@@ -3,5 +3,7 @@ venv
 env
 .env
 
-__pycache__
+.idea
 database
+__pycache__
+public

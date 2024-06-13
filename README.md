@@ -1,8 +1,16 @@
 # TP-Introds
-
 ## Trabajo Practico Introducción al desarrollo de software
 
-### Es necesario crear un entorno virtual e instalar flask para el projecto 
+Recomendado(Si tienes docker)
+
+Tener docker abierto (desktop o de terminal)
+```
+docker-compose up
+```
+
+Estara disponible en el localhost:5005
+
+### Es necesario crear un entorno virtual e instalar flask para el projecto si no se usa docker
 
 Recomendado:
 ```

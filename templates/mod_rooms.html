@@ -1,0 +1,118 @@
+{%extends 'baseadmin.html'%} {%block content%}
+
+<table>
+    <colgroup>
+    <col>
+    <col style ="background-color:(#0F172B)">
+    </colgroup>
+    <tr>
+        <th>Number</th>
+        <th class="columna-par">Capacity</th>
+        <th>Description</th>
+        <th class="columna-par">Price</th>
+        <th>Promotion</th>
+
+    </tr>
+
+    {%for hab in habitaciones%}
+    <tr>
+        <td>{{hab['numero']}}</td>
+        <td class="columna-par">{{hab['capacidad']}}</td>
+        <td>{{hab['descripcion']}}</td>
+        <td class="columna-par">{{hab['precio']}}</td>
+        <td>{{hab['promocion']}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</br>
+</br>
+</br>
+</br>
+<form action="{{url_for('redireccion')}}" method="post">
+    <select id="select-metodo" name="metodo" required>
+        <option value="borrar_hab">Delete room</option>
+        <option value="agregar_hab">Add room</option>
+        <option value="cambiar_precio">Change price</option>
+        <option value="cambiar_prom">Change promotion</option>
+        
+        
+    </select>
+    
+    <button type="submit" class="select-metodo">Enter</button>
+</form>
+</br></br>
+
+{% if mensaje %}
+
+<h4>{{mensaje}}</h4>
+
+{% endif %}
+
+{% if ingreso == 'borrar_hab'%}
+
+<form action="{{url_for('enviar_eliminacion')}}" method="post">
+    <h4>Delete room</h4>
+
+    <label for="num">Room number</label>
+    <input name="num" type="number" placeholder="Room number" required>
+
+    <button type="submit" class="send-button">Delete</button>
+</form>
+
+
+{% elif ingreso == 'agregar_hab'%}
+
+<form action="{{url_for('enviar_crear_hab')}}" method="post">
+    <h4>Create new room</h4>
+
+    <label for="num">Room number</label>
+    <input name="num" type="number" placeholder="Room number" required>
+
+    <label for="capacidad">Capacity</label>
+    <input name="capacidad" type="number" placeholder="Capacity" required>
+
+    <label for="precio">Price</label>
+    <input name="precio" type="text" placeholder="New price" required> </br> </br>
+
+    <label for="descripcion">Description</label>
+    <textarea class="descripcion-text" name="descripcion" maxlength="500" placeholder="Description" required></textarea>
+
+    <label for="promocion">New promotion</label>
+    <textarea class="promocion-text" name="promocion" maxlength="100" placeholder="New promotion" required></textarea>
+
+    <button type="submit" class="send-button">Create</button>
+</form>
+
+
+{% elif ingreso == 'cambiar_precio'%}
+
+<form action="{{url_for('enviar_precio')}}" method="post">
+    <h4>Modify price</h4>
+    <label for="num">Room number</label>
+    <input name="num" type="number" placeholder="Room number" required>
+
+    <label for="precio">New price</label>
+    <input name="precio" type="text" placeholder="New price" required>
+
+    <button type="submit" class="send-button">Delete</button>
+</form>
+
+
+{% elif ingreso == 'cambiar_prom'%}
+
+<form action="{{url_for('enviar_promocion')}}" method="post">
+    <h4>Change promotion</h4>
+
+    <label for="num">Room number</label>
+    <input name="num" type="number" placeholder="Room number" required>
+
+    <label for="promocion">New promotion</label>
+    <textarea class="promocion-text" name="promocion" maxlength="100" placeholder="New promotion" required></textarea>
+
+    <button type="submit" class="send-button">Change</button>
+</form>
+
+{% endif %}
+
+{%endblock%}
