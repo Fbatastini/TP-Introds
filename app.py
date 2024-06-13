@@ -56,12 +56,18 @@ def booking():
 def contact():
     if request.method == 'GET':
         return render_template('contact.html')
-    
-    name = request.form['name']
-    email = request.form['email']
-    subject = request.form['subject']
-    message = request.form['message']
-
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        subject = request.form['subject']
+        message = request.form['message']
+        contacto = {
+            'name': name,
+            'email': email,
+            'subject': subject,
+            'message': message
+        }
+        requests.post('http://127.0.0.1:5001/agregar_contacto', json=contacto)
     return redirect(url_for('index'))
 
 @app.route('/room')
