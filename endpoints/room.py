@@ -161,12 +161,24 @@ def change_promo():
 
         # Actualizar la promoción en la base de datos
         conn = engine.connect()
-        query = """
+        query = f"""
             UPDATE habitaciones
-            SET promocion = :nueva_promocion
-            WHERE numero = :numero_habitacion
+            SET promocion = '{nueva_promocion}'
+            WHERE numero = {numero_habitacion};
         """
-        conn.execute(text(query), nueva_promocion=nueva_promocion, numero_habitacion=numero_habitacion)
+
+        # Validar si la habitación existe en la base de datos
+        query_validation = f"SELECT * FROM habitaciones WHERE numero = {numero_habitacion};"
+        try:
+            val_result = conn.execute(text(query_validation))
+            if val_result.rowcount == 0:
+                conn.close()
+                return jsonify({'message': f"No existe la habitacion {numero_habitacion}"}), 404
+        except SQLAlchemyError as err:
+            return jsonify({'message': str(err.__cause__)}), 500
+        
+        conn.execute(text(query))
+        conn.commit()
         conn.close()
 
         return jsonify(

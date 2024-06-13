@@ -26,7 +26,39 @@
     {% endfor %}
 </table>
 
+</br>
+</br>
+</br>
+</br>
+
+<form action="{{url_for('redireccion')}}" method="post">
+    <select id="select-metodo" name="metodo" required>
+        <option value="borrar">Delete contact</option>
+
+    </select>
+
+    
+    <button type="submit">Enter</button>
+</form>
+</br></br>
+
+{% if mensaje %}
+
+<h4>{{mensaje}}</h4>
+
+{% endif %}
 
 
+
+{% if ingreso %}
+
+<form action="{{url_for('eliminar_contacto')}}" method="post">
+    <h4>Delete contact</h4>
+    <label for="id">Contact id</label>
+    <input name="id" type="text" placeholder="ID" required>
+    <button type="submit" class="send-button">Delete</button>
+</form>
+
+{% endif %}
 
 {% endblock %}
