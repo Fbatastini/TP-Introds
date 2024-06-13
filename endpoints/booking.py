@@ -180,9 +180,11 @@ def change_booking():
         return jsonify({'message': str(err.__cause__)}), 500
 
     # Actualizar la reserva
-    query = f"""UPDATE reservas
+    query = f"""
+                UPDATE reservas
                 SET fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
-                WHERE id = {id_reserva};"""
+                WHERE id = {id_reserva};
+            """
     try:
         result = conn.execute(text(query))
         conn.commit()
