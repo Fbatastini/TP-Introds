@@ -148,16 +148,23 @@ def logout():
 
 #------------------------------- Paginas de admin -------------------------------
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
     comentarios = requests.get(f'{API_URL}/contactos').json()
+    ingreso = request.args.get('ingreso', None)
+    mensaje = request.args.get('message', None)
+    if ingreso:
+        return render_template('admin.html', comentarios =  comentarios, ingreso=ingreso)
+    if mensaje:
+        return render_template('admin.html', comentarios = comentarios, mensaje = mensaje)
     return render_template('admin.html', comentarios = comentarios)
 
 @app.route('/redireccion', methods=['POST', 'GET'])
 def redireccion():
     opciones_reservas = ("modificar","cancelar")
     opciones_habitaciones = ("borrar_hab", "agregar_hab", "cambiar_precio", "cambiar_prom")
+    opciones_contactos = ("borrar")
     ingreso = request.form.get('metodo')
 
     if ingreso in opciones_reservas:
@@ -165,6 +172,9 @@ def redireccion():
     
     elif ingreso in opciones_habitaciones:
         return redirect(url_for('mod_rooms', ingreso=ingreso))
+    
+    elif ingreso in opciones_contactos:
+        return redirect(url_for('admin', ingreso=ingreso))
     
 @app.route('/modify-rooms', methods=['GET', 'POST'])
 @login_required
@@ -221,7 +231,7 @@ def enviar_modif_res():
 @app.route('/delete_room', methods=['POST'])
 @login_required
 def enviar_eliminacion():
-    num = {'numero':request.form.get('num')}
+    num = {'id':request.form.get('id')}
     respuesta = requests.delete(f'{API_URL}/eliminar_habitacion', json=num).json()
     message = respuesta.get('message')
 
@@ -268,6 +278,17 @@ def enviar_promocion():
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
+
+#---------------------------------------------- Contactos ---------------------------------------------------
+@app.route('/delete_contact', methods = ['POST'])
+@login_required
+def eliminar_contacto():
+    id = {'id':request.form.get('id')}
+    respuesta = requests.delete(f'{API_URL}/eliminar_contacto', json=id).json()
+    message = respuesta.get('message')
+
+    return redirect(url_for('admin', message = message))
+
 
 #---------------------------------------------- ErrorHandlers ---------------------------------------------------
 
