@@ -8,6 +8,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
 # Local dev
 API_URL = 'http://127.0.0.1:5001'
+# Docker
+# API_URL = ' http://api:5001'
 
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
@@ -99,8 +101,9 @@ def contact():
 
 @app.route('/room')
 def room():
-    habitaciones = requests.get(API_URL).json()
+    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
     return render_template('room.html', habitaciones = habitaciones)
+    # return render_template('room.html')
 
 @app.route('/service')
 def service():

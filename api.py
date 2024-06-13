@@ -21,9 +21,6 @@ app.register_blueprint(contact_bp)
 app.register_blueprint(verifications_bp)
 
 
-# if __name__ == "__main__":
-#     app.run("127.0.0.1", port="5001", debug=True)
-
 # For docker container
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
