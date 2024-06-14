@@ -75,7 +75,8 @@ def verify_disponibility():
         response = requests.get(f'{API_URL}/disponibilidad', json=disponibilidad)
 
         if response.status_code == 200:
-            return render_template('booking.html', habitaciones_disponibles=response.json())
+            habitaciones = requests.get(f'{API_URL}/habitaciones')
+            return render_template('booking.html', habitaciones_disponibles=response.json(), habitaciones=habitaciones.json())
         else:
             flash(response.json()["message"])
             return redirect(url_for('booking'))

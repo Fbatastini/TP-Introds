@@ -32,9 +32,7 @@ def room():
             habitaciones.append(habitacion)
         return jsonify(habitaciones), 200
     except SQLAlchemyError as e:
-        return jsonify(
-            {'message': f'Error al obtener datos de habitaciones: {str(e)}'}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
 
 #Servicio que agrega habitacion(admin):
@@ -71,7 +69,7 @@ def create_room():
                 {"message": f"La habitacion numero {new_room['numero']} ya existe."}
                 ), 400
     except SQLAlchemyError as err:
-        return jsonify({'message': f'Se ha producido un error: {err}'}), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     return jsonify(
         {'message': 'Se ha agregado correctamente'}
@@ -104,7 +102,7 @@ def delete_room():
                 {"message": f"La habitacion numero {del_room['numero']} no existe."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__)), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
     return jsonify(
         {'message': 'Se ha eliminado correctamente'}
         ), 202
@@ -175,7 +173,7 @@ def change_promo():
                 conn.close()
                 return jsonify({'message': f"No existe la habitacion {numero_habitacion}"}), 404
         except SQLAlchemyError as err:
-            return jsonify({'message': str(err.__cause__)}), 500
+            return jsonify({'message': "Se ha producido un error"}), 500
         
         conn.execute(text(query))
         conn.commit()
@@ -186,6 +184,4 @@ def change_promo():
             ), 200
 
     except Exception as e:
-        return jsonify(
-            {'message': f'Error al actualizar la promocion: {str(e)}'}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500

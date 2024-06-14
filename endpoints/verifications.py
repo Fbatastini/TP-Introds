@@ -49,9 +49,7 @@ def disponibility():
 
         conn.close()
     except SQLAlchemyError as err:
-        return jsonify(
-            {'message': 'Se ha producido un error' + str(err.__cause__)}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
 
     disponibilidad = []
@@ -88,7 +86,7 @@ def verificar_usuario(user, password):
         result = conn.execute(text(query))
         conn.close()
     except SQLAlchemyError as e:
-        return jsonify(str(e.__cause__)), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     if result.rowcount != 0:
         return jsonify({'message':'exists'}), 200
