@@ -62,6 +62,7 @@ def booking():
             flash(response.json()["message"])
         else:
             flash(response.json()["message"])
+            return redirect(url_for('booking'))
     return render_template('booking.html', habitaciones=habitaciones.json())
 
 

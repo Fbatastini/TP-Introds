@@ -3,6 +3,7 @@
 from flask import jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime, timedelta, date
 from config import engine
 
 from flask import Blueprint
@@ -18,6 +19,12 @@ def booking():
 
     cantidad_noches = new_booking['cantidad_noches']
     fecha_ingreso = new_booking['fecha_ingreso']
+    test_fecha_ingreso = datetime.strptime(fecha_ingreso, '%Y-%m-%d')
+    fecha_actual = datetime.strptime(str(date.today()), '%Y-%m-%d')
+
+    #Chequeo que la fecha sea mayor a la fecha actual
+    if fecha_actual > test_fecha_ingreso:
+        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
 
     query = """
         INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
