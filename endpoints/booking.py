@@ -3,6 +3,7 @@
 from flask import jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime, timedelta, date
 from config import engine
 
 from flask import Blueprint
@@ -18,6 +19,12 @@ def booking():
 
     cantidad_noches = new_booking['cantidad_noches']
     fecha_ingreso = new_booking['fecha_ingreso']
+    test_fecha_ingreso = datetime.strptime(fecha_ingreso, '%Y-%m-%d')
+    fecha_actual = datetime.strptime(str(date.today()), '%Y-%m-%d')
+
+    #Chequeo que la fecha sea mayor a la fecha actual
+    if fecha_actual > test_fecha_ingreso:
+        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
 
     query = """
         INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
@@ -79,9 +86,7 @@ def booking():
                 ), 400
     except Exception as e:
         conn.close()
-        return jsonify(
-            {'message': f"Error al realizar la reserva: {str(e)}"}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
 
 #Servicio que muestre datos de reservas:
@@ -108,9 +113,7 @@ def bookings():
             reservas.append(reserva)
         return jsonify(reservas), 200
     except SQLAlchemyError as e:
-        return jsonify(
-            {'message': f'Error al obtener datos de reservas: {str(e)}'}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
 
 #Servicio que cancela reserva:
@@ -152,9 +155,7 @@ def cancel_booking():
                 ), 404
     except Exception as e:
         conn.close()
-        return jsonify(
-            {"message": f"Error al cancelar la reserva: {str(e)}"}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
 
 #Servicio que cambia cantidad de noches, o dia de check in:
@@ -175,8 +176,29 @@ def change_booking():
         if val_result.rowcount == 0:
             conn.close()
             return jsonify({'message': f"No existe la reserva id {id_reserva}"}), 404
-    except SQLAlchemyError as err:
-        return jsonify({'message': str(err.__cause__)}), 500
+    except SQLAlchemyError:
+        return jsonify({'message': "Se ha producido un error"}), 500
+
+    # Validar si la habitación está disponible en esa fecha
+    validation_date_query = f"""
+            SELECT numero_habitacion
+            FROM reservas
+            WHERE numero_habitacion = {numero_habitacion}
+            AND DATE_ADD(fecha_ingreso, INTERVAL {nuevas_noches} DAY) > '{nueva_fecha_ingreso}'
+            AND fecha_ingreso < DATE_ADD('{nueva_fecha_ingreso}', INTERVAL {nuevas_noches} DAY)
+        """
+    
+    try:
+        val_date_result = conn.execute(text(validation_date_query))
+        print(val_date_result.rowcount)
+        if val_date_result.rowcount != 0:
+            return jsonify(
+                {"message": f"La habitacion numero {numero_habitacion} ya se encuentra reservada en las fechas seleccionadas"}
+                ), 400
+    except SQLAlchemyError:
+        conn.close()
+        return jsonify({'message': "Se ha producido un error"}), 500
+
 
     # Actualizar la reserva
     query = f"""
@@ -188,7 +210,8 @@ def change_booking():
         result = conn.execute(text(query))
         conn.commit()
         conn.close()
-    except SQLAlchemyError as err:
-        return jsonify({'message': str(err.__cause__)}), 500
+    except SQLAlchemyError:
+        conn.close()
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     return jsonify({'message': 'Se ha modificado la reserva correctamente'}), 200

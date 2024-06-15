@@ -28,10 +28,8 @@ def contacts():
             }
             contactos.append(contacto)
         return jsonify(contactos), 200
-    except SQLAlchemyError as e:
-        return jsonify(
-            {'message': f'Error al obtener datos de contactos: {str(e)}'}
-            ), 500
+    except SQLAlchemyError:
+        return jsonify({'message': "Se ha producido un error"}), 500
     
 
 #Servicio que agrega el mensaje con su nombre mail y asunto a la tabla de contactos.
@@ -67,9 +65,7 @@ def create_contact():
             return jsonify({'message':'Ya agregaste el mensaje de ese contacto.'}), 404
 
     except SQLAlchemyError as e:
-        return jsonify(
-            {'message':f'Ocurrio un error al agregar contactos: {str(e)}'}
-            ), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     return jsonify(
         {'message':f'Se ha agregado correctamente el contacto'}
@@ -107,7 +103,7 @@ def delete_contact():
                 {"message": f"La consulta numero {id} no existe."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify(str(err.__cause__)), 500
+        return jsonify({'message': "Se ha producido un error"}), 500
     return jsonify(
         {'message': 'Se ha eliminado correctamente'}
         ), 202
