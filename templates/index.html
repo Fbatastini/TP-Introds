@@ -216,7 +216,13 @@
               <p class="text-body mb-3">
                 {{habitacion['descripcion']}}
               </p>
+              <p class="text-body mb-3">
+              Click ↓ to see promotions.
+              </p>
               <div class="d-flex justify-content-between">
+                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('room')}}"
+                >View Promotion</a
+                >
                 <a class="btn btn-sm btn-dark rounded py-2 px-4" href="{{url_for('booking')}}"
                 >Book Now</a
                 >
