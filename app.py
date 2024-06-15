@@ -9,7 +9,7 @@ app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
 # Local dev
 API_URL = 'http://127.0.0.1:5001'
 # Docker
-# API_URL = ' http://api:5001'
+#API_URL = ' http://api:5001'
 
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
@@ -28,11 +28,15 @@ class User(UserMixin):          #Usermixin genera los metodos necesarios para qu
 # Ruta principal para la página de inicio
 @app.route('/')
 def index():
-    return render_template('index.html')
+    habitaciones = requests.get(f'{API_URL}/habitaciones')
+    cantidad_habitaciones = len(habitaciones.json())    
+    return render_template('index.html', cantidad_habitaciones = cantidad_habitaciones, habitaciones = habitaciones.json())
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    habitaciones = requests.get(f'{API_URL}/habitaciones')
+    cantidad_habitaciones = len(habitaciones.json())    
+    return render_template('about.html', cantidad_habitaciones = cantidad_habitaciones)
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
