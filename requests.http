@@ -5,7 +5,7 @@
 GET http://localhost:5001/disponibilidad?huespedes=2&fecha_ingreso=2023-06-15&cantidad_noches=3
 
 ### Verify User
-GET http://localhost:5001/user/username/password
+GET http://localhost:5001/user/admin1/1234
 
 
 
@@ -34,8 +34,8 @@ Content-Type: application/json
     "id": 5,
     "numero_habitacion": 5,
     "fecha_ingreso": "2024-06-14",
-    "nombre": "persona",
-    "mail": "persona@example.com"
+    "nombre": "steven",
+    "mail": "steven@gmail.com"
 }
 
 ### Change Booking
