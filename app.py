@@ -3,19 +3,23 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 import requests
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from router.admin import register_admin_routes
+
+from config import API_URL
+from router.habitaciones import register_habitaciones_routes
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Necesario para usar flash messages
-# Local dev
-# API_URL = 'http://127.0.0.1:5001'
-# Docker
-API_URL = ' http://api:5001'
-
 
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
 login_manager.init_app(app)         #inicializa la instancia de LoginManager con la aplicación Flask
-login_manager.login_view = 'login'  #establece el endpoint para la vista de inicio de sesión. 
+login_manager.login_view = 'login'  #establece el endpoint para la vista de inicio de sesión.
                                     #Cuando un usuario intenta acceder a una ruta protegida sin estar autenticado, será redirigido
+
+# Registrar las rutas de admin
+register_admin_routes(app)
+# Registrar las rutas de habitaciones
+register_habitaciones_routes(app)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -29,13 +33,13 @@ class User(UserMixin):          #Usermixin genera los metodos necesarios para qu
 @app.route('/')
 def index():
     habitaciones = requests.get(f'{API_URL}/habitaciones')
-    cantidad_habitaciones = len(habitaciones.json())    
+    cantidad_habitaciones = len(habitaciones.json())
     return render_template('index.html', cantidad_habitaciones = cantidad_habitaciones, habitaciones = habitaciones.json())
 
 @app.route('/about')
 def about():
     habitaciones = requests.get(f'{API_URL}/habitaciones')
-    cantidad_habitaciones = len(habitaciones.json())    
+    cantidad_habitaciones = len(habitaciones.json())
     return render_template('about.html', cantidad_habitaciones = cantidad_habitaciones)
 
 @app.route('/booking', methods=['GET', 'POST'])
@@ -69,7 +73,7 @@ def booking():
 @app.route('/verify_disponibility', methods=['GET', 'POST'])
 def verify_disponibility():
     if request.method == 'POST':
-        fecha_ingreso = request.form.get('fecha_ingreso')            
+        fecha_ingreso = request.form.get('fecha_ingreso')
         cantidad_noches = request.form.get('cantidad_noches')
         huespedes = request.form.get('huespedes')
         disponibilidad = {
@@ -156,60 +160,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-#------------------------------- Paginas de admin -------------------------------
-
-@app.route('/admin', methods=['GET', 'POST'])
-@login_required
-def admin():
-    comentarios = requests.get(f'{API_URL}/contactos').json()
-    ingreso = request.args.get('ingreso', None)
-    mensaje = request.args.get('message', None)
-    if ingreso:
-        return render_template('admin.html', comentarios =  comentarios, ingreso=ingreso)
-    if mensaje:
-        return render_template('admin.html', comentarios = comentarios, mensaje = mensaje)
-    return render_template('admin.html', comentarios = comentarios)
-
-@app.route('/redireccion', methods=['POST', 'GET'])
-def redireccion():
-    opciones_reservas = ("modificar","cancelar")
-    opciones_habitaciones = ("borrar_hab", "agregar_hab", "cambiar_precio", "cambiar_prom")
-    opciones_contactos = ("borrar")
-    ingreso = request.form.get('metodo')
-
-    if ingreso in opciones_reservas:
-        return redirect(url_for('mod_bookings', ingreso=ingreso))
-    
-    elif ingreso in opciones_habitaciones:
-        return redirect(url_for('mod_rooms', ingreso=ingreso))
-    
-    elif ingreso in opciones_contactos:
-        return redirect(url_for('admin', ingreso=ingreso))
-    
-@app.route('/modify-rooms', methods=['GET', 'POST'])
-@login_required
-def mod_rooms():
-    habitaciones = requests.get(f'{API_URL}/habitaciones').json()
-    ingreso = request.args.get('ingreso', None)
-    mensaje = request.args.get('message', None)
-    if ingreso:
-        return render_template('mod_rooms.html', habitaciones =  habitaciones, ingreso=ingreso)
-    if mensaje:
-        return render_template('mod_rooms.html', habitaciones = habitaciones, mensaje = mensaje)
-    return render_template('mod_rooms.html', habitaciones = habitaciones)
-
-@app.route('/modify-bookings')
-@login_required
-def mod_bookings():
-    reservas = requests.get(f'{API_URL}/reservas').json()
-    ingreso = request.args.get('ingreso', None)
-    mensaje = request.args.get('message', None)
-    if ingreso:
-        return render_template('mod_book.html', reservas = reservas, ingreso = ingreso)
-    if mensaje:
-        return render_template('mod_book.html', reservas = reservas, mensaje = mensaje)
-    return render_template('mod_book.html', reservas = reservas)
-
 # --------------------------------- Envios a la API ---------------------------------------------------------
 #---------------------------------- Reservas ----------------------------------------------------------------
 
@@ -229,65 +179,13 @@ def enviar_modif_res():
     habitacion = request.form.get('numero_habitacion')
     checkin = request.form.get('nueva_fecha_checkin')
     noches = request.form.get('nuevas_noches')
-    
+
     data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_ingreso':checkin, 'nuevas_noches':noches}
     respuesta = requests.patch(f'{API_URL}/cambiar_reserva', json=data).json()
     message = respuesta.get('message')
-    
+
     return redirect(url_for('mod_bookings', message=message))
 
-#---------------------------------------------- Habitaciones ---------------------------------------------------
-
-@app.route('/delete_room', methods=['POST'])
-@login_required
-def enviar_eliminacion():
-    num = {'id':request.form.get('id')}
-    respuesta = requests.delete(f'{API_URL}/eliminar_habitacion', json=num).json()
-    message = respuesta.get('message')
-
-    return redirect(url_for('mod_rooms', message=message))
-
-
-@app.route('/create_room', methods=['POST'])
-@login_required
-def enviar_crear_hab():
-    num = request.form.get('num')
-    capacidad = request.form.get('capacidad')
-    precio = request.form.get('precio')
-    descripcion = request.form.get('descripcion')
-    promocion = request.form.get('promocion')
-
-    habitacion = {'numero': num, 'precio': precio, 'capacidad': capacidad, 'descripcion': descripcion, 'promocion': promocion}
-    respuesta = requests.post(f'{API_URL}/agregar_habitacion', json=habitacion).json()
-    message = respuesta.get('message')
-
-    return redirect(url_for('mod_rooms', message=message))
-
-
-@app.route('/modify_price', methods=['POST'])
-@login_required
-def enviar_precio():
-    num = request.form.get('num')
-    precio = request.form.get('precio')
-    modificaciones = {'numero': num, 'nuevo_precio': precio}
-
-    respuesta = requests.patch(f'{API_URL}/cambiar_precio', json=modificaciones).json()
-    message = respuesta.get('message')
-
-    return redirect(url_for('mod_rooms', message=message))
-
-
-@app.route('/modify_promotion', methods=['POST'])
-@login_required
-def enviar_promocion():
-    num = request.form.get('num')
-    promocion = request.form.get('promocion')
-    modificaciones = {'numero_habitacion': num, 'nueva_promocion': promocion}
-
-    respuesta = requests.patch(f'{API_URL}/cambiar_promocion', json=modificaciones).json()
-    message = respuesta.get('message')
-
-    return redirect(url_for('mod_rooms', message=message))
 
 #---------------------------------------------- Contactos ---------------------------------------------------
 @app.route('/delete_contact', methods = ['POST'])
