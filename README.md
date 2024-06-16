@@ -29,7 +29,7 @@ Es necesario crear un entorno virtual e instalar las dependencias necesarias par
     pipenv install -r requirements.txt
     ```
 
-### Correr proyecton (dos terminales) 🚀 
+### Correr proyecto (dos terminales) 🚀 
 Terminal 1:
 ```
 flask run --debug
