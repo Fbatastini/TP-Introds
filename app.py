@@ -113,7 +113,6 @@ def contact():
 def room():
     habitaciones = requests.get(f'{API_URL}/habitaciones').json()
     return render_template('room.html', habitaciones = habitaciones)
-    # return render_template('room.html')
 
 @app.route('/service')
 def service():
@@ -332,4 +331,4 @@ def internal_error(e):
 
 # for docker
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
