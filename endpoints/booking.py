@@ -169,6 +169,13 @@ def change_booking():
     huespedes = mod_booking_data.get('huespedes')
     nueva_fecha_ingreso = mod_booking_data.get('nueva_fecha_ingreso')
     nuevas_noches = mod_booking_data.get('nuevas_noches')
+    
+    nueva_fecha_ingreso = datetime.strptime(nueva_fecha_ingreso, '%Y-%m-%d')
+    fecha_actual = datetime.strptime(str(date.today()), '%Y-%m-%d')
+
+    #Chequeo que la fecha sea mayor a la fecha actual
+    if fecha_actual > nueva_fecha_ingreso:
+        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
 
     # Validar si la habitación existe en la base de datos
     query_validation = f"SELECT * FROM reservas WHERE id = {id_reserva};"
