@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block content %}
 
 <!-- Page Header Start -->
-<div 
-class="container-fluid page-header mb-5 p-0" 
+<div
+class="container-fluid page-header mb-5 p-0"
 style="background-image: url('/static/img/carousel-1.jpg')"
 >
   <div class="container-fluid page-header-inner py-5">
@@ -89,79 +89,7 @@ style="background-image: url('/static/img/carousel-1.jpg')"
 <!-- Room End -->
 
 <!-- Testimonial Start -->
-<div
-  class="container-xxl testimonial mt-5 py-5 bg-dark wow zoomIn"
-  data-wow-delay="0.1s"
-  style="margin-bottom: 90px"
->
-  <div class="container">
-    <div class="owl-carousel testimonial-carousel py-5">
-      <div
-        class="testimonial-item position-relative bg-white rounded overflow-hidden"
-      >
-        <p>
-          “Lovely hotel with a wonderful restaurant. Very friendly staff. The hotel is well maintained. Just a charming place.”
-        </p>
-        <div class="d-flex align-items-center">
-          <img
-            class="img-fluid flex-shrink-0 rounded"
-            src="{{url_for('static', filename='img/testimonial-1.jpg')}}"
-            style="width: 45px; height: 45px"
-          />
-          <div class="ps-3">
-            <h6 class="fw-bold mb-1">Devora Smith</h6>
-            <small>Lawyer</small>
-          </div>
-        </div>
-        <i
-          class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"
-        ></i>
-      </div>
-      <div
-        class="testimonial-item position-relative bg-white rounded overflow-hidden"
-      >
-        <p>
-          "The rooms were clean, very comfortable, and the staff was amazing. They went over and beyond to help make our stay enjoyable. I highly recommend this hotel for anyone visiting downtown."
-        </p>
-        <div class="d-flex align-items-center">
-          <img
-            class="img-fluid flex-shrink-0 rounded"
-            src="{{url_for('static', filename='img/testimonial-2.jpg')}}"
-            style="width: 45px; height: 45px"
-          />
-          <div class="ps-3">
-            <h6 class="fw-bold mb-1">Charles Williams</h6>
-            <small>Professional Athlete</small>
-          </div>
-        </div>
-        <i
-          class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"
-        ></i>
-      </div>
-      <div
-        class="testimonial-item position-relative bg-white rounded overflow-hidden"
-      >
-        <p>
-          “I had a wonderful experience at the hotel. Every staff member I encountered, from the valet to the check-in to the cleaning staff, were delightful and eager to help! Thank you! Will recommend to my colleagues!”
-        </p>
-        <div class="d-flex align-items-center">
-          <img
-            class="img-fluid flex-shrink-0 rounded"
-            src="{{url_for('static', filename='img/testimonial-4.jpg')}}"
-            style="width: 45px; height: 45px"
-          />
-          <div class="ps-3">
-            <h6 class="fw-bold mb-1">Catherine Johnson</h6>
-            <small>IT Engineer</small>
-          </div>
-        </div>
-        <i
-          class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"
-        ></i>
-      </div>
-    </div>
-  </div>
-</div>
+{% include 'components/testimonial.html' %}
 <!-- Testimonial End -->
 
 {% endblock content %}
