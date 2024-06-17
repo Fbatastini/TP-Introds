@@ -26,31 +26,6 @@
 
 Para más información de Docker, visitar su [documentación](https://docs.docker.com/manuals/).
 
-### Sin uso de docker 🐍
-Es necesario crear un entorno virtual e instalar las dependencias necesarias para el proyecto si no se usa Docker.
-> [!TIP]
-> **Recomendado**
-1. Crear un entorno virtual:
-    ```sh
-    python3 -m venv .venv
-    ```
-2. Instalar dependencias utilizando pipenv:
-    ```sh
-    pipenv install -r requirements.txt
-    ```
-
-### Correr proyecto (dos terminales) 🚀 
-Terminal 1:
-```
-flask run --debug
-```
-Terminal 2:
-```
-export FLASK_APP=api.py
-flask run --port 5001
-```
-
-Para más información de Flask, visitar su [documentación](https://flask.palletsprojects.com/).
 
 
 
