@@ -166,6 +166,7 @@ def change_booking():
 
     id_reserva = mod_booking_data.get('id')
     numero_habitacion = mod_booking_data.get('numero_habitacion')
+    huespedes = mod_booking_data.get('huespedes')
     nueva_fecha_ingreso = mod_booking_data.get('nueva_fecha_ingreso')
     nuevas_noches = mod_booking_data.get('nuevas_noches')
 
@@ -198,11 +199,24 @@ def change_booking():
         conn.close()
         return jsonify({'message': "Se ha producido un error"}), 500
 
-
+    # Validar si la habitacion a la cual se quiere cambiar permite la cantidad de huespedes
+    validation_count_query = f"""
+        SELECT numero FROM habitaciones WHERE capacidad >= {huespedes} AND numero = {numero_habitacion};
+        """
+    
+    try:
+        val_count_result = conn.execute(text(validation_count_query))
+        if val_count_result.rowcount == 0:
+            return jsonify ({'message': f"La habitacion {numero_habitacion} no cuenta con la suficiente capacidad o no existe."}), 400
+    except SQLAlchemyError:
+        conn.close()
+        return jsonify({'message': "Se ha producido un error"}), 500
+    
+    
     # Actualizar la reserva
     query = f"""
                 UPDATE reservas
-                SET numero_habitacion = '{numero_habitacion}', fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
+                SET numero_habitacion = '{numero_habitacion}', huespedes = {huespedes}, fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
                 WHERE id = {id_reserva};
             """
     try:

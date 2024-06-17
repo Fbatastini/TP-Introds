@@ -227,10 +227,11 @@ def enviar_cancelacion():
 def enviar_modif_res():
     id = request.form.get('id')
     habitacion = request.form.get('numero_habitacion')
+    huespedes = request.form.get('huespedes')
     checkin = request.form.get('nueva_fecha_checkin')
     noches = request.form.get('nuevas_noches')
     
-    data = {'id':id, 'numero_habitacion':habitacion, 'nueva_fecha_ingreso':checkin, 'nuevas_noches':noches}
+    data = {'id':id, 'numero_habitacion':habitacion, 'huespedes': huespedes, 'nueva_fecha_ingreso':checkin, 'nuevas_noches':noches}
     respuesta = requests.patch(f'{API_URL}/cambiar_reserva', json=data).json()
     message = respuesta.get('message')
     
