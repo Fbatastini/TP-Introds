@@ -15,7 +15,8 @@ API_URL = ' http://api:5001'
 login_manager = LoginManager()      #LoginManager es responsable de gestionar las sesiones de inicio de sesión de los usuarios.
 login_manager.init_app(app)         #inicializa la instancia de LoginManager con la aplicación Flask
 login_manager.login_view = 'login'  #establece el endpoint para la vista de inicio de sesión. 
-                                    #Cuando un usuario intenta acceder a una ruta protegida sin estar autenticado, será redirigido
+                                    #Cuando un usuario intenta acceder a una ruta protegida sin estar autenticado, será redirigid
+login_manager.login_message = ""
 
 @login_manager.user_loader
 def load_user(user_id):
