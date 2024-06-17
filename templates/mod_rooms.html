@@ -35,6 +35,7 @@
         <option value="agregar_hab">Add room</option>
         <option value="cambiar_precio">Change price</option>
         <option value="cambiar_prom">Change promotion</option>
+        <option value="cambiar_des">Change description</option>
         
         
     </select>
@@ -95,7 +96,7 @@
     <label for="precio">New price</label>
     <input name="precio" type="text" placeholder="New price" required>
 
-    <button type="submit" class="send-button">Delete</button>
+    <button type="submit" class="send-button">Modify</button>
 </form>
 
 
@@ -109,6 +110,21 @@
 
     <label for="promocion">New promotion</label>
     <textarea class="promocion-text" name="promocion" maxlength="100" placeholder="New promotion" required></textarea>
+
+    <button type="submit" class="send-button">Change</button>
+</form>
+
+
+{% elif ingreso == 'cambiar_des' %}
+
+<form action="{{url_for('enviar_descripcion')}}" method="post">
+    <h4>Change description</h4>
+
+    <label for="num">Room number</label>
+    <input name="num" type="number" placeholder="Room number" required>
+
+    <label for="descripcion">New description</label>
+    <textarea class="descripcion-text" name="descripcion" maxlength="100" placeholder="New description" required></textarea>
 
     <button type="submit" class="send-button">Change</button>
 </form>

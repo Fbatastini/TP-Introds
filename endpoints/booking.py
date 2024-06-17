@@ -158,7 +158,7 @@ def cancel_booking():
         return jsonify({'message': "Se ha producido un error"}), 500
 
 
-#Servicio que cambia cantidad de noches, o dia de check in:
+#Servicio que cambia la habitacion, cantidad de noches, o dia de check in:
 @booking_bp.route('/cambiar_reserva', methods=['PATCH'])
 def change_booking():
     conn = engine.connect()
@@ -190,7 +190,6 @@ def change_booking():
     
     try:
         val_date_result = conn.execute(text(validation_date_query))
-        print(val_date_result.rowcount)
         if val_date_result.rowcount != 0:
             return jsonify(
                 {"message": f"La habitacion numero {numero_habitacion} ya se encuentra reservada en las fechas seleccionadas"}
@@ -203,7 +202,7 @@ def change_booking():
     # Actualizar la reserva
     query = f"""
                 UPDATE reservas
-                SET fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
+                SET numero_habitacion = '{numero_habitacion}', fecha_ingreso = '{nueva_fecha_ingreso}', cantidad_noches = {nuevas_noches}
                 WHERE id = {id_reserva};
             """
     try:

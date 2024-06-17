@@ -173,7 +173,7 @@ def admin():
 @app.route('/redireccion', methods=['POST', 'GET'])
 def redireccion():
     opciones_reservas = ("modificar","cancelar")
-    opciones_habitaciones = ("borrar_hab", "agregar_hab", "cambiar_precio", "cambiar_prom")
+    opciones_habitaciones = ("borrar_hab", "agregar_hab", "cambiar_precio", "cambiar_prom", "cambiar_des")
     opciones_contactos = ("borrar")
     ingreso = request.form.get('metodo')
 
@@ -241,7 +241,7 @@ def enviar_modif_res():
 @app.route('/delete_room', methods=['POST'])
 @login_required
 def enviar_eliminacion():
-    num = {'id':request.form.get('id')}
+    num = {'numero':request.form.get('num')}
     respuesta = requests.delete(f'{API_URL}/eliminar_habitacion', json=num).json()
     message = respuesta.get('message')
 
@@ -289,6 +289,19 @@ def enviar_promocion():
 
     return redirect(url_for('mod_rooms', message=message))
 
+
+
+@app.route('/modify_description', methods=['POST'])
+@login_required
+def enviar_descripcion():
+    num = request.form.get('num')
+    descripcion = request.form.get('descripcion')
+    modificaciones = {'numero': num, 'nueva_descripcion': descripcion}
+
+    respuesta = requests.patch(f'{API_URL}/cambiar_descripcion', json=modificaciones).json()
+    message = respuesta.get('message')
+
+    return redirect(url_for('mod_rooms', message=message))
 #---------------------------------------------- Contactos ---------------------------------------------------
 @app.route('/delete_contact', methods = ['POST'])
 @login_required

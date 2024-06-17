@@ -185,3 +185,39 @@ def change_promo():
 
     except Exception as e:
         return jsonify({'message': "Se ha producido un error"}), 500
+
+
+
+
+#Servicio que cambia la descripcion de una habitacion(modo admin):
+@room_bp.route('/cambiar_descripcion', methods = ['PATCH'])
+def change_description():
+    conn = engine.connect()
+    mod_room_description = request.get_json()
+
+    query = f"""
+        UPDATE habitaciones 
+        SET descripcion = '{mod_room_description['nueva_descripcion']}' 
+        WHERE numero = {mod_room_description['numero']};
+    """
+    query_validation = f"""
+        SELECT * FROM habitaciones 
+        WHERE numero = {mod_room_description['numero']};
+    """
+    try:
+        val_result = conn.execute(text(query_validation))
+        if val_result.rowcount != 0:
+            result = conn.execute(text(query))
+            conn.commit()
+            conn.close()
+        else:
+            conn.close()
+            return jsonify(
+                {'message': f"No existe la habitacion numero {mod_room_description['numero']}"}
+                ), 404
+    except SQLAlchemyError as err:
+        return jsonify({'message': str(err.__cause__)})
+
+    return jsonify(
+        {'message': 'Se ha modificado correctamente'}
+        ), 201
