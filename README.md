@@ -26,8 +26,9 @@
 
 Para más información de Docker, visitar su [documentación](https://docs.docker.com/manuals/).
 
+### DESPLIEGUE DEL PROYECTO 🚀🌕
 
-
+https://github.com/Fbatastini/TP-Introds/assets/125513544/83fd22e2-6616-43fd-a284-81742a664268
 
 ### **Hecho por ScrumBeasts**
 <img src="https://cdn.discordapp.com/attachments/1244366941003583572/1244368858467536917/OIG4.png?ex=666e918f&is=666d400f&hm=871f5da6c18690ee4e785ebed79862264421edd96ecccbca122db933a9d17b93&" alt="ScrumBeasts Logo" width="200"/>
