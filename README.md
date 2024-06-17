@@ -1,18 +1,28 @@
 # TP-Introds
 ## Trabajo Practico Introducción al desarrollo de software
+### Integrantes
 
-### Con uso de Docker 🐳
-> [!TIP]
-> **Recomendado**
+| Nombre | Padrón |
+| --- | --- |
+| Fabricio Agustin Batastini | 111828 |
+| Marlon Stiven Molina Buitrago | 112018 |
+| Juan Ignacio Moore | 112479 |
+| Manuel Peñalva | 111696 |
+| Thiago Pla | 112461 |
+| Ulises Valentín Tripaldi | 111919 |
+| Máximo Augusto Calderón Vasil | 111810 | 
 
- 1. Tener Docker abierto (desktop o de terminal).
-    
-2. Ejecutar el siguiente comando:
-    ```sh
-    docker-compose up
-    ```
+### Correr el proyecto haciendo uso de archivo "init.sh" 🐧
+> [!WARNING]
+> Tener docker abierto (desktop o de terminal).
+
+**Ejecutar el comando:**
+  ```
+  bash init.sh
+ ```
+
 > [!NOTE]
->Estara disponible en el localhost:5000
+>Estará disponible en el localhost:5000
 
 Para más información de Docker, visitar su [documentación](https://docs.docker.com/manuals/).
 
