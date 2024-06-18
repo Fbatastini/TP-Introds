@@ -24,7 +24,7 @@ def booking():
 
     #Chequeo que la fecha sea mayor a la fecha actual
     if fecha_actual > test_fecha_ingreso:
-        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
+        return jsonify({'message': 'Cannot book on a past date.'}), 400
 
     query = """
         INSERT INTO reservas (numero_habitacion, huespedes, fecha_ingreso, cantidad_noches, nombre, mail)
@@ -55,7 +55,7 @@ def booking():
         if val_cap_result.rowcount == 0:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion numero {new_booking['numero_habitacion']} no cuenta con la suficiente capacidad"}
+                {"message": f"Room number {new_booking['numero_habitacion']} does not have enough capacity."}
                 ), 400
         
         val_date_result = conn.execute(text(validation_date_query), {
@@ -77,16 +77,16 @@ def booking():
             conn.commit()
             conn.close()
             return jsonify(
-                {"message": "Reserva realizada con exito"}
+                {"message": "Reservation made successfully."}
                 ), 201
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion numero {new_booking['numero_habitacion']} ya se encuentra reservada en las fechas seleccionadas"}
+                {"message": f"Room number {new_booking['numero_habitacion']} is already booked for the selected dates."}
                 ), 400
     except Exception as e:
         conn.close()
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
 #Servicio que muestre datos de reservas:
@@ -113,7 +113,7 @@ def bookings():
             reservas.append(reserva)
         return jsonify(reservas), 200
     except SQLAlchemyError as e:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
 #Servicio que cancela reserva:
@@ -146,16 +146,16 @@ def cancel_booking():
             conn.commit()
             conn.close()
             return jsonify(
-                {"message": "Reserva cancelada con éxito"}
+                {"message": "Reservation cancelled successfully."}
                 ), 202
         else:
             conn.close()
             return jsonify(
-                {"message": "No se encontro una reserva con el ID proporcionado"}
+                {"message": "No reservation was found with the ID provided."}
                 ), 404
     except Exception as e:
         conn.close()
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
 #Servicio que cambia la habitacion, cantidad de noches, o dia de check in:
@@ -175,7 +175,7 @@ def change_booking():
 
     #Chequeo que la fecha sea mayor a la fecha actual
     if fecha_actual > nueva_fecha_ingreso:
-        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
+        return jsonify({'message': 'Cannot book on a past date.'}), 400
 
     # Validar si la habitación existe en la base de datos
     query_validation = f"SELECT * FROM reservas WHERE id = {id_reserva};"
@@ -183,9 +183,9 @@ def change_booking():
         val_result = conn.execute(text(query_validation))
         if val_result.rowcount == 0:
             conn.close()
-            return jsonify({'message': f"No existe la reserva id {id_reserva}"}), 404
+            return jsonify({'message': f"Does not exist reservation with id: {id_reserva}"}), 404
     except SQLAlchemyError:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     # Validar si la habitación está disponible en esa fecha
     validation_date_query = f"""
@@ -200,11 +200,11 @@ def change_booking():
         val_date_result = conn.execute(text(validation_date_query))
         if val_date_result.rowcount != 0:
             return jsonify(
-                {"message": f"La habitacion numero {numero_habitacion} ya se encuentra reservada en las fechas seleccionadas"}
+                {"message": f"Room number {numero_habitacion} is already booked for the selected dates."}
                 ), 400
     except SQLAlchemyError:
         conn.close()
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     # Validar si la habitacion a la cual se quiere cambiar permite la cantidad de huespedes
     validation_count_query = f"""
@@ -214,10 +214,10 @@ def change_booking():
     try:
         val_count_result = conn.execute(text(validation_count_query))
         if val_count_result.rowcount == 0:
-            return jsonify ({'message': f"La habitacion {numero_habitacion} no cuenta con la suficiente capacidad o no existe."}), 400
+            return jsonify ({'message': f"Room number {numero_habitacion} does not have enough capacity or does not exist."}), 400
     except SQLAlchemyError:
         conn.close()
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
     
     
     # Actualizar la reserva
@@ -232,6 +232,6 @@ def change_booking():
         conn.close()
     except SQLAlchemyError:
         conn.close()
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
-    return jsonify({'message': 'Se ha modificado la reserva correctamente'}), 200
+    return jsonify({'message': 'The reservation has been modified successfully.'}), 200

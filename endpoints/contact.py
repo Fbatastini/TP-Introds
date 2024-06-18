@@ -29,7 +29,7 @@ def contacts():
             contactos.append(contacto)
         return jsonify(contactos), 200
     except SQLAlchemyError:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
     
 
 #Servicio que agrega el mensaje con su nombre mail y asunto a la tabla de contactos.
@@ -62,13 +62,13 @@ def create_contact():
             conn.close()
         else:
             conn.close()
-            return jsonify({'message':'Ya agregaste el mensaje de ese contacto.'}), 404
+            return jsonify({'message':'An identical contact already exists.'}), 404
 
     except SQLAlchemyError as e:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     return jsonify(
-        {'message':f'Se ha agregado correctamente el contacto'}
+        {'message':f'Contact has been added successfully.'}
         ), 201
 
 
@@ -80,7 +80,7 @@ def delete_contact():
     id = del_cont.get('id',None)
     if not id:
         return jsonify(
-            {'message': 'Se requiere id para eliminar el contacto'}
+            {'message': 'Id is required to delete contact.'}
             ), 400
 
     query = f"""
@@ -100,10 +100,10 @@ def delete_contact():
         else:
             conn.close()
             return jsonify(
-                {"message": f"La consulta numero {id} no existe."}
+                {"message": f"Contact id: {id} does not exist."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
     return jsonify(
-        {'message': 'Se ha eliminado correctamente'}
+        {'message': 'Has been deleted successfully.'}
         ), 202

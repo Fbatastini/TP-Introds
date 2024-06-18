@@ -19,7 +19,7 @@ def disponibility():
     try:
         fecha_ingreso = datetime.strptime(consulta['fecha_ingreso'], '%Y-%m-%d')
     except Exception:
-        return jsonify({'message': 'La fecha ingresada no existe.'}), 400
+        return jsonify({'message': 'Wrong date or format.'}), 400
 
     noches = consulta['cantidad_noches']
     fecha_salida = fecha_ingreso + timedelta(days=int(noches) + 1)
@@ -27,7 +27,7 @@ def disponibility():
 
     #Chequeo que la fecha sea mayor a la fecha actual
     if fecha_actual > fecha_ingreso:
-        return jsonify({'message': 'No se puede reservar en una fecha pasada.'}), 400
+        return jsonify({'message': 'Cannot book on a past date.'}), 400
 
     #query que pide todos los numeros de habitaciones que con capacidad mayor o igual a la de los huespedes pedidos.
     query_1 = f"""
@@ -49,7 +49,7 @@ def disponibility():
 
         conn.close()
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
     disponibilidad = []
@@ -68,7 +68,7 @@ def disponibility():
         disponibilidad.append(entity)
 
     if not disponibilidad:
-        return jsonify({'message': 'No rooms available'}), 404
+        return jsonify({'message': 'No rooms available.'}), 404
 
     return jsonify(disponibilidad), 200
 
@@ -89,7 +89,7 @@ def verificar_usuario(user, password):
         result = conn.execute(text(query))
         conn.close()
     except SQLAlchemyError as e:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "Han error has occurred."}), 500
 
     if result.rowcount != 0:
         return jsonify({'message':'exists'}), 200

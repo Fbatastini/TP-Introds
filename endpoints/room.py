@@ -32,7 +32,7 @@ def room():
             habitaciones.append(habitacion)
         return jsonify(habitaciones), 200
     except SQLAlchemyError as e:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
 #Servicio que agrega habitacion(admin):
@@ -66,13 +66,13 @@ def create_room():
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion numero {new_room['numero']} ya existe."}
+                {"message": f"Room number: {new_room['numero']} already exists."}
                 ), 400
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     return jsonify(
-        {'message': 'Se ha agregado correctamente'}
+        {'message': 'Has been added successfully.'}
         ), 201
 
 
@@ -99,12 +99,12 @@ def delete_room():
         else:
             conn.close()
             return jsonify(
-                {"message": f"La habitacion numero {del_room['numero']} no existe."}
+                {"message": f"Room number: {del_room['numero']} does not exist."}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
     return jsonify(
-        {'message': 'Se ha eliminado correctamente'}
+        {'message': 'Has been deleted successfully.'}
         ), 202
 
 
@@ -132,13 +132,13 @@ def change_price():
         else:
             conn.close()
             return jsonify(
-                {'message': f"No existe la habitacion numero {mod_room_price['numero']}"}
+                {'message': f"Does not exist room number: {mod_room_price['numero']}"}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     return jsonify(
-        {'message': 'Se ha modificado correctamente'}
+        {'message': 'Has been modified successfully.'}
         ), 200
 
 
@@ -154,7 +154,7 @@ def change_promo():
         # Validar que los datos requeridos estén presentes
         if not numero_habitacion or not nueva_promocion:
             return jsonify(
-                {'message': 'Se requieren el numero de habitacion y la nueva promocion.'}
+                {'message': 'Room number and new promotion are required.'}
                 ), 400
 
         # Actualizar la promoción en la base de datos
@@ -171,20 +171,20 @@ def change_promo():
             val_result = conn.execute(text(query_validation))
             if val_result.rowcount == 0:
                 conn.close()
-                return jsonify({'message': f"No existe la habitacion {numero_habitacion}"}), 404
+                return jsonify({'message': f"Does not exist room {numero_habitacion}"}), 404
         except SQLAlchemyError as err:
-            return jsonify({'message': "Se ha producido un error"}), 500
+            return jsonify({'message': "An error has occurred."}), 500
         
         conn.execute(text(query))
         conn.commit()
         conn.close()
 
         return jsonify(
-            {'message': f'Promocion actualizada para la habitacion {numero_habitacion}.'}
+            {'message': f'Promotion updated for room {numero_habitacion}.'}
             ), 200
 
     except Exception as e:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
 
 
@@ -213,11 +213,11 @@ def change_description():
         else:
             conn.close()
             return jsonify(
-                {'message': f"No existe la habitacion numero {mod_room_description['numero']}"}
+                {'message': f"Does not exist room number: {mod_room_description['numero']}"}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': "Se ha producido un error"}), 500
+        return jsonify({'message': "An error has occurred."}), 500
 
     return jsonify(
-        {'message': 'Se ha modificado correctamente'}
+        {'message': 'Has been modified successfully.'}
         ), 201
