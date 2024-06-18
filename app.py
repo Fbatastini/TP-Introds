@@ -303,6 +303,7 @@ def enviar_descripcion():
     message = respuesta.get('message')
 
     return redirect(url_for('mod_rooms', message=message))
+
 #---------------------------------------------- Contactos ---------------------------------------------------
 @app.route('/delete_contact', methods = ['POST'])
 @login_required

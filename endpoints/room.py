@@ -135,11 +135,11 @@ def change_price():
                 {'message': f"No existe la habitacion numero {mod_room_price['numero']}"}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': str(err.__cause__)})
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     return jsonify(
         {'message': 'Se ha modificado correctamente'}
-        ), 201
+        ), 200
 
 
 #Servicio que cambia las promociones de las habitaciones(modo admin):
@@ -216,7 +216,7 @@ def change_description():
                 {'message': f"No existe la habitacion numero {mod_room_description['numero']}"}
                 ), 404
     except SQLAlchemyError as err:
-        return jsonify({'message': str(err.__cause__)})
+        return jsonify({'message': "Se ha producido un error"}), 500
 
     return jsonify(
         {'message': 'Se ha modificado correctamente'}

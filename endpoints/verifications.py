@@ -68,7 +68,7 @@ def disponibility():
         disponibilidad.append(entity)
 
     if not disponibilidad:
-        return jsonify({'message': 'No rooms available'}),404
+        return jsonify({'message': 'No rooms available'}), 404
 
     return jsonify(disponibilidad), 200
 

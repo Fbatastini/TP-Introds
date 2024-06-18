@@ -69,7 +69,7 @@ def create_contact():
 
     return jsonify(
         {'message':f'Se ha agregado correctamente el contacto'}
-        ), 200
+        ), 201
 
 
 #Servicio que elimina el mensaje de la tabla de contactos.
