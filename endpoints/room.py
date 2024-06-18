@@ -167,13 +167,11 @@ def change_promo():
 
         # Validar si la habitación existe en la base de datos
         query_validation = f"SELECT * FROM habitaciones WHERE numero = {numero_habitacion};"
-        try:
-            val_result = conn.execute(text(query_validation))
-            if val_result.rowcount == 0:
-                conn.close()
-                return jsonify({'message': f"Does not exist room {numero_habitacion}"}), 404
-        except SQLAlchemyError as err:
-            return jsonify({'message': "An error has occurred."}), 500
+        val_result = conn.execute(text(query_validation))
+        if val_result.rowcount == 0:
+            conn.close()
+            return jsonify({'message': f"Does not exist room {numero_habitacion}"}), 404
+        
         
         conn.execute(text(query))
         conn.commit()
