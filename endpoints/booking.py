@@ -191,7 +191,7 @@ def change_booking():
     validation_date_query = f"""
             SELECT numero_habitacion
             FROM reservas
-            WHERE numero_habitacion = {numero_habitacion}
+            WHERE id <> {id_reserva} AND numero_habitacion = {numero_habitacion}
             AND DATE_ADD(fecha_ingreso, INTERVAL {nuevas_noches} DAY) > '{nueva_fecha_ingreso}'
             AND fecha_ingreso < DATE_ADD('{nueva_fecha_ingreso}', INTERVAL {nuevas_noches} DAY)
         """
