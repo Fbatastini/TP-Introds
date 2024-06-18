@@ -103,10 +103,11 @@ def contact():
             'mensaje': mensaje
         }
         response = requests.post(f'{API_URL}/agregar_contacto', json=contacto)
-        if response.status_code == 200:
+        if response.status_code == 201:
             flash(response.json()["message"])
         else:
             flash(response.json()["message"])
+            return redirect(url_for('contact'))
     return render_template('contact.html')
 
 @app.route('/room')

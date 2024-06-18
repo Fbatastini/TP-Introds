@@ -4,7 +4,7 @@ CREATE TABLE reservas (
     huespedes INT NOT NULL,
     fecha_ingreso DATE NOT NULL,
     cantidad_noches INT NOT NULL,
-    nombre VARCHAR(60) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
     mail VARCHAR(120) NOT NULL
 );
 
